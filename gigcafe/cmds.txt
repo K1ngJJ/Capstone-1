@@ -1,0 +1,218 @@
+gigcafe-app.test
+
+laravel new gigcafe-app
+cd gigcafe-app
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install && npm run dev
+php artisan make:seeder Admin
+php artisan migrate:fresh --seed
+php artisan make:middleware Admin
+php artisan make:controller Admin/AdminController
+
+
+npm install laravel-mix --save-dev
+npm run watch
+
+php artisan make:model Category -m
+php artisan make:model Menu -m
+php artisan make:model Table -m
+php artisan make:model Reservation -m
+php artisan migrate
+
+php artisan make:controller Admin/MenuController -r
+php artisan make:controller Admin/CategoryController -r
+php artisan make:controller Admin/TableController -r
+php artisan make:controller Admin/ReservationController -r
+
+
+php artisan make:request CategoryStoreRequest
+php artisan make:migration create_category_menu_table --create="category_menu"
+
+
+showing image: php artisan storage:link
+
+
+https://www.alpinetoolbox.com/
+
+
+
+
+
+
+
+HOTEL
+php artisan key:generate
+
+
+
+
+
+
+
+
+
+
+inventory
+
+php artisan make:migration create_inventory_table
+
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateInventoryTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('inventory', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('quantity');
+            $table->decimal('price', 8, 2);
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('inventory');
+    }
+};
+
+
+php artisan migrate
+
+php artisan make:model Inventory
+
+
+// app/Models/Inventory.php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Inventory extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'quantity', 'price'];
+}
+
+
+php artisan make:controller InventoryController
+
+
+// app/Http/Controllers/InventoryController.php
+
+namespace App\Http\Controllers;
+
+use App\Models\Inventory;
+use Illuminate\Http\Request;
+
+// app/Http/Controllers/InventoryController.php
+
+namespace App\Http\Controllers;
+
+use App\Models\Inventory;
+use Illuminate\Http\Request;
+
+class InventoryController extends Controller
+{
+    public function index()
+    {
+        $inventory = Inventory::all();
+        return view('inventory.index', compact('inventory'));
+    }
+
+    public function create()
+    {
+        return view('inventory.create');
+    }
+
+    public function store(Request $request)
+    {
+        Inventory::create($request->all());
+        return redirect()->route('inventory.index')->with('success', 'Item added to inventory successfully.');
+    }
+
+    public function edit($id)
+    {
+        $item = Inventory::findOrFail($id);
+        return view('inventory.edit', compact('item'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $item = Inventory::findOrFail($id);
+        $item->update($request->all());
+        return redirect()->route('inventory.index')->with('success', 'Item updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $item = Inventory::findOrFail($id);
+        $item->delete();
+        return redirect()->route('inventory.index')->with('success', 'Item deleted successfully.');
+    }
+}
+
+
+
+// routes/web.php
+
+use App\Http\Controllers\InventoryController;
+
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+// Add other routes as needed
+
+
+
+
+<h1>Inventory</h1>
+
+<ul>
+    @foreach($inventory as $item)
+        <li>{{ $item->name }} - Quantity: {{ $item->quantity }}, Price: ${{ $item->price }}</li>
+    @endforeach
+</ul>
+
+
+
+
+<h1>Add Item to Inventory</h1>
+
+<form method="post" action="{{ route('inventory.store') }}">
+    @csrf
+    <label for="name">Item Name:</label>
+    <input type="text" name="name" required>
+    <br>
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" required>
+    <br>
+    <label for="price">Price:</label>
+    <input type="text" name="price" required>
+    <br>
+    <button type="submit">Add Item</button>
+</form>
+
+
+
+
+MY PAYPAL ACC.
+squadquinx8@gmail.com
+squadquinx8
+
+sandbox paypal acc.
+sb-hizv930252081@business.example.com
+n^)f0IH:
+
+sb-msjqx30249599@personal.example.com
+7C&o}6[P
+

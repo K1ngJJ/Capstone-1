@@ -1,0 +1,263 @@
+
+
+
+/* ====================
+        GENERAL 
+======================*/
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+*, ::before, ::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, ul, p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    transition: color 0.4s;
+}
+
+a:hover, .logo-name:hover {
+    color: rgb(206,50,50) !important;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.primary-btn {
+    background-color: rgb(206,50,50);
+    color: white;
+    transition: background-color 0.8s, color 0.8s;
+    z-index: 2;
+}
+
+.primary-btn:hover {
+    background-color: rgb(231, 231, 231);
+    color: rgb(61, 61, 61) !important;
+}
+
+.dark {
+    color: rgb(82, 82, 82) !important;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pt-18vh {
+    padding-top: 18vh;
+}
+
+
+/* ====================
+        NAVBAR 
+======================*/
+nav.home-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px 0px;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    padding-right: 15px;
+    z-index: 3;
+}
+
+.logo-name {
+    z-index: 3;
+    transition: color 0.4s;
+}
+
+.nav-links {
+    display: flex;
+    width: 40%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-links li a {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.burger {
+    display: none;
+}
+
+.burger div {
+    width: 25px;
+    height: 3.3px;
+    margin: 5px;
+    border-radius: 2px;
+    transition: background-color 0.4s;
+    z-index: 3;
+}
+
+.burger-clicked {
+    background-color: rgb(82, 82, 82) !important;
+}
+
+.nav-scroll {
+    background-color: #EFEFEF;
+    opacity: 0.95;
+    text-shadow: none;
+    padding: 10px 0px;
+    z-index: 3;
+}
+
+.nav-link-scroll {
+    text-shadow: none;
+    color: rgb(82, 82, 82) !important;
+    z-index: 3;
+}
+
+.light .logo-name, .light .nav-links li a {
+    color: rgb(82, 82, 82);
+    text-shadow: none;
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .burger {
+        display: block;
+        z-index: 3;
+    }
+
+    .burger-hover {
+        background-color: rgb(206,50,50) !important;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 0vh;
+        left: 0px;
+        height: 50vh;
+        width: 100% !important;
+        padding-top: 10vh;
+        flex-direction: column;
+        background-color: #EFEFEF;
+        display: flex;
+        align-items: center;
+        transform: translateY(-100%);
+        transition: transform 0.8s;
+    }
+
+    .nav-open {
+        transform: translateY(0);
+    }
+
+    .nav-links li a {
+        color: rgb(82, 82, 82);
+        text-shadow: none;
+    }
+}
+
+/* ====================
+        FOOTER 
+======================*/
+footer {
+    min-height: 30vh;
+    width: 100%;
+    background-color: #0F0E0F;
+    color: #EFEFEF;
+}
+
+footer .footer-content {
+    min-height: 25vh;
+    padding-top: 25px;
+    /* background-color: #444444; */
+}
+
+.open-hours, .find-us, .social {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.social {
+    padding-bottom: 0;
+}
+
+footer .title-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 15px;
+    font-size: 24px;
+    align-items: center;
+}
+
+svg {
+    padding: 0 5px;
+}
+
+footer .footer-detail {
+    padding-bottom: 10px;
+}
+
+.footer-detail .media-link {
+    display: flex;
+}
+
+.media-link p {
+    padding-left: 20px;
+}
+
+footer p {
+    color: #bbbbbb;
+}
+
+footer .copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+}
