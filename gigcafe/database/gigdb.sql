@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 03, 2024 at 11:15 AM
+-- Generation Time: Apr 04, 2024 at 02:36 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -61,6 +61,45 @@ INSERT INTO `cart_items` (`id`, `user_id`, `menu_id`, `order_id`, `quantity`, `f
 (18, 5, 3, 22, 1, 1),
 (19, 5, 27, 22, 1, 1),
 (20, 9, 4, 23, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ch_favorites`
+--
+
+CREATE TABLE `ch_favorites` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint NOT NULL,
+  `favorite_id` bigint NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ch_messages`
+--
+
+CREATE TABLE `ch_messages` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_id` bigint NOT NULL,
+  `to_id` bigint NOT NULL,
+  `body` varchar(5000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `seen` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ch_messages`
+--
+
+INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
+('047cdc4c-f3e6-46e3-92ec-67264347dacc', 1, 1, 'dewidfjewkl', NULL, 1, '2024-04-03 07:53:12', '2024-04-03 07:53:19'),
+('60688dca-82e9-41f9-9ec1-8a1420235bb7', 1, 1, 'fkjewfnkewlf', NULL, 1, '2024-04-03 07:53:23', '2024-04-03 07:53:27');
 
 -- --------------------------------------------------------
 
@@ -158,6 +197,45 @@ INSERT INTO `menus` (`id`, `name`, `description`, `price`, `image`, `size`, `typ
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` bigint UNSIGNED NOT NULL,
+  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `receiver` bigint UNSIGNED NOT NULL,
+  `is_seen` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `file` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `message`, `user_id`, `receiver`, `is_seen`, `created_at`, `updated_at`, `file`, `file_name`) VALUES
+(1, 'Rerum et quam qui labore dolore rem aliquam.', 3, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(2, 'Sint minus molestias eaque.', 8, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(3, 'Qui explicabo recusandae iusto ea.', 11, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(4, 'Blanditiis consequatur qui delectus voluptatem et modi.', 2, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(5, 'Hic ex amet minima similique ut.', 5, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(6, 'Unde nisi numquam saepe deserunt laudantium consectetur.', 3, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(7, 'Aut et enim dolore quo.', 7, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(8, 'Atque odit quas et inventore in maiores.', 13, 14, 1, '2024-04-03 06:28:47', '2024-04-03 06:30:50', NULL, NULL),
+(9, 'Unde molestiae error saepe incidunt quia.', 3, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(10, 'Fugiat nostrum et non omnis animi.', 8, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(11, 'Mollitia qui voluptatem velit corrupti aspernatur quo quia.', 6, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(12, 'Non minima delectus eos ut quis ipsam.', 9, 14, 0, '2024-04-03 06:28:47', '2024-04-03 06:28:47', NULL, NULL),
+(13, 'sca', 1, 14, 1, '2024-04-03 06:29:47', '2024-04-03 06:31:04', NULL, NULL),
+(14, 'saswqs', 14, 1, 0, '2024-04-03 06:30:54', '2024-04-03 06:30:54', NULL, NULL),
+(15, '', 1, 14, 0, '2024-04-03 06:31:56', '2024-04-03 06:31:56', 'http://127.0.0.1:8000/storage/files/fpWMpt9C1MBDAKEZWaFgZR4quAgLxcOWdMq6mj5Z.jpg', '7373.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -176,7 +254,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2022_02_19_093623_create_menus_table', 1);
+(5, '2022_02_19_093623_create_menus_table', 1),
+(6, '2024_04_03_999999_add_active_status_to_users', 2),
+(7, '2024_04_03_999999_add_avatar_to_users', 2),
+(8, '2024_04_03_999999_add_dark_mode_to_users', 2),
+(9, '2024_04_03_999999_add_messenger_color_to_users', 2),
+(10, '2024_04_03_999999_create_chatify_favorites_table', 2),
+(11, '2024_04_03_999999_create_chatify_messages_table', 2);
 
 -- --------------------------------------------------------
 
@@ -400,19 +484,23 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'customer'
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'customer',
+  `active_status` tinyint(1) NOT NULL DEFAULT '0',
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'avatar.png',
+  `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
+  `messenger_color` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Admin', 'admin', 'admin@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 01:55:19', '2024-02-10 01:55:02', 'admin'),
-(2, 'Staff', 'Staff', 'staff@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 02:00:05', '2024-02-10 22:42:21', 'kitchenStaff'),
-(5, 'Customers', 'Customer', 'customer@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 22:27:26', '2024-04-02 22:58:04', 'customer'),
-(7, 'King JayJay A. Pacheco', 'Jayjay', 'pachecoking38@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', 'hrkD3H0PNJ0DBPqyco8KZdI1D4PL7oFCuYKWCE0JQkKh00aYjbCvJLHI2qil', '2024-02-25 19:37:27', '2024-02-25 19:37:27', 'customer'),
-(9, 'customer1', 'customer1', 'customer1@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-04-02 22:30:31', '2024-04-02 22:30:31', 'customer');
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
+(1, 'Admin', 'admin', 'admin@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 01:55:19', '2024-04-03 07:51:53', 'admin', 0, 'avatar.png', 0, NULL),
+(2, 'Staff', 'Staff', 'staff@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 02:00:05', '2024-02-10 22:42:21', 'kitchenStaff', 0, 'avatar.png', 0, NULL),
+(5, 'Customers', 'Customer', 'customer@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 22:27:26', '2024-04-03 07:56:27', 'customer', 0, 'avatar.png', 0, NULL),
+(9, 'customer1', 'customer1', 'customer1@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-04-02 22:30:31', '2024-04-02 22:30:31', 'customer', 0, 'avatar.png', 0, NULL),
+(31, 'jj', 'jj', 'squadquinx8@gmail.com', 9151936342, '2024-04-03 18:33:13', '$2y$10$Of1aLYUy/MwBLrLPaLmXnugKmBUr/iIuXgNvAo55ebzp2JPf4/bNq', NULL, '2024-04-03 18:32:53', '2024-04-03 18:33:13', 'customer', 0, 'avatar.png', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -422,6 +510,18 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_ver
 -- Indexes for table `cart_items`
 --
 ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ch_favorites`
+--
+ALTER TABLE `ch_favorites`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ch_messages`
+--
+ALTER TABLE `ch_messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -442,6 +542,14 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `menus`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `messages_user_id_foreign` (`user_id`),
+  ADD KEY `messages_receiver_foreign` (`receiver`);
 
 --
 -- Indexes for table `migrations`
@@ -538,10 +646,16 @@ ALTER TABLE `menus`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -583,7 +697,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

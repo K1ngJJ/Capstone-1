@@ -30,8 +30,15 @@ require __DIR__.'/auth.php';
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes([
+    'verify' => true
+]);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+});
+
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('verified');
 
 // Account Creation
 Route::get('/account/create', [AccountCreationController::class, 'create'])->name('accountCreation');
