@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 04, 2024 at 02:36 AM
+-- Generation Time: Apr 04, 2024 at 11:00 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -496,11 +496,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'Admin', 'admin', 'admin@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 01:55:19', '2024-04-03 07:51:53', 'admin', 0, 'avatar.png', 0, NULL),
-(2, 'Staff', 'Staff', 'staff@gmail.com', 0, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 02:00:05', '2024-02-10 22:42:21', 'kitchenStaff', 0, 'avatar.png', 0, NULL),
-(5, 'Customers', 'Customer', 'customer@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-02-09 22:27:26', '2024-04-03 07:56:27', 'customer', 0, 'avatar.png', 0, NULL),
-(9, 'customer1', 'customer1', 'customer1@gmail.com', 9451997276, NULL, '$2y$10$4rtqjc2K72vNk.r4Tf7BdezZ6MHUWcOI8.JT5nbLT2C.ii7POQi6q', NULL, '2024-04-02 22:30:31', '2024-04-02 22:30:31', 'customer', 0, 'avatar.png', 0, NULL),
-(31, 'jj', 'jj', 'squadquinx8@gmail.com', 9151936342, '2024-04-03 18:33:13', '$2y$10$Of1aLYUy/MwBLrLPaLmXnugKmBUr/iIuXgNvAo55ebzp2JPf4/bNq', NULL, '2024-04-03 18:32:53', '2024-04-03 18:33:13', 'customer', 0, 'avatar.png', 0, NULL);
+(1, 'Admin', 'admin', 'gigcafe026@gmail.com', 0, '2024-04-04 01:54:39', '$2y$10$LnbB9XyKNoUB.uluLGtjJeN4aaZ1M8PqLqDYzRXnkj6HHFgqtTaku', NULL, '2024-02-09 01:55:19', '2024-04-04 02:59:56', 'admin', 0, 'avatar.png', 0, NULL),
+(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', 0, '2024-04-04 01:57:02', '$2y$10$9eNU0E0EPRz8l5pN3jXvO.AmVzY8jDKBzA8pqFPplV6PnCq9rh4Y6', 'ALXe1h1XrqlLQuD5rzc1UocUheTFUqGN6dpEUOUDJdng9p2s0QmiuucitSqe', '2024-02-09 02:00:05', '2024-04-04 02:46:29', 'kitchenStaff', 0, 'avatar.png', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -697,7 +694,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Constraints for dumped tables

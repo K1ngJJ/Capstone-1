@@ -35,7 +35,7 @@ Auth::routes([
 ]);
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('verified');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Account Creation
 Route::get('/account/create', [AccountCreationController::class, 'create'])->name('accountCreation');
