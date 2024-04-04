@@ -34,9 +34,6 @@ Auth::routes([
     'verify' => true
 ]);
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-});
 
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('verified');
 
