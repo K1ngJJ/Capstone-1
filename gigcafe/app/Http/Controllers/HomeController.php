@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+
 
 class HomeController extends Controller
 {
@@ -12,11 +14,25 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
-        if (Auth::user() && auth()->user()->role == 'admin')
+    
+     public function index() {
+        $user = Auth::user();
+    
+        if ($user && $user->role == 'admin') {
             return redirect()->route('dashboard');
-        else if (Auth::user() && auth()->user()->role == 'kitchenStaff')
+        } elseif ($user && $user->role == 'kitchenStaff') {
             return redirect()->route('kitchenOrder');
+        }
+    
+        // If the user is not redirected by role, check if the email is verified
+        if ($user && !$user->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
+        }
+    
         return view('home');
+    }
+
+    public function guest() {
+        return view('guest');
     }
 }

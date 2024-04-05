@@ -1,4 +1,17 @@
 <x-guest-layout>
+@section('links')
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+@endsection
+
+@section('bodyID')
+{{ 'register' }}@endsection
+
+@section('navTheme')
+{{ 'dark' }}@endsection
+
+@section('logoFileName')
+{{ '../images/White Logo.png' }}@endsection
+
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">

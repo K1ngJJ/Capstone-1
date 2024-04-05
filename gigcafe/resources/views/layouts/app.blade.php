@@ -30,8 +30,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('links')
+
+    <style>
+    .floating-icons {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+    }
+    .floating-icons .icon {
+        display: block;
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        color: #fff;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        /* Add more styles as needed */
+    }
+</style>
     
 </head>
+
 <body id="@yield('bodyID')">
     <header>
         <nav data-theme="@yield('navTheme')" class="home-nav @yield('navTheme')">
@@ -131,6 +153,17 @@
             </div>
         </nav>
     </header>
+
+    <!-- Chatify container -->
+
+    <!-- Floating icons -->
+    <div class="floating-icons">
+        <!-- Add your floating icons here -->
+        <a href="/chatify" class="icon">
+            <!-- Icon image or font-awesome icon -->
+            <img src="{{ asset('images/Black Logo.png') }}" alt="Chat Icon">
+        </a>
+    </div>
 
     <main>
         @yield('content')

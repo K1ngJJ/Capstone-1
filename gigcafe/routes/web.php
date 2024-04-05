@@ -35,7 +35,13 @@ Auth::routes([
 ]);
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'guest'])
+    ->middleware('guest')
+    ->name('guest');
+
+Route::middleware(['verified'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
 
 // Account Creation
 Route::get('/account/create', [AccountCreationController::class, 'create'])->name('accountCreation');
