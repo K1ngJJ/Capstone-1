@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 04, 2024 at 11:00 AM
+-- Generation Time: Apr 09, 2024 at 04:17 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -60,7 +60,9 @@ INSERT INTO `cart_items` (`id`, `user_id`, `menu_id`, `order_id`, `quantity`, `f
 (17, 5, 4, 19, 1, 1),
 (18, 5, 3, 22, 1, 1),
 (19, 5, 27, 22, 1, 1),
-(20, 9, 4, 23, 1, 1);
+(20, 9, 4, 23, 1, 1),
+(22, 46, 3, 24, 1, 0),
+(23, 46, 17, 24, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -98,8 +100,7 @@ CREATE TABLE `ch_messages` (
 --
 
 INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
-('047cdc4c-f3e6-46e3-92ec-67264347dacc', 1, 1, 'dewidfjewkl', NULL, 1, '2024-04-03 07:53:12', '2024-04-03 07:53:19'),
-('60688dca-82e9-41f9-9ec1-8a1420235bb7', 1, 1, 'fkjewfnkewlf', NULL, 1, '2024-04-03 07:53:23', '2024-04-03 07:53:27');
+('8963e8c1-b075-4593-98f1-1cde02017316', 1, 2, '.', NULL, 0, '2024-04-08 20:15:25', '2024-04-08 20:15:25');
 
 -- --------------------------------------------------------
 
@@ -297,7 +298,8 @@ INSERT INTO `orders` (`id`, `user_id`, `created_at`, `updated_at`, `dateTime`, `
 (16, 5, '2024-04-02 21:39:34', '2024-04-02 21:44:18', '2024-04-04 05:39:00', 1, 'takeAway'),
 (19, 5, '2024-04-02 22:04:43', '2024-04-02 22:47:06', '2024-04-04 06:04:00', 1, 'takeAway'),
 (22, 5, '2024-04-02 22:37:47', '2024-04-02 22:46:51', '2024-04-04 06:37:00', 1, 'takeAway'),
-(23, 9, '2024-04-02 22:46:02', '2024-04-02 22:46:45', '2024-04-04 06:45:00', 1, 'takeAway');
+(23, 9, '2024-04-02 22:46:02', '2024-04-02 22:46:45', '2024-04-04 06:45:00', 1, 'takeAway'),
+(24, 46, '2024-04-07 20:38:31', '2024-04-07 20:38:31', '2024-04-09 05:38:00', 0, 'takeAway');
 
 -- --------------------------------------------------------
 
@@ -345,7 +347,8 @@ CREATE TABLE `password_resets` (
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 ('customer@gmail.com', '$2y$10$jCrl9UOxCDaD0E7LP4mMhODQfjagMS3AqN3iJmD6qpKPYumNkLb76', '2024-02-11 16:49:04'),
-('pachecoking38@gmail.com', '$2y$10$ZQlOIlMAW5ognOuk2wFOruX00FQuqcHYscCQv3gX.08zNqwXn8ZTu', '2024-04-02 07:02:19');
+('pachecoking38@gmail.com', '$2y$10$ZQlOIlMAW5ognOuk2wFOruX00FQuqcHYscCQv3gX.08zNqwXn8ZTu', '2024-04-02 07:02:19'),
+('squadquinx8@gmail.com', '$2y$10$w2gaAGrT1CcsMRM9Yx1qyOiDtJSc37UiReshYs/.dPqUHcXVRBtPO', '2024-04-04 16:18:57');
 
 -- --------------------------------------------------------
 
@@ -465,7 +468,8 @@ INSERT INTO `transactions` (`id`, `order_id`, `discount_id`, `final_amount`, `cr
 (4, 16, NULL, '4261.20', '2024-04-02 21:42:31', '2024-04-02 21:42:31'),
 (5, 19, NULL, '593.60', '2024-04-02 22:06:00', '2024-04-02 22:06:00'),
 (6, 22, NULL, '90.10', '2024-04-02 22:43:45', '2024-04-02 22:43:45'),
-(7, 23, NULL, '530.00', '2024-04-02 22:46:23', '2024-04-02 22:46:23');
+(7, 23, NULL, '530.00', '2024-04-02 22:46:23', '2024-04-02 22:46:23'),
+(8, 24, NULL, '63.60', '2024-04-07 20:39:16', '2024-04-07 20:39:16');
 
 -- --------------------------------------------------------
 
@@ -485,6 +489,7 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'customer',
+  `status` int NOT NULL DEFAULT '1',
   `active_status` tinyint(1) NOT NULL DEFAULT '0',
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'avatar.png',
   `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
@@ -495,9 +500,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'Admin', 'admin', 'gigcafe026@gmail.com', 0, '2024-04-04 01:54:39', '$2y$10$LnbB9XyKNoUB.uluLGtjJeN4aaZ1M8PqLqDYzRXnkj6HHFgqtTaku', NULL, '2024-02-09 01:55:19', '2024-04-04 02:59:56', 'admin', 0, 'avatar.png', 0, NULL),
-(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', 0, '2024-04-04 01:57:02', '$2y$10$9eNU0E0EPRz8l5pN3jXvO.AmVzY8jDKBzA8pqFPplV6PnCq9rh4Y6', 'ALXe1h1XrqlLQuD5rzc1UocUheTFUqGN6dpEUOUDJdng9p2s0QmiuucitSqe', '2024-02-09 02:00:05', '2024-04-04 02:46:29', 'kitchenStaff', 0, 'avatar.png', 0, NULL);
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
+(1, 'Admin', 'admin', 'gigcafe026@gmail.com', 0, '2024-04-04 01:54:39', '$2y$10$ZUYgRtv0SeENbMSE5A4BwuaDqrmImpqS7QVnIqd8imx4I5aOGRQLa', 'KdtLHtns1TSFGUy691BLeqONhEL23W2ybmCmbG4lugWdpLBjVCihTEG45nT3', '2024-02-09 01:55:19', '2024-04-08 20:15:56', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
+(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', 0, '2024-04-04 01:57:02', '$2y$10$9eNU0E0EPRz8l5pN3jXvO.AmVzY8jDKBzA8pqFPplV6PnCq9rh4Y6', 'tqB68y8v77nrEVptaC5rBdh1SjrAjqI3jwFaIHdUN5VfY4LMCxaIqEnR4Hs9', '2024-02-09 02:00:05', '2024-04-08 19:20:53', 'kitchenStaff', 0, 0, 'avatar.png', 0, NULL),
+(46, 'King Pacheco', 'JayJay', 'pachecoking38@gmail.com', 9451997276, '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', NULL, '2024-04-07 20:32:03', '2024-04-08 19:22:31', 'customer', 0, 0, 'avatar.png', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -622,7 +628,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `discounts`
@@ -658,7 +664,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `packages`
@@ -688,13 +694,13 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables

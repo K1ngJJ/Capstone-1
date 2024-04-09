@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -44,6 +45,8 @@ Route::middleware(['verified'])->group(function () {
 });
 
 // Account Creation
+Route::get('/accounts', [UserController::class, 'index'])->name('manageAccount');
+Route::get('user/{id}', [UserController::class, 'update'])->name('user.update');
 Route::get('/account/create', [AccountCreationController::class, 'create'])->name('accountCreation');
 Route::post('/account/create', [AccountCreationController::class, 'store'])->name('accountStoring');
 
