@@ -67,9 +67,9 @@
 
 <div class="container w-full px-5 py-6 mx-auto">
     <h6 class="d-flex justify-content-center menu-title">CATERING PACKAGES</h6>
-
     <div class="row menu-bar">
     <div class="buttonCustom">
+
 
     @if (Auth::check() && auth()->user()->role == 'customer')
     <div class="col-md-1 d-flex align-items-center">
@@ -78,23 +78,80 @@
                     <i class="fa fa-plus" aria-hidden="true"></i></i>
                 </button>
                 <div class="dropdown-menu">    
-                    <form method='post'action="{{ route('cservices.save') }}" enctype="multipart/form-data" class="px-4 py-3" style="min-width: 350px">
+                <form method="POST" action="{{ route('cservice.store') }}" enctype="multipart/form-data" class="px-4 py-3" style="min-width: 350px">
                         @csrf
+                        <label> Custom Package </label>
                         <div class="dropdown-divider"></div>
                         <div class="mb-1">
-                            <label for="ItemName" class="form-label">Name</label>
+                            <label for="name" class="form-label"></label>
                             <div class="input-group mb-3">
-                                {{ Auth::user()->name }}
+                                <input name="name" id="name" type="text" 
+                                class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" 
+                                placeholder="Package Name" aria-label="name" required>
                             </div>
                         </div>
 
-                        <div class="dropdown-divider"></div>
+                            @error('name')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
+
+                            <div class="input-group mb-3" hidden>
+                                <input name="description" id="description" type="text" 
+                                class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" 
+                                placeholder="description" aria-label="description" required>
+                            </div>
+
                         <div class="mb-1">
-                            <label for="ItemName" class="form-label"></label>
-                            <div class="input-group mb-3">
-                                <input name="menuName" type="text" class="form-control" placeholder="Package Name" aria-label="Item Name" required>
+                        <label for="image" class="form-label"> Image </label>
+                            <div class="mt-1">
+                                <input type="file" id="image" name="image"
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                             </div>
                         </div>
+                        @error('image')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
+
+                        <div class="mb-2">
+                            <div class="input-group mb-3">
+                                <input type="number" placeholder="Guest Number" id="guest_number" name="guest_number" 
+                                class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                            </div>
+                        </div> 
+
+                        @error('guest_number')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
+                        
+                        <div class="mt-1" hidden>
+                                <select id="status" name="status" 
+                                class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                    @foreach (App\Enums\PackageStatus::cases() as $status)
+                                        <option value="{{ $status->value }}">{{ $status->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            @error('status')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
+                            
+                            <div class="mt-1" hidden>
+                                <select id="service" name="services[]" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                    @foreach ($services as $serviceItem)
+                                        <option value="{{ $serviceItem->id }}" @if ($serviceItem->id == $selectedId) selected @endif>{{ $serviceItem->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mt-1"  hidden>
+                                <input type="number" min="0.00" max="100000.00" step="0.01" id="price" name="price" value="7999"
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                            </div>
+                            @error('price')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
+
 
                         <div class="dropdown-divider"></div>
                         <div class="mb-2">
@@ -122,34 +179,72 @@
                         
                         <div class="dropdown-divider"></div>
                         <h3>Selected Menu Items:</h3>
+                        @error('description')
+                                <div class="text-sm text-red-400">{{ $message }}</div>
+                            @enderror
                         <ul id="selectedMenuList">
                             <!-- Selected menu items with quantity inputs will be dynamically inserted here -->
                         </ul>
                         
                         <script>
-                            // Function to handle menu item selection and display
+                            function calculateTotalPrice() {
+                                var selectedMenuList = document.querySelector('#selectedMenuList');
+                                var selectedItems = selectedMenuList.querySelectorAll('li');
+                                var totalPrice = 0;
+
+                                selectedItems.forEach(item => {
+                                    var price = parseFloat(item.textContent.match(/₱(\d+(\.\d+)?)/)[1]);
+                                    var quantity = parseInt(item.querySelector('input[type="number"]').value);
+                                    totalPrice += price * quantity;
+                                });
+
+                                // Update the price input field with the calculated total price
+                                document.getElementById('price').value = totalPrice.toFixed(2);
+                            }
+
                             function handleMenuSelection(menuId, menuName, menuPrice, checkbox) {
                                 var selectedMenuList = document.querySelector('#selectedMenuList');
+                                var selectedItems = selectedMenuList.querySelectorAll('li');
+                                var selectedList = [];
+                                selectedItems.forEach(item => {
+                                    var itemName = item.textContent.split(' - ')[0];
+                                    selectedList.push(itemName.trim());
+                                });
+
                                 if (checkbox.checked) {
                                     var listItem = document.createElement('li');
                                     listItem.id = 'menu_' + menuId;
                                     listItem.innerHTML = `
                                         ${menuName} - ₱${menuPrice}:
-                                        <input type="number" name="menu_quantities[${menuId}]" value="1" min="1" style="width: 55px;">
+                                        <input type="number" name="menu_quantities[${menuId}]" value="1" min="1" style="width: 55px;" onchange="calculateTotalPrice()">
                                         <button onclick="deleteMenuItem(${menuId})"><span style="color:red;">&#x2716;</span></button>`;
                                     selectedMenuList.appendChild(listItem);
+                                    selectedList.push(menuName.trim());
                                 } else {
                                     var listItem = document.getElementById('menu_' + menuId);
                                     listItem.remove();
+                                    selectedList = selectedList.filter(item => item !== menuName.trim());
                                 }
+
+                                // Update description input value
+                                var descriptionInput = document.getElementById('description');
+                                if (selectedList.length > 0) {
+                                    var selectedItemsText = selectedList.join(', ');
+                                    descriptionInput.value = "This package includes " + selectedItemsText + ".";
+                                } else {
+                                    descriptionInput.value = ""; // Clear the description if no items selected
+                                }
+
+                                calculateTotalPrice();
                             }
-                        
+
                             // Function to delete selected menu item
                             function deleteMenuItem(menuId) {
                                 var listItem = document.getElementById('menu_' + menuId);
                                 listItem.remove();
+                                calculateTotalPrice();
                             }
-                        
+
                             // Function to update selected menu items list when item type is changed
                             document.getElementById('itemTypeInputGroup').addEventListener('change', function() {
                                 var menuType = this.value;
@@ -174,18 +269,6 @@
                         
 
                         <div class="dropdown-divider"></div>
-                        
-                        <div class="mb-2">
-                            <label for="ItemSize" class="form-label">Portion</label>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="itemSizeInputGroup">Size:</label>
-                                <select name="menuSize" class="form-select" id="itemSizeInputGroup" >
-                                    <option name="menuSize" value="1-2">1 - 2 People</option>
-                                    <option name="menuSize" value="3-4">3 - 4 People</option>
-                                    <option name="menuSize" value=">5">More than 5 People</option>
-                                </select>
-                            </div>
-                        </div>
 
                      
 

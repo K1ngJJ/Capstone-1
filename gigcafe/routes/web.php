@@ -100,6 +100,7 @@ Route::get('/reservation/thankyou', [FrontendReservationController::class, 'than
 Route::get('/cservices', [FrontendServiceController::class, 'index'])->name('cservices.index');
 Route::get('/cservices/{service}', [FrontendServiceController::class, 'show'])->name('cservices.show');
 Route::post('/cservices/save', [FrontendServiceController::class, 'show'])->name('cservices.show');
+Route::post('/cservice', [FrontendServiceController::class, 'store'])->name('cservice.store');
 
 Route::get('/get-menu-items', [FrontendPackageController::class, 'getMenuItems'])->name('get.menu.items');
 Route::get('get-menu-price', [FrontendPackageController::class, 'getPrice'])->name('get.menu.price');
@@ -118,7 +119,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('/services', ServiceController::class);
+    Route::resource('/services', FrontendServiceController::class);
     Route::resource('/reservations', ReservationController::class);
     Route::resource('/packages', PackageController::class);
 

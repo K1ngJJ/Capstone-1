@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Package;
+use App\Enums\PackageStatus;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -53,4 +57,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }
+    
+    public function availablePackages()
+    {
+        return $this->hasMany(Package::class)
+            ->where('status', PackageStatus::Available)
+            ->where('user_id', Auth::id());
+    }
+
 }

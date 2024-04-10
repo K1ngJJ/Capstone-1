@@ -10,7 +10,7 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'description', 'image', 'guest_number', 'status', 'menu_id'];
+    protected $fillable = ['name', 'price', 'description', 'image', 'guest_number', 'status', 'menu_id', 'user_id'];
 
     protected $casts = [
         'status' => PackageStatus::class,
