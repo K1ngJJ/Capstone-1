@@ -28,15 +28,14 @@
     </head>
     @section('content')
 
-<section class="min-vh-100 d-flex align-items-start mt-5 pt-18vh">
+<section class="min-vh-100 d-flex align-items-start pt-5vh">
     <div class="container">
 
     <div class="py-12">
+    <a class="menu-title">
+            <h2 class="d-flex justify-content-center menu-title" style="font-size: 2.0rem;font-style: italic;">CATERING PACKAGES</h2>
+        </a>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end m-2 p-2">
-                <a href="{{ route('packages.create') }}"
-                    class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New package</a>
-            </div>
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -64,9 +63,14 @@
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Price
                                         </th>
-                                        <th scope="col" class="relative py-3 px-6">
+
+                                        <th scope="col" class="relative py-3 px-6" style="text-align: right;">
                                             <span class="sr-only">Edit</span>
+                                                <a href="{{ route('packages.store') }}"
+                                                    class="px-4 py-2 bg-black hover:bg-black rounded-lg text-white"> <i class="fa fa-plus mr-2"></i></a>
                                         </th>
+
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>

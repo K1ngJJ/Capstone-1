@@ -35,6 +35,7 @@ return array(
     'App\\Http\\Controllers\\Frontend\\ReservationController' => $baseDir . '/app/Http/Controllers/Frontend/ReservationController.php',
     'App\\Http\\Controllers\\Frontend\\ServiceController' => $baseDir . '/app/Http/Controllers/Frontend/ServiceController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\InventoryController' => $baseDir . '/app/Http/Controllers/InventoryController.php',
     'App\\Http\\Controllers\\MenuController' => $baseDir . '/app/Http/Controllers/MenuController.php',
     'App\\Http\\Controllers\\OrderController' => $baseDir . '/app/Http/Controllers/OrderController.php',
     'App\\Http\\Controllers\\PackageController' => $baseDir . '/app/Http/Controllers/PackageController.php',

@@ -38,7 +38,7 @@
 
 </style>
 
-<section class="menu" style="margin-top: 17vh;">
+<section class="menu" style="margin-top: 5vh;">
     <div class="container">
         <a class="menu-title">
             <h2 class="d-flex justify-content-center menu-title">MENU</h2>

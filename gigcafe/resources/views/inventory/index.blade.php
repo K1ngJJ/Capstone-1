@@ -33,7 +33,7 @@
 
     <div class="py-12">
     <a class="menu-title">
-            <h2 class="d-flex justify-content-center menu-title" class="d-flex justify-content-center menu-title" style="font-size: 2.0rem;font-style: italic;">CATERING SERVICES</h2>
+            <h2 class="d-flex justify-content-center menu-title" style="font-size: 2.0rem;font-style: italic;">MANAGE INVENTORY</h2>
         </a>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-col">
@@ -49,44 +49,50 @@
                                         </th>
                                         <th scope="col"
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Image
+                                            Quantity
                                         </th>
                                         <th scope="col"
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Description
+                                            Status
+                                        </th>
+                                        <th scope="col"
+                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            Price
                                         </th>
                                         <th scope="col" class="relative py-3 px-6" style="text-align: right;">
                                             <span class="sr-only">Edit</span>
-                                                <a href="{{ route('services.create') }}"
+                                                <a href="{{ route('inventory.create') }}"
                                                     class="px-4 py-2 bg-black hover:bg-black rounded-lg text-white"> <i class="fa fa-plus mr-2"></i></a>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($services as $service)
+                                    @foreach ($inventories as $inventory)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ $service->name }}
+                                                {{ $inventory->name }}
                                             </td>
                                             <td
-                                                class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <img src="{{ Storage::url($service->image) }}"
-                                                    class="w-16 h-16 rounded">
+                                                class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                {{ $inventory->quantity }}
                                             </td>
                                             <td
-                                                class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ $service->description }}
+                                                class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                {{ $inventory->status }}
                                             </td>
                                             <td
-                                                class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">₱
+                                                {{ $inventory->price }}
+                                            </td>
+                                            <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                                                 <div class="flex space-x-2">
-                                                    <a href="{{ route('services.edit', $service->id) }}"
+                                                    <a href="{{ route('inventory.edit', $inventory->id) }}"
                                                         class="px-4 py-2 bg-green-500 hover:bg-green-700 rounded-lg  text-white">Edit</a>
                                                     <form
                                                         class="px-4 py-2 bg-red-500 hover:bg-red-700 rounded-lg text-white"
                                                         method="POST"
-                                                        action="{{ route('services.destroy', $service->id) }}"
+                                                        action="{{ route('inventory.destroy', $inventory->id) }}"
                                                         onsubmit="return confirm('Are you sure?');">
                                                         @csrf
                                                         @method('DELETE')

@@ -15,6 +15,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InventoryController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -109,6 +110,12 @@ Route::post('/cservices/save', [FrontendPackageController::class, 'save'])->name
 Route::get('/package', [FrontendPackageController::class, 'index'])->name('packages.index');
 Route::get('/package/save', [FrontendPackageController::class, 'saveCustomization'])->name('cservices.save');
 
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
+Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -120,7 +127,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('/services', FrontendServiceController::class);
+    Route::resource('/services', ServiceController::class);
     Route::resource('/reservations', ReservationController::class);
     Route::resource('/packages', PackageController::class);
 

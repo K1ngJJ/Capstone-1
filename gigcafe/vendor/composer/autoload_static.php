@@ -576,6 +576,7 @@ class ComposerStaticInit811b873181f4d6b076ff5357a81e9593
         'App\\Http\\Controllers\\Frontend\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/ReservationController.php',
         'App\\Http\\Controllers\\Frontend\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/ServiceController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\InventoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/InventoryController.php',
         'App\\Http\\Controllers\\MenuController' => __DIR__ . '/../..' . '/app/Http/Controllers/MenuController.php',
         'App\\Http\\Controllers\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderController.php',
         'App\\Http\\Controllers\\PackageController' => __DIR__ . '/../..' . '/app/Http/Controllers/PackageController.php',
