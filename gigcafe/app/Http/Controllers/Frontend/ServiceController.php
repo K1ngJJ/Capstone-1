@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Http\Requests\PackageStoreRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 
@@ -70,7 +71,19 @@ class ServiceController extends Controller
         $selectedId = $service->id; 
         
         return view('cservices.show', compact('service', 'availablePackages', 'menus', 'services', 'selectedId'));
-    }       
+    }      
+    
+    public function destroy(Package $package)
+    {
+        $firstServiceId = $package->services->first()->id;
+    
+        Storage::delete($package->image);
+        $package->services()->detach();
+        $package->delete();
+    
+        return redirect()->route('cservices.show', $firstServiceId)->with('danger', 'Package deleted successfully.');
+    }
+    
     
 }
 
