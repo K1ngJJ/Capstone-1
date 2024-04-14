@@ -34,6 +34,15 @@
                 0 => '*',
             ),
         ),
+        'cybercog/laravel-ban' => array(
+            'pretty_version' => '4.7.0',
+            'version' => '4.7.0.0',
+            'reference' => 'ca1ed953c2456db7896d66bb839cba51fbaedc9a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../cybercog/laravel-ban',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(

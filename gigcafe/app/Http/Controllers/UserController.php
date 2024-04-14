@@ -13,25 +13,64 @@ class UserController extends Controller
     }
 
     public function index() {
-        if (auth()->user()->role != 'admin')
-            abort(403, 'This route is only meant for restaurant admins.');
-        $users = User::all();
-        return view('accounts/index', compact('users'));
+
+        $user = User::all();
+        return view('accounts/index', compact('user'));
     }
 
     public function update($userId) {
-        if (auth()->user()->role != 'admin')
-            abort(403, 'This route is only meant for restaurant admins.');
-        $users = User::find($userId);
-        if($users){
-            if($users->status){
-                $users->status = 0;
+  
+        $user = User::find($userId);
+        if($user){
+            if($user->status){
+                $user->status = 0;
             }
             else{
-                $users->status = 1;
+                $user->status = 1;
             }
-            $users->save();
+            $user->save();
         }
         return back();
     }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('edit', compact('user'));
+    }
+
+    public function saveChanges(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'contactnum' => 'required|string|max:20',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->contactnum = $request->contactnum;
+        $user->save();
+
+        return back()->with('success', 'Changes saved successfully.');
+    }
+
+
+    public function destroy($userId)
+    {
+        $user = User::find($userId);
+
+        if(!$user) {
+            return back()->with('error', 'User not found.');
+        }
+
+        if(!$user->delete()) {
+            return back()->with('error', 'Failed to delete user.');
+        }
+
+        return back()->with('success', 'User deleted successfully.');
+    }
+
 }

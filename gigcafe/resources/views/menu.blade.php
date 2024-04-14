@@ -76,8 +76,8 @@
                                         <option name="menuType" value="Burger">Burger</option>
                                         <option name="menuType" value="Pasta">Pasta</option>
                                         <option name="menuType" value="Snacks">Snacks</option>
-                                        <option name="menuType" value="Milk Tea">Milk Tea</option>
-                                        <option name="menuType" value="Fruit Tea">Fruit Tea</option>
+                                        <option name="menuType" value="MilkTea">Milk Tea</option>
+                                        <option name="menuType" value="FruitTea">Fruit Tea</option>
                                         <option name="menuType" value="Etc.">Etc.</option>
                                     </select>
                                 </div>

@@ -43,6 +43,7 @@ class AccountCreationController extends Controller
         // validate requests.
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
             'role' => ['required', 'string']
@@ -50,7 +51,9 @@ class AccountCreationController extends Controller
 
         // after validation, create the user accordingly.
         $user = User::create([
-            'username' => $request->name,
+            'name' => $request->name,
+            'username' => $request->username,
+            'contactnum' => $request->contactnum,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role

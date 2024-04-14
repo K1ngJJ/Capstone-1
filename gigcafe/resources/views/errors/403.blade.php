@@ -30,7 +30,7 @@
             @if (auth()->user()->role == 'customer')
             <a href="{{ route('home') }}" class="primary-btn mt-3 py-2 px-3 rounded">Home</a>
             @else
-            <a href="{{ route('dashboard') }}" class="primary-btn mt-3 py-2 px-3 rounded">Dashboard</a>
+            <a href="{{ route('home') }}" class="primary-btn mt-3 py-2 px-3 rounded">Dashboard</a>
             @endif
         @endguest
     </div>
