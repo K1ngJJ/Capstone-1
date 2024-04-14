@@ -3,41 +3,87 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Enums\PackageStatus;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Package;
 use App\Models\Menu;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Http\Requests\PackageStoreRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 
 
 class ServiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        
-        // Fetch only the services that are available
+        $user = Auth::user();
+        $packages = $user->availablePackages()->get();
         $services = Service::all();
         
-        // Fetch only the packages that are available
-        $packages = Package::where('status', PackageStatus::Available)->get();
-        
-        return view('cservices.index', compact('services', 'packages'));
+        return view('cservices.index', compact('packages', 'services'));
     }
+
+    public function store(PackageStoreRequest $request)
+    {
+        $image = $request->file('image')->store('public/packages');
+    
+        $package = Package::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $image,
+            'guest_number' => $request->guest_number,
+            'status' => $request->status,
+            'price' => $request->price,
+            'user_id' => Auth::id(),
+        ]);
+    
+        if ($request->has('services')) {
+            $package->services()->attach($request->services);
+        }
+    
+        $firstServiceId = $package->services->first()->id;
+    
+        return redirect()->route('cservices.show', $firstServiceId)->with('success', 'Package created successfully.');
+    } 
 
     public function show(Service $service)
     {
-        // Fetch only the packages that are available for the given service
-        $availablePackages = $service->packages()->where('status', PackageStatus::Available)->get();
+        $user = Auth::user();
+        
+        $availablePackages = Package::where(function ($query) use ($user) {
+                $query->where('user_id', null)
+                      ->orWhere('user_id', $user->id);
+            })
+            ->whereHas('services', function ($query) use ($service) {
+                $query->where('services.id', $service->id);
+            })
+            ->get();
+        
         $menus = Menu::all();
+        $services = Service::all(); 
+        $selectedId = $service->id; 
+        
+        return view('cservices.show', compact('service', 'availablePackages', 'menus', 'services', 'selectedId'));
+    }      
     
-        // Pass $service, $availablePackages, and $menus variables to the view
-        return view('cservices.show', compact('service', 'availablePackages', 'menus'));
+    public function destroy(Package $package)
+    {
+        $firstServiceId = $package->services->first()->id;
+    
+        Storage::delete($package->image);
+        $package->services()->detach();
+        $package->delete();
+    
+        return redirect()->route('cservices.show', $firstServiceId)->with('danger', 'Package deleted successfully.');
     }
     
-
-   
-
     
 }
 

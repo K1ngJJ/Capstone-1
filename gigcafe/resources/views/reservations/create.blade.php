@@ -27,7 +27,7 @@
        
     </head>
     @section('content')
-<section class="min-vh-100 d-flex align-items-start mt-5 pt-18vh">
+<section class="min-vh-100 d-flex align-items-start mt-5 pt-5vh">
     <div class="container">
    
 

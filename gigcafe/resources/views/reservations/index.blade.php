@@ -28,8 +28,11 @@
     </head>
     @section('content')
 
-<section class="min-vh-100 d-flex align-items-start mt-5 pt-18vh">
+<section class="min-vh-100 d-flex align-items-start mt-5 pt-5vh">
     <div class="container">
+    <a class="menu-title">
+            <h2 class="d-flex justify-content-center menu-title" style="font-size: 2.0rem;font-style: italic;">CATERING RESERVATIONS</h2>
+        </a>
     <div class="flex justify-end m-2 p-2">
                 <a href="{{ route('reservations.create') }}"
                     class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New Reservation</a>

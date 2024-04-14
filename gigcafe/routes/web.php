@@ -13,6 +13,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InventoryController;
+
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\PackageController as FrontendPackageController;
@@ -117,6 +119,8 @@ Route::get('/reservation/thankyou', [FrontendReservationController::class, 'than
 Route::get('/cservices', [FrontendServiceController::class, 'index'])->name('cservices.index');
 Route::get('/cservices/{service}', [FrontendServiceController::class, 'show'])->name('cservices.show');
 Route::post('/cservices/save', [FrontendServiceController::class, 'show'])->name('cservices.show');
+Route::post('/cservice', [FrontendServiceController::class, 'store'])->name('cservice.store');
+Route::delete('/cservices/{package}', [FrontendServiceController::class, 'destroy'])->name('cservice.destroy');
 
 // Customize Packages
 Route::get('/get-menu-items', [FrontendPackageController::class, 'getMenuItems'])->name('get.menu.items');
@@ -124,3 +128,35 @@ Route::get('get-menu-price', [FrontendPackageController::class, 'getPrice'])->na
 Route::post('/cservices/save', [FrontendPackageController::class, 'save'])->name('cservices.save');
 Route::get('/package', [FrontendPackageController::class, 'index'])->name('packages.index');
 Route::get('/package/save', [FrontendPackageController::class, 'saveCustomization'])->name('cservices.save');
+
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
+Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
+Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/services', ServiceController::class);
+    Route::resource('/reservations', ReservationController::class);
+    Route::resource('/packages', PackageController::class);
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+});
