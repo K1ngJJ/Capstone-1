@@ -65,11 +65,11 @@
                                         </th>
 
                                         <th scope="col" class="relative py-3 px-6" style="text-align: right;">
-                                            <span class="sr-only">Edit</span>
-                                                <a href="{{ route('packages.store') }}"
-                                                    class="px-4 py-2 bg-black hover:bg-black rounded-lg text-white"> <i class="fa fa-plus mr-2"></i></a>
+                                            <span class="sr-only">store</span>
+                                            <a href="{{ route('packages.create') }}" class="px-4 py-2 bg-black hover:bg-black rounded-lg text-white">
+                                                <i class="fa fa-plus mr-2"></i>
+                                            </a>
                                         </th>
-
                                         
                                     </tr>
                                 </thead>

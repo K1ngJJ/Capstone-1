@@ -16,19 +16,23 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     
     public function index()
-    {
+{
+    if (auth()->check()) {
         $user = Auth::user();
         $packages = $user->availablePackages()->get();
-        $services = Service::all();
-        
-        return view('cservices.index', compact('packages', 'services'));
+    } else {
+        // If the user is not authenticated, you may choose to handle it differently,
+        // such as redirecting them to the login page or showing a message.
+        $packages = collect(); // Empty collection if the user is not authenticated
     }
+    
+    $services = Service::all();
+    
+    return view('cservices.index', compact('packages', 'services'));
+}
+
 
     public function store(PackageStoreRequest $request)
     {
@@ -55,11 +59,15 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
+        // Get the authenticated user if available
         $user = Auth::user();
         
+        // Proceed with the rest of the logic
         $availablePackages = Package::where(function ($query) use ($user) {
-                $query->where('user_id', null)
-                      ->orWhere('user_id', $user->id);
+                $query->whereNull('user_id'); // Packages without a user_id
+                if ($user !== null) {
+                    $query->orWhere('user_id', $user->id);
+                }
             })
             ->whereHas('services', function ($query) use ($service) {
                 $query->where('services.id', $service->id);
@@ -71,7 +79,9 @@ class ServiceController extends Controller
         $selectedId = $service->id; 
         
         return view('cservices.show', compact('service', 'availablePackages', 'menus', 'services', 'selectedId'));
-    }      
+    }
+    
+
     
     public function destroy(Package $package)
     {

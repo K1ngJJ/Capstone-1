@@ -12,11 +12,16 @@ use Illuminate\Support\Facades\Storage;
 
 class PackageController extends Controller
 {
+    public function __construct() {
+        return $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $packages = Package::all();
         return view('packages.index', compact('packages'));
     }
@@ -26,6 +31,8 @@ class PackageController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $services = Service::all();
         return view('packages.create', compact('services'));
     }
@@ -35,6 +42,8 @@ class PackageController extends Controller
      */
     public function store(PackageStoreRequest $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $image = $request->file('image')->store('public/packages');
 
         $package = Package::create([
@@ -58,7 +67,7 @@ class PackageController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -66,6 +75,8 @@ class PackageController extends Controller
      */
     public function edit(Package $package)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $packages = Package::where('status', PackageStatus::Available)->get();
         $services = Service::all();
         return view('packages.edit', compact('package', 'services', 'packages'));
@@ -76,6 +87,8 @@ class PackageController extends Controller
      */
     public function update(Request $request, Package $package)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -109,6 +122,8 @@ class PackageController extends Controller
      */
     public function destroy(Package $package)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         Storage::delete($package->image);
         $package->services()->detach();
         $package->delete();

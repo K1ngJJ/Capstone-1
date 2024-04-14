@@ -12,11 +12,17 @@ use Illuminate\Support\Facades\Storage;
 
 class InventoryController extends Controller
 {
+    public function __construct() {
+        return $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $inventories = Inventory::all();
         return view('inventory.index', compact('inventories'));
     }
@@ -26,6 +32,8 @@ class InventoryController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $inventories = Inventory::all();
         return view('inventory.create', compact('inventories'));
     }
@@ -35,7 +43,8 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $inventory = Inventory::create([
             'name' => $request->name,
             'quantity' => $request->quantity,
@@ -63,11 +72,15 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         return view('inventory.edit', compact('inventory'));
     }
     
     public function update(Request $request, Inventory $inventory)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $request->validate([
             'name' => 'required|string',
             'quantity' => 'required|integer',
@@ -91,6 +104,8 @@ class InventoryController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $inventory = Inventory::findOrFail($id);
         $inventory->delete();
         return redirect()->route('inventory.index')->with('danger', 'Item deleted successfully.');

@@ -105,19 +105,20 @@
         </div>
     </div>
 
-    <!-- Forth row - Menu Category Pie Chart -->
+    <!-- Forth row - Best Selling Menu Bar Chart -->
+    <div class="row my-5 justify-content-between">
+        <div id="best-selling-product-chart" class="col-12 pt-3 h-100 shadow rounded bg-white"
+            data-sales="{{ $finalProductSales }}">
+        </div>
+    </div>
+
+    <!-- Fifth row - Menu Category Pie Chart -->
     <div class="row my-5 justify-content-between">
         <div id="category-sales-chart" class="col-12 pt-3 h-100 shadow rounded bg-white"
             data-sales="{{ $categoricalSales }}">
         </div>
     </div>
 
-    <!-- Fifth row - Best Selling Menu Bar Chart -->
-    <div class="row my-5 justify-content-between">
-        <div id="best-selling-product-chart" class="col-12 pt-3 h-100 shadow rounded bg-white"
-            data-sales="{{ $finalProductSales }}">
-        </div>
-    </div>
 </section>
 
 

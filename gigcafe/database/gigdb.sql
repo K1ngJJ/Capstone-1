@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 09, 2024 at 04:17 AM
+-- Generation Time: Apr 14, 2024 at 06:44 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `gigdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bans`
+--
+
+CREATE TABLE `bans` (
+  `id` int UNSIGNED NOT NULL,
+  `bannable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bannable_id` bigint UNSIGNED NOT NULL,
+  `created_by_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_by_id` bigint UNSIGNED DEFAULT NULL,
+  `comment` text COLLATE utf8mb4_unicode_ci,
+  `expired_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -78,6 +97,14 @@ CREATE TABLE `ch_favorites` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `ch_favorites`
+--
+
+INSERT INTO `ch_favorites` (`id`, `user_id`, `favorite_id`, `created_at`, `updated_at`) VALUES
+('77990670-cb07-4efe-978e-70823ef110c9', 1, 2, '2024-04-11 23:04:05', '2024-04-11 23:04:05'),
+('ac72cd2a-0ec2-411c-885a-5e58aff3e6c1', 2, 1, '2024-04-11 23:06:19', '2024-04-11 23:06:19');
+
 -- --------------------------------------------------------
 
 --
@@ -100,7 +127,7 @@ CREATE TABLE `ch_messages` (
 --
 
 INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
-('8963e8c1-b075-4593-98f1-1cde02017316', 1, 2, '.', NULL, 0, '2024-04-08 20:15:25', '2024-04-08 20:15:25');
+('31a41af5-8082-4122-8fc4-5486de8bcc4e', 1, 1, 'hi', NULL, 1, '2024-04-11 23:04:44', '2024-04-11 23:04:54');
 
 -- --------------------------------------------------------
 
@@ -136,6 +163,30 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventories`
+--
+
+CREATE TABLE `inventories` (
+  `id` bigint NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `quantity` int NOT NULL DEFAULT '0',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `inventories`
+--
+
+INSERT INTO `inventories` (`id`, `name`, `price`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
+(4, 'Knife', '10.00', 40, 'Unavailable', NULL, NULL),
+(5, 'Table Cloth', '10.00', 100, 'Available', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -261,7 +312,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2024_04_03_999999_add_dark_mode_to_users', 2),
 (9, '2024_04_03_999999_add_messenger_color_to_users', 2),
 (10, '2024_04_03_999999_create_chatify_favorites_table', 2),
-(11, '2024_04_03_999999_create_chatify_messages_table', 2);
+(11, '2024_04_03_999999_create_chatify_messages_table', 2),
+(12, '2017_03_04_000000_create_bans_table', 3);
 
 -- --------------------------------------------------------
 
@@ -309,6 +361,7 @@ INSERT INTO `orders` (`id`, `user_id`, `created_at`, `updated_at`, `dateTime`, `
 
 CREATE TABLE `packages` (
   `id` bigint UNSIGNED NOT NULL,
+  `user_id` int DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -323,11 +376,11 @@ CREATE TABLE `packages` (
 -- Dumping data for table `packages`
 --
 
-INSERT INTO `packages` (`id`, `name`, `description`, `image`, `guest_number`, `status`, `price`, `created_at`, `updated_at`) VALUES
-(28, 'Menu A', 'This Package includes Chicken Wings (Spicy/Honey Glazed), Mixed Vegetables with Tofu, Pork Menudo, Beef Caldereta, Creamy Gelatin, Cucumber Juice, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/uL1c4GkpeQ9OCdvh7k8KtSx0WzMOiw36vDfcyPmU.jpg', 100, 'available', 7999, '2024-02-21 05:33:40', '2024-02-27 06:56:51'),
-(29, 'Menu B', 'This Package includes Fried Chicken, Pork Afritada, Fish Fillet (Sweet and Sour), Beef w/ vegetables, Leche Flan, House Blended Ice Tea, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/Ass6Dm9YnNdyBCbgTUxnQkGPOwzjVUOFqNHyqHxb.jpg', 100, 'available', 7999, '2024-02-21 05:42:25', '2024-02-21 05:42:25'),
-(30, 'Menu C', 'This Package includes Chicken Ala Orange, Pork Caldereta, Brasied Beef w/ Coffee Beans, Chopseuy, Buko Pandan, Soda, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/3Yqs5WVZdyWbLTjfnvxzYZ6Sx2mLAWwEGJVlw6XO.jpg', 100, 'available', 7999, '2024-02-21 05:44:31', '2024-02-21 05:45:11'),
-(31, 'Menu D', 'This Package includes Chicken Cordon Bleu, Pork Asado, Beef w/ Broccoli, Lumpiang Hubad, Mango Tapioca, Cucumber Juice, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/E9Hp5m8J37DIxGOM2Ycgaq4FkbzA7qBcBTL5twMB.jpg', 100, 'available', 7999, '2024-02-21 05:54:17', '2024-02-21 05:55:13');
+INSERT INTO `packages` (`id`, `user_id`, `name`, `description`, `image`, `guest_number`, `status`, `price`, `created_at`, `updated_at`) VALUES
+(28, NULL, 'Menu A', 'This Package includes Chicken Wings (Spicy/Honey Glazed), Mixed Vegetables with Tofu, Pork Menudo, Beef Caldereta, Creamy Gelatin, Cucumber Juice, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/uL1c4GkpeQ9OCdvh7k8KtSx0WzMOiw36vDfcyPmU.jpg', 100, 'available', 3599, '2024-02-20 21:33:40', '2024-04-13 21:43:26'),
+(29, NULL, 'Menu B', 'This Package includes Fried Chicken, Pork Afritada, Fish Fillet (Sweet and Sour), Beef w/ vegetables, Leche Flan, House Blended Ice Tea, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/Ass6Dm9YnNdyBCbgTUxnQkGPOwzjVUOFqNHyqHxb.jpg', 100, 'available', 1500, '2024-02-20 21:42:25', '2024-04-13 21:43:13'),
+(30, NULL, 'Menu C', 'This Package includes Chicken Ala Orange, Pork Caldereta, Brasied Beef w/ Coffee Beans, Chopseuy, Buko Pandan, Soda, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/3Yqs5WVZdyWbLTjfnvxzYZ6Sx2mLAWwEGJVlw6XO.jpg', 100, 'available', 1399, '2024-02-20 21:44:31', '2024-04-13 21:42:56'),
+(31, NULL, 'Menu D', 'This Package includes Chicken Cordon Bleu, Pork Asado, Beef w/ Broccoli, Lumpiang Hubad, Mango Tapioca, Cucumber Juice, Rice and an inclusion of either Pancit Bihon/Spaghetti/Sotanghon.', 'public/packages/E9Hp5m8J37DIxGOM2Ycgaq4FkbzA7qBcBTL5twMB.jpg', 100, 'available', 1299, '2024-02-21 05:54:17', '2024-04-13 21:34:08');
 
 -- --------------------------------------------------------
 
@@ -396,7 +449,8 @@ CREATE TABLE `reservations` (
 INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `tel_number`, `service_id`, `package_id`, `status`, `res_date`, `guest_number`, `created_at`, `updated_at`) VALUES
 (24, 'King', 'Pacheco', 'pachecoking38@gmail.com', '+63915197276', 28, 28, 'Not fulfilled', '2024-02-28 23:02:00', 89, '2024-02-27 07:02:45', '2024-02-27 07:02:45'),
 (25, 'King', 'Pacheco', 'pachecoking38@gmail.com', '+63915197276', 28, 29, 'Not fulfilled', '2024-02-28 23:57:00', 89, '2024-02-27 07:57:27', '2024-02-27 07:57:27'),
-(26, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 28, 'Not fulfilled', '2024-03-19 11:15:00', 70, '2024-03-17 19:16:48', '2024-03-17 19:16:48');
+(26, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 28, 'Not fulfilled', '2024-03-19 11:15:00', 70, '2024-03-17 19:16:48', '2024-03-17 19:16:48'),
+(27, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 36, 'Not fulfilled', '2024-04-15 09:49:00', 2, '2024-04-13 17:49:44', '2024-04-13 17:49:44');
 
 -- --------------------------------------------------------
 
@@ -437,10 +491,10 @@ CREATE TABLE `service_group` (
 --
 
 INSERT INTO `service_group` (`service_id`, `package_id`) VALUES
-(29, 28),
-(29, 29),
+(29, 31),
 (29, 30),
-(29, 31);
+(29, 29),
+(29, 28);
 
 -- --------------------------------------------------------
 
@@ -482,7 +536,7 @@ CREATE TABLE `users` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contactnum` bigint NOT NULL,
+  `contactnum` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -501,13 +555,23 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'Admin', 'admin', 'gigcafe026@gmail.com', 0, '2024-04-04 01:54:39', '$2y$10$ZUYgRtv0SeENbMSE5A4BwuaDqrmImpqS7QVnIqd8imx4I5aOGRQLa', 'KdtLHtns1TSFGUy691BLeqONhEL23W2ybmCmbG4lugWdpLBjVCihTEG45nT3', '2024-02-09 01:55:19', '2024-04-08 20:15:56', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
-(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', 0, '2024-04-04 01:57:02', '$2y$10$9eNU0E0EPRz8l5pN3jXvO.AmVzY8jDKBzA8pqFPplV6PnCq9rh4Y6', 'tqB68y8v77nrEVptaC5rBdh1SjrAjqI3jwFaIHdUN5VfY4LMCxaIqEnR4Hs9', '2024-02-09 02:00:05', '2024-04-08 19:20:53', 'kitchenStaff', 0, 0, 'avatar.png', 0, NULL),
-(46, 'King Pacheco', 'JayJay', 'pachecoking38@gmail.com', 9451997276, '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', NULL, '2024-04-07 20:32:03', '2024-04-08 19:22:31', 'customer', 0, 0, 'avatar.png', 0, NULL);
+(1, 'Admin', 'admin', 'gigcafe026@gmail.com', '09948862312', '2024-04-04 01:54:39', '$2y$10$3DsTsm3xbZ1VlI1r1lsjqOIlvWcVcuI/JdAgaeyYgZXjD8frjB4RC', 'baxNwqbuhJc6II98npwSnoLeHQCRNhRAZ9W1hSZgN8gjJH2ZxVQo89L82tSb', '2024-02-09 01:55:19', '2024-04-13 02:12:53', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
+(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', '09151997276', '2024-04-04 01:57:02', '$2y$10$XX.Tow31ysr6yAfAJXLdT.QUnfvg5455pHGVYI.WZwC/nfiK73vLC', '5Xmtuows7Tz0eNvGXgLlzIuDoAw2Hpllwpl0NUIONTKYtVXi9oplLWh9Z6lG', '2024-02-09 02:00:05', '2024-04-13 02:13:15', 'kitchenStaff', 0, 0, 'avatar.png', 0, '#ff2522'),
+(46, 'King Pacheco', 'JayJay', 'pachecoking38@gmail.com', '9451997276', '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'NYMLBxw7wJSxafZGfI5M3FzfUfh1A9iEim5oldPMsx9kCNKc6WD0JmdSFV9p', '2024-04-07 20:32:03', '2024-04-12 23:28:10', 'customer', 0, 0, 'avatar.png', 0, NULL),
+(54, 'Jackson Gleichner', 'iferry', 'jermey13@example.net', '(657) 397-4245', '2024-04-13 01:32:04', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'O1UnHv3Kmz', '2024-04-13 01:32:04', '2024-04-13 01:39:48', 'customer', 1, 0, 'avatar.png', 0, NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bans`
+--
+ALTER TABLE `bans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bans_bannable_type_bannable_id_index` (`bannable_type`,`bannable_id`),
+  ADD KEY `bans_created_by_type_created_by_id_index` (`created_by_type`,`created_by_id`),
+  ADD KEY `bans_expired_at_index` (`expired_at`);
 
 --
 -- Indexes for table `cart_items`
@@ -539,6 +603,12 @@ ALTER TABLE `discounts`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `inventories`
+--
+ALTER TABLE `inventories`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `menus`
@@ -625,6 +695,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `bans`
+--
+ALTER TABLE `bans`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
@@ -643,6 +719,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `inventories`
+--
+ALTER TABLE `inventories`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
@@ -658,7 +740,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -670,7 +752,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -682,7 +764,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -700,7 +782,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- Constraints for dumped tables

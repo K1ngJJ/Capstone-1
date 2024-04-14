@@ -123,12 +123,16 @@ Route::post('/cservice', [FrontendServiceController::class, 'store'])->name('cse
 Route::delete('/cservices/{package}', [FrontendServiceController::class, 'destroy'])->name('cservice.destroy');
 
 // Customize Packages
+Route::get('/packages', [FrontendPackageController::class, 'index'])->name('packages.index');
 Route::get('/get-menu-items', [FrontendPackageController::class, 'getMenuItems'])->name('get.menu.items');
 Route::get('get-menu-price', [FrontendPackageController::class, 'getPrice'])->name('get.menu.price');
 Route::post('/cservices/save', [FrontendPackageController::class, 'save'])->name('cservices.save');
-Route::get('/package', [FrontendPackageController::class, 'index'])->name('packages.index');
 Route::get('/package/save', [FrontendPackageController::class, 'saveCustomization'])->name('cservices.save');
 
+// Packages
+Route::get('/package', [PackageController::class, 'index'])->name('packages.index');
+
+// Inventory
 Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
 Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
 Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
@@ -138,25 +142,3 @@ Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->na
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-
-
-
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('/services', ServiceController::class);
-    Route::resource('/reservations', ReservationController::class);
-    Route::resource('/packages', PackageController::class);
-
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-
-});

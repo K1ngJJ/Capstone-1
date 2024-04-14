@@ -17,6 +17,7 @@ class PackageController extends Controller
         return view('cservices.show', compact('packages'));
     }
 
+
     public function getMenuItems(Request $request)
     {
         $menuType = $request->input('menuType');
@@ -24,18 +25,5 @@ class PackageController extends Controller
         return response()->json($menus);
     }
 
-    public function saveCustomization(Request $request)
-    {
-        // Validate the request data
-        $request->validate([
-            'menu_items' => 'required|array',
-            'menu_quantities' => 'required|array',
-            'menuSize' => 'required'
-        ]);
 
-        // Process the form submission
-        // Here, you can save the customization data to the database or perform any other action
-        // For demonstration purposes, let's just return the submitted data
-        return $request->all();
-    }
-}
+}   
