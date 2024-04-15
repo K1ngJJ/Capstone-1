@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use App\Enums\PackageStatus;
 use App\Enums\ReservationStatus;
 use App\Models\Package;
+use App\Models\Inventory;
 use Carbon\Carbon;
 
 class ReservationController extends Controller
@@ -29,9 +30,9 @@ class ReservationController extends Controller
     public function create()
     {
        
-        
+        $inventories = Inventory::all();
         $packages = Package::where('status', PackageStatus::Available)->get();
-        return view('reservations.create', compact('packages'));
+        return view('reservations.create', compact('packages', 'inventories'));
     }
 
     /**

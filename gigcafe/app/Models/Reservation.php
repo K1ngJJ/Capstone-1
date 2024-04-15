@@ -20,17 +20,17 @@ class Reservation extends Model
         'service_id',
         'status',
         'res_date',
-        'guest_number'
+        'guest_number',
+        'inventory_supplies',
     ];
 
     protected $dates = [
         'res_date'
     ];
 
-
-
     public function package()
     {
         return $this->belongsTo(Package::class);
     }
+
 }

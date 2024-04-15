@@ -15,6 +15,5 @@ class Service extends Model
     {
         return $this->belongsToMany(Package::class, 'service_group');
     }
-
   
 }

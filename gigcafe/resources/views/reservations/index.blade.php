@@ -34,9 +34,7 @@
             <h2 class="d-flex justify-content-center menu-title" style="font-size: 2.0rem;font-style: italic;">CATERING RESERVATIONS</h2>
         </a>
     <div class="flex justify-end m-2 p-2">
-                <a href="{{ route('reservations.create') }}"
-                    class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">New Reservation</a>
-            </div>
+</div>
         <div class="max-w-full overflow-x-auto mx-2 sm:mx-6 lg:mx-8">
             <div class="flex flex-col">
                 <div class="sm:-mx-6 lg:-mx-8">
@@ -70,11 +68,16 @@
                                             Guests
                                         </th>
                                         <th scope="col"
+                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            Supply
+                                        </th>
+                                        <th scope="col"
                                         class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                         Status
                                          </th>
-                                        <th scope="col" class="relative py-3 px-6">
+                                         <th scope="col" class="relative py-3 px-6 flex justify-end items-center">
                                             <span class="sr-only">Edit</span>
+                                            <a href="{{ route('reservations.create') }}" class="px-4 py-2 bg-black hover:bg-black rounded-lg text-white"> <i class="fa fa-plus mr-2"></i></a>
                                         </th>
                                     </tr>
                                 </thead>
@@ -105,6 +108,10 @@
                                                 class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                                                 {{ $reservation->guest_number }}
                                             </td>
+                                            <td
+                                            class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                            {{ $reservation->inventory_supplies }}
+                                        </td>
                                             <td
                                             class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                                             {{ $reservation->status }}

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Models\Package;
 use App\Models\Service;
+use App\Models\Inventory;
 //use App\Rules\DateBetween;
 //use App\Rules\TimeBetween;
 use Carbon\Carbon;
@@ -55,27 +56,25 @@ class ReservationController extends Controller
 
         return redirect()->route('reservations.step.two');
     }
+
     public function stepTwo(Request $request)
     {
-        if (auth()->user()->role != 'customer')
-        abort(403, 'This route is only meant for customers.');
-
+        if (auth()->user()->role != 'customer') {
+            abort(403, 'This route is only meant for customers.');
+        }
+    
         $reservation = $request->session()->get('reservation');
     
-        // Ensure $reservation->res_date is a DateTime object before calling format
-        $reservationDate = $reservation->res_date instanceof \DateTime
-            ? $reservation->res_date
-            : new \DateTime($reservation->res_date);
+        // Define $res_package_ids
+        $res_package_ids = [];
+        if ($reservation && $reservation->packages) {
+            $res_package_ids = $reservation->packages->pluck('id')->toArray();
+        }
     
-        $res_package_ids = Reservation::orderBy('res_date')->get()->filter(function ($value) use ($reservationDate) {
-            // Ensure $value->res_date is a DateTime object before calling format
-            $valueDate = $value->res_date instanceof \DateTime
-                ? $value->res_date
-                : new \DateTime($value->res_date);
+        // Fetch inventories data from your database or define it based on your logic
+        $inventories = Inventory::all(); // Example query, replace it with your actual logic
     
-            return $valueDate->format('Y-m-d') == $reservationDate->format('Y-m-d');
-        })->pluck('package_id');
-    
+        // Your existing code for fetching packages and services
         $packages = Package::where('status', PackageStatus::Available)
             ->where('guest_number', '>=', $reservation->guest_number)
             ->whereNotIn('id', $res_package_ids)
@@ -83,27 +82,49 @@ class ReservationController extends Controller
     
         $services = Service::all(); // Fetch services
     
-        return view('reservations.step-two', compact('reservation', 'packages', 'services'));
+        return view('reservations.step-two', compact('reservation', 'packages', 'services', 'inventories'));
     }
     
 
 
-public function storeStepTwo(Request $request)
-{
-    if (auth()->user()->role != 'customer')
-    abort(403, 'This route is only meant for customers.');
-
-    $validated = $request->validate([
-        'package_id' => ['required'],
-        'service_id' => ['required'],
-    ]);
-    $reservation = $request->session()->get('reservation');
-    $reservation->fill($validated);
-    $reservation->save();
-    $request->session()->forget('reservation');
-
-    return redirect()->route('reservations.thankyou');
-}
+    public function storeStepTwo(Request $request)
+    {
+        if (auth()->user()->role != 'customer') {
+            abort(403, 'This route is only meant for customers.');
+        }
+    
+        $validated = $request->validate([
+            'package_id' => ['required'],
+            'service_id' => ['required'],
+        ]);
+    
+        // Retrieve the reservation from the session
+        $reservation = $request->session()->get('reservation');
+    
+        // Fill the reservation with validated data
+        $reservation->fill($validated);
+    
+        // Save the reservation to the database
+        $reservation->save();
+    
+        // Save inventory supplies and quantities as a single sentence in the reservation
+        $inventorySupplies = [];
+        if ($request->has('inventory_supplies')) {
+            foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                $inventory = Inventory::find($inventoryId);
+                $quantity = $request->input('inventory_quantities')[$key];
+                $inventorySupplies[] = $inventory->name . ' (' . $quantity . ')';
+            }
+        }
+        $reservation->inventory_supplies = implode(', ', $inventorySupplies);
+        $reservation->save();
+    
+        // Forget the reservation from the session
+        $request->session()->forget('reservation');
+    
+        return redirect()->route('reservations.thankyou');
+    }
+    
 
 
 

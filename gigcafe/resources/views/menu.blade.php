@@ -37,7 +37,9 @@
 }
 
 </style>
-
+@if (Auth::check() && auth()->user()->role == 'customer')
+<section class="menu" style="margin-top: 20vh;">
+@endif
 <section class="menu" style="margin-top: 5vh;">
     <div class="container">
         <a class="menu-title">
