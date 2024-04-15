@@ -33,4 +33,9 @@ class Reservation extends Model
         return $this->belongsTo(Package::class);
     }
 
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
 }

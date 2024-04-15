@@ -96,9 +96,8 @@
                                                 class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                                                 {{ $reservation->res_date }}
                                             </td>
-                                            <td
-                                            class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                            {{ $reservation->service ? $reservation->service->name : 'No package associated' }}
+                                            <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                                {{ $reservation->service ? $reservation->service->name : 'No service associated' }}
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">

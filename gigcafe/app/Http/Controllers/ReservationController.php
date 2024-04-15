@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use App\Enums\PackageStatus;
 use App\Enums\ReservationStatus;
 use App\Models\Package;
+use App\Models\Service;
 use App\Models\Inventory;
 use Carbon\Carbon;
 
@@ -21,18 +22,16 @@ class ReservationController extends Controller
 
     public function index()
     {
-       
-        
         $reservations = Reservation::all();
         return view('reservations.index', compact('reservations'));
     }
 
     public function create()
     {
-       
+        $services = Service::all();
         $inventories = Inventory::all();
         $packages = Package::where('status', PackageStatus::Available)->get();
-        return view('reservations.create', compact('packages', 'inventories'));
+        return view('reservations.create', compact('packages', 'inventories', 'services'));
     }
 
     /**
@@ -40,8 +39,6 @@ class ReservationController extends Controller
      */
     public function store(ReservationStoreRequest $request)
     {
-       
-        
         try {
             $package = Package::findOrFail($request->package_id);
     
@@ -62,14 +59,44 @@ class ReservationController extends Controller
                 }
             }
     
-            Reservation::create($request->validated());
+            // Retrieve the reservation from the session or create a new one
+            $reservation = $request->session()->get('reservation', new Reservation());
+    
+            // Fill the reservation with validated data
+            $reservation->fill($request->validated());
+    
+            // Save the reservation to the database
+            $reservation->save();
+    
+            // Determine inventory supplies based on the selected supply choice
+            $inventorySupplies = '';
+            if ($request->supply_choice == 'bring_own') {
+                $inventorySupplies = 'Bring Own Supplies';
+            } elseif ($request->supply_choice == 'borrow_supplies') {
+                // Save inventory supplies and quantities as a single sentence in the reservation
+                $inventorySuppliesArray = [];
+                if ($request->has('inventory_supplies')) {
+                    foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                        $inventory = Inventory::find($inventoryId);
+                        $quantity = $request->input('inventory_quantities')[$key];
+                        $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
+                    }
+                }
+                $inventorySupplies = implode(', ', $inventorySuppliesArray);
+            }
+    
+            // Update the reservation's inventory supplies
+            $reservation->inventory_supplies = $inventorySupplies;
+            $reservation->save();
+    
+            // Store the reservation in the session
+            $request->session()->put('reservation', $reservation);
     
             return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
         } catch (ModelNotFoundException $e) {
             return back()->with('error', 'Package not found.');
         }
     }
-    
     /**
      * Display the specified resource.
      */
@@ -83,6 +110,7 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
+    
         // Retrieve reservations with a specific status
         $reservations = Reservation::where('status', ReservationStatus::Notfulfilled)->get();
     
