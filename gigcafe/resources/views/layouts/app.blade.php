@@ -11,6 +11,22 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Chatbot  -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+    <script>
+    var botmanWidget = {
+        title: 'GiGCafe',
+        headerBackgroundColor: '#ff0000',
+        aboutText: 'Start the conversation with Hi',
+        introMessage: "WELCOME TO OUR GigCafe"
+    };
+    </script>
+    
+    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+   
     <!-- Scripts -->
     <script>
         var assetBaseUrl = "{{ asset('') }}";
@@ -156,14 +172,15 @@
 
     <!-- Chatify container -->
 
-    <!-- Floating icons -->
-    <div class="floating-icons">
-        <!-- Add your floating icons here -->
-        <a href="/chatify" class="icon">
-            <!-- Icon image or font-awesome icon -->
-            <img src="{{ asset('images/Black Logo.png') }}" alt="Chat Icon">
-        </a>
-    </div>
+ <!-- Positioned Floating Icons -->
+<div class="floating-icons" style="position: fixed; bottom: 90px; right: 30px;">
+    <!-- Sublime Icon Placement -->
+    <a href="/chatify" class="icon">
+        <!-- Iconic Presence -->
+        <img src="{{ asset('images/Black Logo.png') }}" alt="Chat Icon">
+    </a>
+</div>
+
 
     <main>
         @yield('content')

@@ -14,6 +14,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\BotManController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -140,5 +141,6 @@ Route::post('/inventory/store', [InventoryController::class, 'store'])->name('in
 Route::get('/inventory/create', [InventoryController::class, 'create'])->name('inventory.create');
 Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Chatbot
+
+Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
