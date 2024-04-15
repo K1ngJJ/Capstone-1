@@ -19,6 +19,12 @@ class ReservationController extends Controller
         return $this->middleware('auth');
     }
 
+    public function history()
+    {
+        $reservations = Reservation::all();
+        return view('reservations.history', compact('reservations'));
+    }
+
     public function stepOne(Request $request)
     {
         if (auth()->user()->role != 'customer')

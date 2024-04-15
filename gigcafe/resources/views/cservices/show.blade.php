@@ -71,6 +71,22 @@
                 background-color: #ce3232;
                 border-color: #ce3232;
             }
+            .custom-word-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 50%;
+                height: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(206, 50, 50, 0.7); 
+            }
+
+            .custom-word {
+                color: white;
+                font-weight: bold; 
+            }
         </style>
                 <div class="container-fluid px-5 py-6 mx-auto">
                 <div class="row justify-content-center">
@@ -234,40 +250,52 @@
                                             document.getElementById('price').value = totalPrice.toFixed(2);
                                         }
 
-                                        function handleMenuSelection(menuId, menuName, menuPrice, checkbox) {
-                                            var selectedMenuList = document.querySelector('#selectedMenuList');
-                                            var selectedItems = selectedMenuList.querySelectorAll('li');
-                                            var selectedList = [];
-                                            selectedItems.forEach(item => {
-                                                var itemName = item.textContent.split(' - ')[0];
-                                                selectedList.push(itemName.trim());
-                                            });
 
-                                            if (checkbox.checked) {
-                                                var listItem = document.createElement('li');
-                                                listItem.id = 'menu_' + menuId;
-                                                listItem.innerHTML = `
-                                        ${menuName} - ₱${menuPrice}:
-                                        <input type="number" name="menu_quantities[${menuId}]" value="1" min="1" style="width: 55px;" onchange="calculateTotalPrice()">
-                                        <button onclick="deleteMenuItem(${menuId})"><span style="color:red;">&#x2716;</span></button>`;
-                                                selectedMenuList.appendChild(listItem);
-                                                selectedList.push(menuName.trim());
-                                            } else {
-                                                var listItem = document.getElementById('menu_' + menuId);
-                                                listItem.remove();
-                                                selectedList = selectedList.filter(item => item !== menuName.trim());
-                                            }
+                                        function updateMenuQuantity() {
+                                        var selectedMenuList = document.querySelector('#selectedMenuList');
+                                        var selectedItems = selectedMenuList.querySelectorAll('li');
+                                        var totalPrice = 0;
 
-                                            var descriptionInput = document.getElementById('description');
-                                            if (selectedList.length > 0) {
-                                                var selectedItemsText = selectedList.join(', ');
-                                                descriptionInput.value = "This package includes " + selectedItemsText + ".";
-                                            } else {
-                                                descriptionInput.value = "";
-                                            }
+                                        selectedItems.forEach(item => {
+                                            var price = parseFloat(item.textContent.match(/₱(\d+(\.\d+)?)/)[1]);
+                                            var quantity = parseInt(item.querySelector('input[type="number"]').value);
+                                            totalPrice += price * quantity;
+                                        });
 
-                                            calculateTotalPrice();
+                                        document.getElementById('price').value = totalPrice.toFixed(2);
+
+                                        var selectedList = Array.from(selectedItems).map(item => {
+                                            var itemName = item.textContent.split(' - ')[0];
+                                            var itemQuantity = item.querySelector('input[type="number"]').value;
+                                            return `${itemName.trim()} (${itemQuantity})`;
+                                        });
+
+                                        var descriptionInput = document.getElementById('description');
+                                        if (selectedList.length > 0) {
+                                            descriptionInput.value = "This package includes " + selectedList.join(', ') + ".";
+                                        } else {
+                                            descriptionInput.value = "";
                                         }
+                                    }
+
+                                    function handleMenuSelection(menuId, menuName, menuPrice, checkbox) {
+                                        var selectedMenuList = document.querySelector('#selectedMenuList');
+
+                                        if (checkbox.checked) {
+                                            var listItem = document.createElement('li');
+                                            listItem.id = 'menu_' + menuId;
+                                            listItem.innerHTML = `
+                                                ${menuName} - ₱${menuPrice}:
+                                                <input type="number" name="menu_quantities[${menuId}]" value="1" min="1" style="width: 55px;" onchange="updateMenuQuantity()">
+                                                <button onclick="deleteMenuItem(${menuId})"><span style="color:red;">&#x2716;</span></button>`;
+                                            selectedMenuList.appendChild(listItem);
+                                        } else {
+                                            var listItem = document.getElementById('menu_' + menuId);
+                                            listItem.remove();
+                                        }
+
+                                        updateMenuQuantity();
+                                    }
 
                                         function deleteMenuItem(menuId) {
                                             var listItem = document.getElementById('menu_' + menuId);
@@ -294,6 +322,22 @@
                                                 })
                                                 .catch(error => console.error('Error:', error));
                                         });
+                                        
+                                        document.addEventListener('change', function(event) {
+                                            var target = event.target;
+                                            if (target.matches('input[type="number"]')) {
+                                                updateMenuQuantity();
+                                            }
+                                        });
+
+                                        document.addEventListener('click', function(event) {
+                                            var target = event.target;
+                                            if (target.matches('button')) {
+                                                var menuItemId = target.parentElement.id.split('_')[1];
+                                                deleteMenuItem(menuItemId);
+                                            }
+                                        });
+
 
                                     </script>
 
@@ -321,6 +365,11 @@
                         <div style="height: 200px; overflow: hidden;">
                             <img class="card-img-top menuImage" src="{{ Storage::url($package->image) }}"
                                 alt="Image" style="object-fit: cover; width: 100%; height: 100%;" />
+                                @if ($package->user_id !== null)
+                                <div class="custom-word-overlay">
+                                <span class="custom-word">Custom</span>
+                            </div>
+                            @endif
                         </div>
                         <h5 class="card-title mt-3">{{ $package->name }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ $package->description }}</h6>

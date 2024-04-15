@@ -92,6 +92,10 @@
                                     <x-dropdown-link :href="route('reservations.step.one')">
                                         {{ __('Book Now!') }}
                                     </x-dropdown-link>
+ 
+                                    <x-dropdown-link :href="route('reservations.history')">
+                                        {{ __('History') }}
+                                    </x-dropdown-link>
                                     @endif
 
                                 </x-slot>

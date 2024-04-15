@@ -110,6 +110,7 @@ Route::get('/success-transaction/{transactionAmount}/{orderId}/{discountID}', [P
 Route::get('/cancel-transaction/{orderId}', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 
 // Reservations
+Route::get('/reservation/history', [FrontendReservationController::class, 'history'])->name('reservations.history');
 Route::get('/reservation/step-one', [FrontendReservationController::class, 'stepOne'])->name('reservations.step.one');
 Route::post('/reservation/step-one', [FrontendReservationController::class, 'storeStepOne'])->name('reservations.store.step.one');
 Route::get('/reservation/step-two', [FrontendReservationController::class, 'stepTwo'])->name('reservations.step.two');
