@@ -529,6 +529,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'mckenziearts/laravel-notify' => array(
+            'pretty_version' => 'v2.4',
+            'version' => '2.4.0.0',
+            'reference' => 'fddde15ae2407792f2884e6f9107d49e9e608cbe',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mckenziearts/laravel-notify',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'mockery/mockery' => array(
             'pretty_version' => '1.5.0',
             'version' => '1.5.0.0',

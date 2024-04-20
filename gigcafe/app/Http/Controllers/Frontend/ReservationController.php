@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifReservation;
+use Illuminate\Support\Facades\Session;
 use App\Enums\PackageStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
@@ -114,15 +116,23 @@ class ReservationController extends Controller
         $reservation->save();
     
         // Save inventory supplies and quantities as a single sentence in the reservation
-        $inventorySupplies = [];
-        if ($request->has('inventory_supplies')) {
-            foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
-                $inventory = Inventory::find($inventoryId);
-                $quantity = $request->input('inventory_quantities')[$key];
-                $inventorySupplies[] = $inventory->name . ' (' . $quantity . ')';
+        $inventorySupplies = '';
+        if ($request->supply_choice == 'bring_own') {
+            $inventorySupplies = 'Bring Own Supplies';
+        } elseif ($request->supply_choice == 'borrow_supplies') {
+            // Save inventory supplies and quantities as a single sentence in the reservation
+            $inventorySuppliesArray = [];
+            if ($request->has('inventory_supplies')) {
+                foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                    $inventory = Inventory::find($inventoryId);
+                    $quantity = $request->input('inventory_quantities')[$key];
+                    $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
+                }
             }
+            $inventorySupplies = implode(', ', $inventorySuppliesArray);
         }
-        $reservation->inventory_supplies = implode(', ', $inventorySupplies);
+
+        $reservation->inventory_supplies = $inventorySupplies;
         $reservation->save();
     
         // Forget the reservation from the session
@@ -135,10 +145,23 @@ class ReservationController extends Controller
 
 
     public function thankyou()
-    {
-        if (auth()->user()->role != 'customer')
-        abort(403, 'This route is only meant for customers.');
-    
-        return view('reservations.thankyou');
+{
+    // Check if the notification flag is set in the session
+    if (!Session::has('reservation_notification_sent')) {
+        // Check if the user is a customer
+        if (auth()->user()->role != 'customer') {
+            abort(403, 'This route is only meant for customers.');
+        }
+
+        notify()->success('Your reservation has been send to staff for conformation!');
+        
+        // Send the notification email
+        Mail::send(new NotifReservation());
+        
+        // Set the notification flag in the session to prevent duplicate notifications
+        Session::flash('reservation_notification_sent', true);
     }
+
+    return view('reservations.thankyou');
+}
 }

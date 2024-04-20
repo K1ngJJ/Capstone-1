@@ -16,6 +16,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "mckenziearts/laravel-notify": "^2.4",
         "munafio/chatify": "^1.6",
         "srmklive/paypal": "^3.0"
     },

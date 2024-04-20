@@ -41,6 +41,7 @@ Route::get('/', [HomeController::class, 'guest'])
     ->name('guest');
 
 Route::middleware(['verified'])->group(function () {
+    emotify('success', 'Welcome');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
@@ -116,6 +117,7 @@ Route::post('/reservation/step-one', [FrontendReservationController::class, 'sto
 Route::get('/reservation/step-two', [FrontendReservationController::class, 'stepTwo'])->name('reservations.step.two');
 Route::post('/reservation/step-two', [FrontendReservationController::class, 'storeStepTwo'])->name('reservations.store.step.two');
 Route::get('/reservation/thankyou', [FrontendReservationController::class, 'thankyou'])->name('reservations.thankyou');
+//\Illuminate\Support\Facades\Mail::send(new \App\Mail\NotifReservation());
 
 // Services
 Route::get('/cservices', [FrontendServiceController::class, 'index'])->name('cservices.index');
