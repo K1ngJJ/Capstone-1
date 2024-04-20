@@ -123,6 +123,32 @@
                                 <div class="text-sm text-red-400">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="sm:col-span-6">
+                                <br>
+                                    <label for="supply_choice" class="block text-sm font-medium text-gray-700">Supply Choice</label>
+                                    <div class="mt-1 flex flex-row">
+                                        <input type="radio" id="bring_own" name="supply_choice" value="bring_own" checked class="mr-2">
+                                        <label for="bring_own">Bring Own Supplies</label>
+                                        <input type="radio" id="borrow_supplies" name="supply_choice" value="borrow_supplies" class="ml-4 mr-2">
+                                        <label for="borrow_supplies">Borrow Our Supplies</label>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <!-- Additional input fields for inventory supplies -->
+                                <div id="inventoryFields" style="display: none;">
+                                <div class="sm:col-span-6">
+                                    <label for="inventory_supplies" class="block text-sm font-medium text-gray-700">Inventory Supplies</label>
+                                    @foreach ($inventories as $inventory)
+                                        <div class="flex items-center mb-2">
+                                            <input type="checkbox" id="inventory_{{ $inventory->id }}" name="inventory_supplies[]" value="{{ $inventory->id }}" class="mr-2">
+                                            <label for="inventory_{{ $inventory->id }}"> {{ $inventory->name }}</label>
+                                            <input type="number" id="quantity_{{ $inventory->id }}" name="inventory_quantities[]" value="1" class="ml-4 w-8 border border-gray-400 rounded-md py-1 px-2">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                </div>
                         <div class="sm:col-span-6 pt-5">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <div class="mt-1">
@@ -148,3 +174,30 @@
         </div>
     </div>
 @endsection
+
+<!-- JavaScript to toggle visibility of additional input fields -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get radio buttons and additional input fields
+        const bringOwnRadio = document.getElementById('bring_own');
+        const borrowSuppliesRadio = document.getElementById('borrow_supplies');
+        const inventoryFields = document.getElementById('inventoryFields');
+
+        // Function to toggle additional input fields visibility
+        function toggleInventoryFields() {
+            inventoryFields.style.display = borrowSuppliesRadio.checked ? 'block' : 'none';
+        }
+
+        // Initial toggle based on checked status
+        toggleInventoryFields();
+
+        // Add event listeners to radio buttons
+        bringOwnRadio.addEventListener('change', function () {
+            toggleInventoryFields();
+        });
+
+        borrowSuppliesRadio.addEventListener('change', function () {
+            toggleInventoryFields();
+        });
+    });
+</script>

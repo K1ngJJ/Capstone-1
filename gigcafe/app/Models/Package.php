@@ -21,4 +21,10 @@ class Package extends Model
         return $this->belongsToMany(Service::class, 'service_group');
     }
 
+    public function reservations()
+    {
+        return $this->belongsTo(Reservation::class);
+    }
+
+
 }
