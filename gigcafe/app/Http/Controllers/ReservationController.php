@@ -13,6 +13,9 @@ use App\Models\Package;
 use App\Models\Service;
 use App\Models\Inventory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifReservation;
+use App\Models\User;
 
 class ReservationController extends Controller
 {
@@ -120,7 +123,8 @@ class ReservationController extends Controller
     
         return view('reservations.edit', compact('reservation', 'reservations', 'packages', 'inventories'));
     }
-    
+
+
     
 
     /**
@@ -150,8 +154,7 @@ class ReservationController extends Controller
             
             // Update other reservation fields
             $reservation->fill($request->except(['package_id']));
-            $reservation->save();
-    
+            
             // Update inventory supplies if necessary
             $inventorySupplies = '';
             if ($request->supply_choice == 'bring_own') {
@@ -170,7 +173,20 @@ class ReservationController extends Controller
             
             // Update the reservation's inventory supplies
             $reservation->inventory_supplies = $inventorySupplies;
+            
+            // Update reservation status if provided
+            if ($request->has('status')) {
+                $status = $request->input('status');
+                $reservation->status = $status;
+            }
+    
+            // Save the reservation
             $reservation->save();
+    
+            // Send the notification email only if the status is Fulfilled
+            if ($reservation->status === 'Fulfilled') {
+                Mail::to($reservation->email)->send(new NotifReservation());
+            }
     
             // Store the updated reservation in the session
             $request->session()->put('reservation', $reservation);
@@ -180,8 +196,6 @@ class ReservationController extends Controller
             return back()->with('error', 'Reservation not found.');
         }
     }
-    
-
     
 
     /**

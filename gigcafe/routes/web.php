@@ -147,3 +147,4 @@ Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->na
 // Chatbot
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+

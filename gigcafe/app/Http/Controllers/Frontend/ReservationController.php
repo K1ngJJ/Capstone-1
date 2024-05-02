@@ -23,10 +23,18 @@ class ReservationController extends Controller
 
     public function history()
     {
-        $reservations = Reservation::all();
+        $user = auth()->user();
+    
+        // Check if the user is a customer
+        if ($user->role !== 'customer') {
+            abort(403, 'This route is only meant for customers.');
+        }
+    
+        // Retrieve reservations belonging to the current customer
+        $reservations = Reservation::where('email', $user->email)->get();
+        
         return view('reservations.history', compact('reservations'));
     }
-
     public function stepOne(Request $request)
     {
         if (auth()->user()->role != 'customer')
@@ -40,18 +48,23 @@ class ReservationController extends Controller
 
     public function storeStepOne(Request $request)
     {
-        if (auth()->user()->role != 'customer')
-        abort(403, 'This route is only meant for customers.');
-
+        if (auth()->user()->role != 'customer') {
+            abort(403, 'This route is only meant for customers.');
+        }
+    
         $validated = $request->validate([
             'first_name' => ['required'],
             'last_name' => ['required'],
-            'email' => ['required', 'email'],
+            // Remove the 'email' validation rule as we're auto-filling the email
             'res_date' => ['required', 'date'],
             'tel_number' => ['required'],
             'guest_number' => ['required'],
         ]);
-
+    
+        // Get the authenticated user's email and add it to the validated data
+        $validated['email'] = auth()->user()->email;
+    
+        // Check if reservation session data exists
         if (empty($request->session()->get('reservation'))) {
             $reservation = new Reservation();
             $reservation->fill($validated);
@@ -61,9 +74,10 @@ class ReservationController extends Controller
             $reservation->fill($validated);
             $request->session()->put('reservation', $reservation);
         }
-
+    
         return redirect()->route('reservations.step.two');
     }
+    
 
     public function stepTwo(Request $request)
     {
@@ -156,7 +170,7 @@ class ReservationController extends Controller
         notify()->success('Your reservation has been send to staff for conformation!');
         
         // Send the notification email
-        Mail::send(new NotifReservation());
+        //Mail::send(new NotifReservation());
         
         // Set the notification flag in the session to prevent duplicate notifications
         Session::flash('reservation_notification_sent', true);
