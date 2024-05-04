@@ -33,8 +33,8 @@
                         <th scope="col">Supply</th>
                         <th scope="col">Status</th>
                         <th scope="col">
-                        <a class="btn btn-dark btn-sm" href="{{ route('ReservationsTxn.Pdf') }}" download><i class="fa fa-download"></i><a>
-                            <a href="{{ route('reservations.create') }}" class="primary-btn"><i class="fa fa-plus mr-2"></i></a>
+                        <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" download><i class="fa fa-download"></i><a>
+                        <a href="{{ route('reservations.create') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i></a>
                         </th>
                     </tr>
                 </thead>
@@ -54,14 +54,14 @@
                             {{ $reservation->status }}
                         </td>
                         <td>
-                            <div class="flex space-x-2">
+                            <div>
                                 @if($reservation->status !== 'Fulfilled')
-                                <a href="{{ route('reservations.edit', $reservation->id) }}" class="px-3 py-1 bg-green-500 hover:bg-green-700 rounded-lg text-white text-sm">Edit</a>
+                                <a href="{{ route('reservations.edit', $reservation->id) }}" class="my-md-2 mt-4 mb-5 px-4 py-1 bg-green-500 btn-sm btn-success d-flex flex-md-row flex-column justify-content-md-between">Edit</a>
                                 @endif
-                                <form class="px-1.4 py-1 bg-red-500 hover:bg-red-700 rounded-lg text-white text-sm" method="POST" action="{{ route('reservations.destroy', $reservation->id) }}" onsubmit="return confirm('Are you sure?');">
+                                <form class="my-md-2 mt-4 mb-5  d-flex flex-md-row flex-column justify-content-md-between" method="POST" action="{{ route('reservations.destroy', $reservation->id) }}" onsubmit="return confirm('Are you sure?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit">Delete</button>
+                                    <button type="submit" class="primary-btn btn-sm px-3">Delete</button>
                                 </form>
                             </div>
                         </td>
