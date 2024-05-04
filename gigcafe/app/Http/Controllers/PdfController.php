@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\Reservation;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfController extends Controller
@@ -13,20 +14,41 @@ class PdfController extends Controller
         return $this->middleware('auth');
     }
     
-    public function generatePdf()
+    public function orderstxnPdf()
     {
         if (auth()->user()->role == 'customer')
         abort(403, 'This route is only meant for restaurant staffs.');
 
-        $transactions = Transaction::get();
+        $orderstxn = Transaction::get();
 
         $data = [
             'title' => 'Sales Report',
             'date' => date('m/d/Y'),
-            'transactions' => $transactions
+            'orderstxn' => $orderstxn
         ];
 
-        $pdf = Pdf::loadView('transactions.generate-transactions-pdf', $data);
-        return $pdf->download('transactions-data.pdf');
+        $pdf = Pdf::loadView('reports.generate-orderstxn-pdf', $data);
+        return $pdf->download('OrdersTxn-data.pdf');
     }
+
+    public function reservationstxnPdf()
+    {
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
+    
+        $reservationstxn = Reservation::with('service', 'package')->get();
+    
+        $data = [
+            'title' => 'Reservations Report',
+            'date' => date('m/d/Y'),
+            'reservationstxn' => $reservationstxn
+        ];
+    
+        $pdf = Pdf::loadView('reports.generate-reservationstxn-pdf', $data);
+        return $pdf->download('ReservationsTxn-data.pdf');
+    }
+    
+    
+    
 }

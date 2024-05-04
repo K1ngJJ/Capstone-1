@@ -60,7 +60,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('generate-pdf', [PdfController::class, 'generatePdf'])->name('transactions.generatePdf');
+    Route::get('orderstxn-pdf', [PdfController::class, 'orderstxnPdf'])->name('OrdersTxn.Pdf');
+    Route::get('reservationstxn-pdf', [PdfController::class, 'reservationstxnPdf'])->name('ReservationsTxn.Pdf');
 });
 
 // Dashboard

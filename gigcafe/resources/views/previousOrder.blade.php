@@ -43,7 +43,7 @@
                     <th scope="col">Final Price</th>
                     <th scope="col">
                         Status &nbsp;&nbsp;&nbsp;
-                        <a class="btn btn-dark btn-sm" href="{{ route('transactions.generatePdf') }}" download><i class="fa fa-download"></i><a>
+                        <a class="btn btn-dark btn-sm" href="{{ route('OrdersTxn.Pdf') }}" download><i class="fa fa-download"></i><a>
                     </th>
                 </tr>
             </thead>

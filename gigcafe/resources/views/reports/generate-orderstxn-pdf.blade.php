@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transactions</title>
+    <title>Orders Transaction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <style>
         body {
@@ -79,16 +79,16 @@
             @php
                 $totalFinalAmount = 0;
             @endphp
-            @foreach($transactions as $transaction)
+            @foreach($orderstxn as $ordertxn)
             <tr>
-                <td>{{ $transaction->id }}</td>
-                <td>{{ $transaction->order_id }}</td>
-                <td>{{ $transaction->discount_id }}</td>
-                <td>{{ $transaction->final_amount }}</td>
-                <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
+                <td>{{ $ordertxn->id }}</td>
+                <td>{{ $ordertxn->order_id }}</td>
+                <td>{{ $ordertxn->discount_id }}</td>
+                <td>{{ $ordertxn->final_amount }}</td>
+                <td>{{ $ordertxn->created_at->format('d-m-Y') }}</td>
             </tr>
             @php
-                $totalFinalAmount += $transaction->final_amount;
+                $totalFinalAmount += $ordertxn->final_amount;
             @endphp
             @endforeach
             <tr>

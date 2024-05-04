@@ -25,6 +25,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Tel No.</th>
                         <th scope="col">Date</th>
                         <th scope="col">Service</th>
                         <th scope="col">Package</th>
@@ -32,7 +33,7 @@
                         <th scope="col">Supply</th>
                         <th scope="col">Status</th>
                         <th scope="col">
-                        <a class="btn btn-dark btn-sm" href="{{ route('transactions.generatePdf') }}" download><i class="fa fa-download"></i><a>
+                        <a class="btn btn-dark btn-sm" href="{{ route('ReservationsTxn.Pdf') }}" download><i class="fa fa-download"></i><a>
                             <a href="{{ route('reservations.create') }}" class="primary-btn"><i class="fa fa-plus mr-2"></i></a>
                         </th>
                     </tr>
@@ -43,6 +44,7 @@
                         <th scope="row">#{{ $reservation->id }}</th>
                         <td>{{ $reservation->first_name }} {{ $reservation->last_name }}</td>
                         <td>{{ $reservation->email }}</td>
+                        <td>{{ $reservation->tel_number }}</td>  
                         <td class="email">{{ $reservation->res_date }}</td>
                         <td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
                         <td>{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</td>
