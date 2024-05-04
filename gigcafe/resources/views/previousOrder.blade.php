@@ -37,11 +37,14 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Order ID</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Final Price</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">
+                        Status &nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-dark btn-sm" href="{{ route('transactions.generatePdf') }}" download><i class="fa fa-download"></i><a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +53,7 @@
                         <th scope="row"><a href="{{ route('specificKitchenOrder', $order->id) }}">#{{ $order->id }}</a></th>
                         <td>{{ $order->getOrderDate() }}</td>
                         <td>{{ $order->getOrderTime() }}</td>
-                        <td>RM {{ $order->getTotalFromScratch() }}</td>
+                        <td>₱ {{ $order->getTotalFromScratch() }}</td>
                         <td>
                             @if ($order->completed)
                                 <div class="px-3 alert alert-success">
