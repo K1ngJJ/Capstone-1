@@ -103,6 +103,10 @@
                                     <tr>
                                         <th scope="col"
                                             class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            <strong>Reso_ID</strong>
+                                        </th>
+                                        <th scope="col"
+                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                             Name
                                         </th>
                                         <th scope="col"
@@ -140,6 +144,9 @@
                                 <tbody>
                                 @foreach ($reservations as $reservation)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
+                                        <strong>#{{ $reservation->id }}</strong>
+                                        </td>
                                         <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
                                             {{ $reservation->first_name }} {{ $reservation->last_name }}
                                         </td>

@@ -65,6 +65,14 @@ Route::middleware('auth')->group(function () {
     Route::get('reservationstxn-pdf', [PdfController::class, 'reservationstxnPdf'])->name('ReservationsTxn.Pdf');
 });
 
+Route::middleware('auth')->group(function () {
+    //Reservation Payment
+    Route::get('payment', [PaymentController::class, 'index']);
+    Route::post('charge', [PaymentController::class, 'charge']);
+    Route::get('success', [PaymentController::class, 'success']);
+    Route::get('error', [PaymentController::class, 'error']);
+});
+
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -116,12 +124,6 @@ Route::get('/staff/previous-order', [OrderController::class, 'previousOrder'])->
 Route::get('/process-transaction/{transactionAmount}/{orderId}/{discountID}', [PayPalController::class, 'processTransaction'])->name('processTransaction');
 Route::get('/success-transaction/{transactionAmount}/{orderId}/{discountID}', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('/cancel-transaction/{orderId}', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
-
-//Reservation Payment
-Route::get('payment', [PaymentController::class, 'index']);
-Route::post('charge', [PaymentController::class, 'charge']);
-Route::get('success', [PaymentController::class, 'success']);
-Route::get('error', [PaymentController::class, 'error']);
 
 // Reservations
 Route::get('/reservation/history', [FrontendReservationController::class, 'history'])->name('reservations.history');

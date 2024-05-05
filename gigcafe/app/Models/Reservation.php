@@ -43,4 +43,8 @@ class Reservation extends Model
         return $this->belongsToMany(Inventory::class)->withPivot('quantity');
     }
 
+    public function payment() {
+        return $this->hasOne(Payment::class);
+    }
+
 }

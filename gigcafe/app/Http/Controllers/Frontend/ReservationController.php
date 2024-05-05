@@ -160,6 +160,7 @@ class ReservationController extends Controller
 
     public function thankyou()
 {
+    $user = auth()->user();
     // Check if the notification flag is set in the session
     if (!Session::has('reservation_notification_sent')) {
         // Check if the user is a customer
@@ -175,7 +176,11 @@ class ReservationController extends Controller
         // Set the notification flag in the session to prevent duplicate notifications
         Session::flash('reservation_notification_sent', true);
     }
+        // Retrieve reservations belonging to the current customer
+        $reservations = Reservation::where('email', $user->email)->get();
 
-    return view('reservations.thankyou');
-}
+        // Pass reservation IDs to the view
+        return view('reservations.thankyou', ['reservations' => $reservations]);
+
+    }
 }

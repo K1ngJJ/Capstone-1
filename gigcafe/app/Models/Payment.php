@@ -16,5 +16,11 @@ class Payment extends Model
         'amount',
         'currency',
         'payment_status',
+        'reservation_id',
     ];
+
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class);
+    }
 }
