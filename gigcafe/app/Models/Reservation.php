@@ -37,5 +37,10 @@ class Reservation extends Model
     {
         return $this->belongsTo(Service::class);
     }
+    
+    public function inventory_supplies()
+    {
+        return $this->belongsToMany(Inventory::class)->withPivot('quantity');
+    }
 
 }

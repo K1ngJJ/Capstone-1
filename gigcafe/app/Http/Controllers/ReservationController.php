@@ -122,18 +122,30 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
     
+        // Retrieve all inventories
         $inventories = Inventory::all();
+    
         // Retrieve reservations with a specific status
         $reservations = Reservation::where('status', ReservationStatus::Notfulfilled)->get();
     
         // Retrieve available packages
         $packages = Package::where('status', PackageStatus::Available)->get();
     
-        return view('reservations.edit', compact('reservation', 'reservations', 'packages', 'inventories'));
+        // Retrieve available services
+        $services = Service::all();
+    
+        // Retrieve inventory supplies associated with the reservation
+        $inventorySupplies = $reservation->inventory_supplies;
+    
+        return view('reservations.edit', compact('reservation', 'reservations', 'packages', 'inventories', 'services', 'inventorySupplies'));
     }
+    
+    
+
 
 
     
