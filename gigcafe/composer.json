@@ -17,8 +17,10 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "league/omnipay": "^3.2",
         "mckenziearts/laravel-notify": "^2.4",
         "munafio/chatify": "^1.6",
+        "omnipay/paypal": "^3.0",
         "srmklive/paypal": "^3.0"
     },
     "require-dev": {
@@ -64,7 +66,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

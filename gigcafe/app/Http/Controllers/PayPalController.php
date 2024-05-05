@@ -32,7 +32,7 @@ class PayPalController extends Controller
             // Transaction failed, delete the created order.
             $order = Order::where('id',$orderId)->first()->delete();
 
-            return redirect()->route('cart')->with('error', 'Transaction amount must be more than RM 0.');
+            return redirect()->route('cart')->with('error', 'Transaction amount must be more than ₱ 0.');
         }
 
         $provider = new PayPalClient;
@@ -48,7 +48,7 @@ class PayPalController extends Controller
             "purchase_units" => [
                 0 => [
                     "amount" => [
-                        "currency_code" => "MYR",
+                        "currency_code" => "PHP",
                         "value" => $transactionAmount
                     ]
                 ]

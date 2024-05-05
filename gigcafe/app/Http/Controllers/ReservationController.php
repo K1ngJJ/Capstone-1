@@ -25,12 +25,18 @@ class ReservationController extends Controller
 
     public function index()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         $reservations = Reservation::all();
         return view('reservations.index', compact('reservations'));
     }
 
     public function create()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         $services = Service::all();
         $inventories = Inventory::all();
         $packages = Package::where('status', PackageStatus::Available)->get();
@@ -42,6 +48,9 @@ class ReservationController extends Controller
      */
     public function store(ReservationStoreRequest $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         try {
             $package = Package::findOrFail($request->package_id);
     
@@ -113,6 +122,8 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
     
         $inventories = Inventory::all();
         // Retrieve reservations with a specific status
@@ -132,6 +143,9 @@ class ReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         try {
             $reservation = Reservation::findOrFail($id);
             
@@ -203,6 +217,8 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         
         $reservation->delete();
 

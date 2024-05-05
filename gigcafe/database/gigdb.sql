@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 14, 2024 at 06:44 AM
+-- Generation Time: May 04, 2024 at 11:31 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -80,8 +80,11 @@ INSERT INTO `cart_items` (`id`, `user_id`, `menu_id`, `order_id`, `quantity`, `f
 (18, 5, 3, 22, 1, 1),
 (19, 5, 27, 22, 1, 1),
 (20, 9, 4, 23, 1, 1),
-(22, 46, 3, 24, 1, 0),
-(23, 46, 17, 24, 1, 0);
+(22, 46, 3, 24, 1, 1),
+(23, 46, 17, 24, 1, 1),
+(24, 46, 5, 25, 1, 0),
+(25, 46, 4, 36, 1, 0),
+(26, 46, 3, 38, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -102,8 +105,10 @@ CREATE TABLE `ch_favorites` (
 --
 
 INSERT INTO `ch_favorites` (`id`, `user_id`, `favorite_id`, `created_at`, `updated_at`) VALUES
+('2621a836-680f-45b3-8726-9d2ba3165337', 2, 46, '2024-04-14 21:36:49', '2024-04-14 21:36:49'),
 ('77990670-cb07-4efe-978e-70823ef110c9', 1, 2, '2024-04-11 23:04:05', '2024-04-11 23:04:05'),
-('ac72cd2a-0ec2-411c-885a-5e58aff3e6c1', 2, 1, '2024-04-11 23:06:19', '2024-04-11 23:06:19');
+('ac72cd2a-0ec2-411c-885a-5e58aff3e6c1', 2, 1, '2024-04-11 23:06:19', '2024-04-11 23:06:19'),
+('ceb5d7b3-c654-42fc-83a2-f4c29b58a82e', 46, 2, '2024-04-14 19:58:26', '2024-04-14 19:58:26');
 
 -- --------------------------------------------------------
 
@@ -313,7 +318,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2024_04_03_999999_add_messenger_color_to_users', 2),
 (10, '2024_04_03_999999_create_chatify_favorites_table', 2),
 (11, '2024_04_03_999999_create_chatify_messages_table', 2),
-(12, '2017_03_04_000000_create_bans_table', 3);
+(12, '2017_03_04_000000_create_bans_table', 3),
+(13, '2024_05_04_095105_create_payments_table', 4);
 
 -- --------------------------------------------------------
 
@@ -351,7 +357,17 @@ INSERT INTO `orders` (`id`, `user_id`, `created_at`, `updated_at`, `dateTime`, `
 (19, 5, '2024-04-02 22:04:43', '2024-04-02 22:47:06', '2024-04-04 06:04:00', 1, 'takeAway'),
 (22, 5, '2024-04-02 22:37:47', '2024-04-02 22:46:51', '2024-04-04 06:37:00', 1, 'takeAway'),
 (23, 9, '2024-04-02 22:46:02', '2024-04-02 22:46:45', '2024-04-04 06:45:00', 1, 'takeAway'),
-(24, 46, '2024-04-07 20:38:31', '2024-04-07 20:38:31', '2024-04-09 05:38:00', 0, 'takeAway');
+(24, 46, '2024-04-07 20:38:31', '2024-05-03 18:48:46', '2024-04-09 05:38:00', 1, 'takeAway'),
+(25, 46, '2024-05-04 01:39:02', '2024-05-04 01:39:02', '2024-05-05 09:38:00', 0, 'takeAway'),
+(26, 46, '2024-05-04 02:29:34', '2024-05-04 02:29:34', '2024-05-14 10:29:00', 0, 'dineIn'),
+(27, 46, '2024-05-04 02:34:54', '2024-05-04 02:34:54', '2024-05-06 10:34:00', 0, 'dineIn'),
+(28, 46, '2024-05-04 02:35:26', '2024-05-04 02:35:26', '2024-05-06 10:34:00', 0, 'takeAway'),
+(29, 46, '2024-05-04 02:37:02', '2024-05-04 02:37:02', '2024-05-06 10:34:00', 0, 'takeAway'),
+(30, 46, '2024-05-04 02:37:25', '2024-05-04 02:37:25', '2024-05-05 10:37:00', 0, 'takeAway'),
+(31, 46, '2024-05-04 02:48:29', '2024-05-04 02:48:29', '2024-05-05 10:48:00', 0, 'takeAway'),
+(32, 46, '2024-05-04 02:48:29', '2024-05-04 02:48:29', '2024-05-05 10:48:00', 0, 'takeAway'),
+(36, 46, '2024-05-04 03:21:54', '2024-05-04 03:21:54', '2024-05-05 11:21:00', 0, 'takeAway'),
+(38, 46, '2024-05-04 03:24:04', '2024-05-04 03:24:04', '2024-05-14 11:24:00', 0, 'takeAway');
 
 -- --------------------------------------------------------
 
@@ -406,6 +422,31 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint UNSIGNED NOT NULL,
+  `payment_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `payment_id`, `payer_id`, `payer_email`, `amount`, `currency`, `payment_status`, `created_at`, `updated_at`) VALUES
+(2, 'PAYID-MY3BWGI8CJ34475471419604', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 120.00, 'PHP', 'approved', '2024-05-04 03:25:36', '2024-05-04 03:25:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `personal_access_tokens`
 --
 
@@ -431,26 +472,27 @@ CREATE TABLE `reservations` (
   `id` bigint UNSIGNED NOT NULL,
   `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `tel_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `service_id` bigint NOT NULL DEFAULT '1',
   `package_id` bigint NOT NULL DEFAULT '1',
+  `inventory_supplies` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Not fulfilled',
   `res_date` datetime NOT NULL,
   `guest_number` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `tel_number`, `service_id`, `package_id`, `status`, `res_date`, `guest_number`, `created_at`, `updated_at`) VALUES
-(24, 'King', 'Pacheco', 'pachecoking38@gmail.com', '+63915197276', 28, 28, 'Not fulfilled', '2024-02-28 23:02:00', 89, '2024-02-27 07:02:45', '2024-02-27 07:02:45'),
-(25, 'King', 'Pacheco', 'pachecoking38@gmail.com', '+63915197276', 28, 29, 'Not fulfilled', '2024-02-28 23:57:00', 89, '2024-02-27 07:57:27', '2024-02-27 07:57:27'),
-(26, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 28, 'Not fulfilled', '2024-03-19 11:15:00', 70, '2024-03-17 19:16:48', '2024-03-17 19:16:48'),
-(27, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 36, 'Not fulfilled', '2024-04-15 09:49:00', 2, '2024-04-13 17:49:44', '2024-04-13 17:49:44');
+INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `tel_number`, `service_id`, `package_id`, `inventory_supplies`, `status`, `res_date`, `guest_number`, `created_at`, `updated_at`, `user_id`) VALUES
+(63, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 28, 28, 'Bring Own Supplies', 'Not fulfilled', '2024-04-21 15:25:00', 44, '2024-04-19 23:26:01', '2024-04-19 23:26:01', NULL),
+(66, 'King', 'Pacheco', 'jermey13@example.net', '09948862312', 29, 28, 'Bring Own Supplies', 'Not fulfilled', '2024-04-21 16:23:00', 44, '2024-04-20 00:23:22', '2024-04-20 00:23:22', NULL),
+(68, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 29, 31, 'Knife (8), Table Cloth (23)', 'Not fulfilled', '2024-05-05 16:18:00', 44, '2024-05-04 00:19:16', '2024-05-04 00:19:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -523,7 +565,10 @@ INSERT INTO `transactions` (`id`, `order_id`, `discount_id`, `final_amount`, `cr
 (5, 19, NULL, '593.60', '2024-04-02 22:06:00', '2024-04-02 22:06:00'),
 (6, 22, NULL, '90.10', '2024-04-02 22:43:45', '2024-04-02 22:43:45'),
 (7, 23, NULL, '530.00', '2024-04-02 22:46:23', '2024-04-02 22:46:23'),
-(8, 24, NULL, '63.60', '2024-04-07 20:39:16', '2024-04-07 20:39:16');
+(8, 24, NULL, '63.60', '2024-04-07 20:39:16', '2024-04-07 20:39:16'),
+(9, 25, NULL, '530.00', '2024-05-04 01:40:53', '2024-05-04 01:40:53'),
+(10, 36, NULL, '530.00', '2024-05-04 03:22:26', '2024-05-04 03:22:26'),
+(11, 38, NULL, '10.60', '2024-05-04 03:24:33', '2024-05-04 03:24:33');
 
 -- --------------------------------------------------------
 
@@ -555,10 +600,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'Admin', 'admin', 'gigcafe026@gmail.com', '09948862312', '2024-04-04 01:54:39', '$2y$10$3DsTsm3xbZ1VlI1r1lsjqOIlvWcVcuI/JdAgaeyYgZXjD8frjB4RC', 'baxNwqbuhJc6II98npwSnoLeHQCRNhRAZ9W1hSZgN8gjJH2ZxVQo89L82tSb', '2024-02-09 01:55:19', '2024-04-13 02:12:53', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
-(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', '09151997276', '2024-04-04 01:57:02', '$2y$10$XX.Tow31ysr6yAfAJXLdT.QUnfvg5455pHGVYI.WZwC/nfiK73vLC', '5Xmtuows7Tz0eNvGXgLlzIuDoAw2Hpllwpl0NUIONTKYtVXi9oplLWh9Z6lG', '2024-02-09 02:00:05', '2024-04-13 02:13:15', 'kitchenStaff', 0, 0, 'avatar.png', 0, '#ff2522'),
-(46, 'King Pacheco', 'JayJay', 'pachecoking38@gmail.com', '9451997276', '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'NYMLBxw7wJSxafZGfI5M3FzfUfh1A9iEim5oldPMsx9kCNKc6WD0JmdSFV9p', '2024-04-07 20:32:03', '2024-04-12 23:28:10', 'customer', 0, 0, 'avatar.png', 0, NULL),
-(54, 'Jackson Gleichner', 'iferry', 'jermey13@example.net', '(657) 397-4245', '2024-04-13 01:32:04', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'O1UnHv3Kmz', '2024-04-13 01:32:04', '2024-04-13 01:39:48', 'customer', 1, 0, 'avatar.png', 0, NULL);
+(1, 'Admin', 'admin', 'gigcafe026@gmail.com', '09948862312', '2024-04-04 01:54:39', '$2y$10$3DsTsm3xbZ1VlI1r1lsjqOIlvWcVcuI/JdAgaeyYgZXjD8frjB4RC', 'kSFEelCCPKhfANl8CIm5v6cj3fKPsjgydFIBT0EhoSnpBQbVmuiPV8BwIPA8', '2024-02-09 01:55:19', '2024-04-13 02:12:53', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
+(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', '09151997276', '2024-04-04 01:57:02', '$2y$10$XX.Tow31ysr6yAfAJXLdT.QUnfvg5455pHGVYI.WZwC/nfiK73vLC', 'eULyCBFZOkVqUHPPrJHW2QROSOVnUl6ayLI0VpGHohl0jaDEnUHdT3mIoSFE', '2024-02-09 02:00:05', '2024-04-13 02:13:15', 'kitchenStaff', 0, 0, 'avatar.png', 0, '#ff2522'),
+(46, 'JayJay Pacheco', 'JayJay', 'pachecoking38@gmail.com', '9451997276', '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'WtG9OlcDkvBCo3y5wR81ZMBMMuELh96gNGeAGSp4amikHAGeBaqk7tgF8B7O', '2024-04-07 20:32:03', '2024-04-12 23:28:10', 'customer', 0, 0, 'avatar.png', 0, NULL),
+(54, 'Jackson Gleichner', 'iferry', 'jermey13@example.net', '(657) 397-4245', '2024-04-13 01:32:04', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'Tj3pZ6J3tPM2W2vUK3CiLW9eF6335qPd6uNKSJjBNgpw51ScNLaZPdcohIMN', '2024-04-13 01:32:04', '2024-04-13 01:39:48', 'customer', 1, 0, 'avatar.png', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -649,6 +694,12 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -704,7 +755,7 @@ ALTER TABLE `bans`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `discounts`
@@ -740,19 +791,25 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -764,7 +821,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -776,7 +833,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -115,6 +116,12 @@ Route::get('/staff/previous-order', [OrderController::class, 'previousOrder'])->
 Route::get('/process-transaction/{transactionAmount}/{orderId}/{discountID}', [PayPalController::class, 'processTransaction'])->name('processTransaction');
 Route::get('/success-transaction/{transactionAmount}/{orderId}/{discountID}', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('/cancel-transaction/{orderId}', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
+
+//Reservation Payment
+Route::get('payment', [PaymentController::class, 'index']);
+Route::post('charge', [PaymentController::class, 'charge']);
+Route::get('success', [PaymentController::class, 'success']);
+Route::get('error', [PaymentController::class, 'error']);
 
 // Reservations
 Route::get('/reservation/history', [FrontendReservationController::class, 'history'])->name('reservations.history');

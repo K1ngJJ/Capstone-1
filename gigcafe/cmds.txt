@@ -206,12 +206,21 @@ Route::post('/inventory/store', [InventoryController::class, 'store'])->name('in
 
 
 MY PAYPAL ACC.
+gigcafe026@gmail.com
+Gigcafe026
+
 squadquinx8@gmail.com
 squadquinx8
 
 sandbox paypal acc.
-sb-hizv930252081@business.example.com
-n^)f0IH:
+Customer@personal.account.com
+customer
+
+GiGCafe@Restaurant.com
+gigcaferestaurant
+
+gigcafe@restaurant.business.com
+gigcafe026
 
 sb-msjqx30249599@personal.example.com
 7C&o}6[P
