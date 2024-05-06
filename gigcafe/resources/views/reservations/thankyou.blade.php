@@ -99,7 +99,7 @@
                                     <!--div class="col-12 col-lg-6 offset-lg-3"-->
                                     <div class="input-group">
                                     @csrf
-                                    <select name="reservation_id" id="reservation_id" class="alert-warning">
+                                    <select name="reservation_id" id="reservation_id" class=" alert-warning">
                                         @foreach($reservations as $reservation)
                                             @if($reservation->status != 'Fulfilled')
                                             <option class="input-group-text" value="{{ $reservation->id }}">

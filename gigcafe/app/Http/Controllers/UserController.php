@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -13,10 +15,32 @@ class UserController extends Controller
     }
 
     public function index() {
-
-        $user = User::all();
+        // Check if the logged-in user has the role of 'kitchenStaff' or 'admin'
+        if(auth()->user()->role == 'kitchenStaff') {
+            // If the user is a kitchenStaff, fetch and display only customer accounts
+            $user = User::where('role', 'customer')->get();
+        } else if (auth()->user()->role == 'admin') {
+            // If the user is an admin, fetch and display all accounts except admin's own account
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+        }
+        
         return view('accounts/index', compact('user'));
     }
+    
+
+//  public function index() {
+        // Check if the logged-in user has the role of 'kitchenStaff'
+//      if(auth()->user()->role == 'kitchenStaff') {
+            // If the user is a kitchenStaff, fetch and display only customer accounts
+//          $user = User::where('role', 'customer')->get();
+//      } else {
+            // If the user is not a kitchenStaff (admin), fetch all users
+//          $user = User::all();
+//      }
+        
+//      return view('accounts/index', compact('user'));
+//  }
+    
 
     public function update($userId) {
   

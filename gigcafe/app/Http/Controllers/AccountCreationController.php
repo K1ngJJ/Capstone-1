@@ -9,14 +9,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 
 class AccountCreationController extends Controller
-{
-
-    // only authenticated users are allowed to use this controller.
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+{    
     /**
      * Display the account creation view.
      *
