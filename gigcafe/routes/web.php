@@ -17,6 +17,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\GalleryController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -210,3 +211,7 @@ Route::middleware('auth')->group(function () {
 // Chatbot
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 
+//Gallery
+Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
+Route::post('/gallery/saveImage', [GalleryController::class, 'store'])->name('saveImage');
+Route::get('/gallery/delete/{id}', [GalleryController::class, 'delete'])->name('deleteImage');

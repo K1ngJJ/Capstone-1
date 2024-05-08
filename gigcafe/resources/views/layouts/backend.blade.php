@@ -90,6 +90,9 @@
                                 <x-responsive-nav-link :href="route('discount')" :active="request()->routeIs('discount')">
                                     <i class="fa fa-ticket" aria-hidden="true"></i> {{ __('Discount') }}
                                 </x-responsive-nav-link>
+                                <x-responsive-nav-link :href="route('gallery')" :active="request()->routeIs('gallery')">
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i> {{ __('Gallery') }}
+                                </x-responsive-nav-link>
                             </form>
                         </div>
                     </div>            
@@ -420,6 +423,9 @@
                             <x-responsive-nav-link :href="route('discount')" :active="request()->routeIs('discount')">
                                 <i class="fa fa-ticket" aria-hidden="true"></i> {{ __('Discount') }}
                             </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('gallery')" :active="request()->routeIs('gallery')">
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i> {{ __('Gallery') }}
+                                </x-responsive-nav-link>
                         </form>
                     </div>
                 </div>            
