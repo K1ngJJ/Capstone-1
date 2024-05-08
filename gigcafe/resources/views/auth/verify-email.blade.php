@@ -1,4 +1,5 @@
-<x-guest-layout>
+@extends('layouts.auth')
+
 @section('links')
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 @endsection
@@ -12,10 +13,21 @@
 @section('logoFileName')
 {{ '../images/White Logo.png' }}@endsection
 
+
+@section('content')
+    <div class="flex items-center">
+        <div class="flex-1 h-full max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
+            <div class="flex flex-col md:flex-row">
+                <div class="flex">
+                    <div class="container mx-auto max-w-screen-xl">
+                        <div class="flex items-center justify-center p-6">
+                            <div class="w-full">
     <x-auth-card>
+    <h2 class="d-flex justify-content-center menu-title">VERIFY YOUR ACCOUNT!</h2>
+            <hr class="my-4">
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <!--x-application-logo class="w-20 h-20 fill-current text-gray-500" /-->
             </a>
         </x-slot>
 
@@ -48,5 +60,14 @@
                 </button>
             </form>
         </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </x-auth-card>
-</x-guest-layout>
+    @endsection

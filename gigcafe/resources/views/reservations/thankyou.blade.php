@@ -108,7 +108,7 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                        <span class="input-group-text">₱</span>
+                                        <span class="input-group-text alert-success">₱</span>
                                     <input type="text" aria-label="Amount (to the nearest pound)" name="amount" value="0" />
                                     <button class="primary-btn input-group-text" type="submit" name="submit" value=" Pay Now" >&nbsp;&nbsp;<i class='fa fa-credit-card'></i>&nbsp;&nbsp;</button>
                                     <span class="input-group-text form-control py-0 px-1 text-xs font-medium tracking-wider text-left text-gray-700 dark:text-gray-400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
