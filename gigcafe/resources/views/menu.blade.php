@@ -37,8 +37,8 @@
 }
 
 </style>
-@if (Auth::check() && auth()->user()->role == 'admin')
-<section class="menu" style="margin-top: 5vh;">
+@if (Auth::check() && auth()->user()->role != 'customer')
+<section class="menu" style="margin-top: 15vh;">
 @else
 <section class="menu" style="margin-top: 20vh;">
 @endif
@@ -53,7 +53,7 @@
         @endif
 
         <div class="row menu-bar">
-        @if (Auth::check() && auth()->user()->role == 'admin')
+        @if (Auth::check() && auth()->user()->role != 'customer')
             <div class="col-md-1 d-flex align-items-center">
                 <div class="dropstart">    
                     <button type="button" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">
@@ -175,7 +175,7 @@
                 </div>
             </div>
         @endif
-        @if (Auth::check() && auth()->user()->role == 'admin')
+        @if (Auth::check() && auth()->user()->role != 'customer')
             <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
                 <form method="get" action="{{ route('filterMenu') }}">
                     <button type="submit" name="menuType" value="" class="btn btn-light menu-type-button">All</button>
@@ -328,7 +328,7 @@
                         @if (Auth::check())
                             @if (auth()->user()->role == 'customer')
                                 <button type="submit" class="primary-btn w-100 mt-3">Add to Cart</button>
-                            @elseif (auth()->user()->role == 'admin')
+                            @else
                                 <div class="dropdown w-100 mt-3">
                                     <a href="#" role="button" id="dropdownMenuLink" 
                                         data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">

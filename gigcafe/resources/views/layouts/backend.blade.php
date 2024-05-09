@@ -188,6 +188,9 @@
                              <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
                                  <i class="fa fa-book" aria-hidden="true"></i> {{ __('Menu') }}
                              </x-responsive-nav-link>
+                             <x-responsive-nav-link :href="route('gallery')" :active="request()->routeIs('gallery')">
+                                 <i class="fa fa-picture-o" aria-hidden="true"></i> {{ __('Gallery') }}
+                             </x-responsive-nav-link>
                              <!--<x-responsive-nav-link :href="route('discount')" :active="request()->routeIs('discount')">
                                  <i class="fa fa-ticket" aria-hidden="true"></i> {{ __('Discount') }}
                              </x-responsive-nav-link>-->
@@ -548,6 +551,9 @@
                             </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
                                 <i class="fa fa-book" aria-hidden="true"></i> {{ __('Menu') }}
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('gallery')" :active="request()->routeIs('gallery')">
+                                <i class="fa fa-picture-o" aria-hidden="true"></i> {{ __('Gallery') }}
                             </x-responsive-nav-link>
                             <!--<x-responsive-nav-link :href="route('discount')" :active="request()->routeIs('discount')">
                                 <i class="fa fa-ticket" aria-hidden="true"></i> {{ __('Discount') }}

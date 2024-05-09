@@ -10,6 +10,7 @@ use File;
 
 class MenuController extends Controller
 {
+ 
     public function index() {
         $menus = Menu::get();
         return view('menu', compact('menus'));
@@ -24,6 +25,8 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         // Validate user inputs
         $request->validate([
             'menuName' => 'required',
@@ -78,6 +81,9 @@ class MenuController extends Controller
      */
     public function updateDetails(Request $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         // Validate user inputs
         $request->validate([
             'menuName' => 'required',
@@ -105,6 +111,9 @@ class MenuController extends Controller
 
     public function updateImages(Request $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+
         if($request->hasFile('menuImage'))
         {
             $menu = Menu::find($request->menuID);
@@ -189,6 +198,9 @@ class MenuController extends Controller
      */
     public function delete($id)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
+        
         $menu = Menu::find($id);
         $imagePath = 'menuImages/' . $menu->image;
         // Delete the image in the public/menuImages folder

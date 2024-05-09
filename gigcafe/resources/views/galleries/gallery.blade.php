@@ -2,7 +2,6 @@
 
 @section('links')
 <link href="{{ asset('css/menu.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-...your-sha-here..." crossorigin="anonymous" />
 @endsection
 
 @section('bodyID')
@@ -77,7 +76,7 @@ function previewImage(input) {
 </script>
 
 @if (Auth::check() && auth()->user()->role == 'admin')
-<section class="menu" style="margin-top: 5vh;">
+<section class="menu" style="margin-top: 15vh;">
 @else
 <section class="menu" style="margin-top: 20vh;">
 @endif
@@ -92,7 +91,7 @@ function previewImage(input) {
         @endif
 
         <div class="row menu-bar">
-        @if (Auth::check() && auth()->user()->role == 'admin')
+        @if (Auth::check() && auth()->user()->role != 'customer')
             <div class="col-md-1 d-flex align-items-center">
                 <div class="dropstart">    
                     <button type="button" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">
@@ -131,7 +130,7 @@ function previewImage(input) {
             </div>
         @endif
         @if (Auth::check() && auth()->user()->role == 'admin')
-            <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
+        <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
             <form method="get" action="{{ route('filterMenu') }}">
                 @foreach ($services as $service)
                     <button type="submit" name="menuType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
@@ -139,7 +138,7 @@ function previewImage(input) {
             </form>
             </div>
         @else
-            <div class="col-md-8 offset-md-2 col-12 text-center menu-type my-3">
+        <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
             <form method="get" action="{{ route('filterMenu') }}">
                 @foreach ($services as $service)
                     <button type="submit" name="menuType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
@@ -177,41 +176,40 @@ function previewImage(input) {
 
 
         <div class="d-flex flex-wrap mt-4 mb-5">
-        @forelse ($galleries as $gallery)
-            
-            <div class="card col-md-3 col-6 d-flex align-items-center">
-                <div class="card-body w-100">
-                <div class="flex-center">
-                    <img class="card-img-top menuImage" src="{{ asset('images/' . $gallery->image) }}">
-                </div>
-                    <form class="d-flex flex-column justify-content-between h-100" action="" method="post">
-                        @csrf
-                        @if (Auth::check())
-                            @if (auth()->user()->role == 'admin')
-                                <div class="dropdown w-100 mt-3">
-                                    <a href="#" role="button" id="dropdownMenuLink" 
-                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                        <button class="primary-btn w-100">Edit</button>
-                                    </a>
+       @forelse ($galleries as $gallery)
+    <div class="card col-md-3 col-6 d-flex align-items-center">
+        <div class="card-body w-100">
+            <div class="flex-center">
+                <img class="card-img-top menuImage" src="{{ asset('galleryImages/' . $gallery->image) }}">
+            </div>
+            <form class="d-flex flex-column justify-content-between h-100" action="" method="post">
+                @csrf
+                @if (Auth::check())
+                    @if (auth()->user()->role != 'customer')
+                        <div class="dropdown w-100 mt-3">
+                            <a href="#" role="button" id="dropdownMenuLink" 
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                <button class="primary-btn w-100">Edit</button>
+                            </a>
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="">Edit Image</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('deleteImage', ['id' => $gallery->id]) }}">Delete</a></li>
-                                    </ul>
-                                </div>
-                            @endif
-                        @endif
-                    </form>
-                </div>
-            </div>
-        
-        @empty
-        <div class="row">
-            <div class="col-12">
-                <h1>No result found... <i class="fa fa-frown-o" aria-hidden="true"></i></h1>
-            </div>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ route('showGalleryImages', ['id' => $gallery->id]) }}">Edit Image</a></li>
+                                <li><a class="dropdown-item" href="{{ route('deleteImage', ['id' => $gallery->id]) }}">Delete</a></li>
+                            </ul>
+                        </div>
+                    @endif
+                @endif
+            </form>
         </div>
-        @endforelse
+    </div>
+@empty
+    <div class="row">
+        <div class="col-12">
+            <h1>No result found... <i class="fa fa-frown-o" aria-hidden="true"></i></h1>
+        </div>
+    </div>
+@endforelse
+
         </div>
     </div>
 </section>

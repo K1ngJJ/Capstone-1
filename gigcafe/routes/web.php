@@ -211,7 +211,12 @@ Route::middleware('auth')->group(function () {
 // Chatbot
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 
+Route::middleware('auth')->group(function () {
 //Gallery
-Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
 Route::post('/gallery/saveImage', [GalleryController::class, 'store'])->name('saveImage');
+Route::post('/gallery/updateImages', [GalleryController::class, 'updateImages'])->name('updateGalleryImages');
 Route::get('/gallery/delete/{id}', [GalleryController::class, 'delete'])->name('deleteImage');
+}); 
+Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
+Route::get('/gallery/editGalleryImages/{id}', [GalleryController::class, 'showImages'])->name('showGalleryImages');
+Route::get('/gallery/filter', [GalleryController::class, 'filter'])->name('filterMenu');
