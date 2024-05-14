@@ -31,6 +31,11 @@
     <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!--Modal css-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     @yield('links')
 
     <style>
@@ -287,7 +292,7 @@
     
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
-                                @csrf
+                            @csrf
     
                                 <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();

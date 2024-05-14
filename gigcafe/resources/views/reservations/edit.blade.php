@@ -146,31 +146,31 @@
                                 @enderror
                             </div>
                            <!-- Supply Choice -->
-<div class="sm:col-span-6">
-    <br>
-    <label for="supply_choice" class="block text-sm font-medium text-gray-700">Supply Choice</label>
-    <div class="mt-1 flex flex-row">
-        <input type="radio" id="bring_own" name="supply_choice" value="bring_own" {{ $reservation->supply_choice === 'bring_own' ? 'checked' : '' }} class="mr-2">
-        <label for="bring_own">Bring Own Supplies</label>
-        <input type="radio" id="borrow_supplies" name="supply_choice" value="borrow_supplies" {{ $reservation->supply_choice === 'borrow_supplies' ? 'checked' : '' }} class="ml-4 mr-2">
-        <label for="borrow_supplies">Borrow Our Supplies</label>
-    </div>
-</div>
-<br>
-<!-- Inventory Supplies -->
-<div id="inventoryFields" style="{{ $reservation->supply_choice === 'borrow_supplies' ? 'display: block;' : 'display: none;' }}">
-    <div class="sm:col-span-6">
-        <label for="inventory_supplies" class="block text-sm font-medium text-gray-700">Inventory Supplies</label>
-        @foreach ($inventories as $inventory)
-            <div class="flex items-center mb-2">
-            <input type="checkbox" id="inventory_{{ $inventory->id }}" name="inventory_supplies[]" value="{{ $inventory->id }}" {{ is_array($reservation->inventory_supplies) && in_array($inventory->id, $reservation->inventory_supplies) ? 'checked' : '' }} class="mr-2">
-                <label for="inventory_{{ $inventory->id }}"> {{ $inventory->name }}</label>
-                <input type="number" id="quantity_{{ $inventory->id }}" name="inventory_quantities[]" value="{{ is_object($reservation->inventory_supplies) ? $reservation->inventory_supplies->where('id', $inventory->id)->first()->pivot->quantity ?? 1 : 1 }}" class="ml-4 w-8 border border-gray-400 rounded-md py-1 px-2">
+                            <div class="sm:col-span-6">
+                                <br>
+                                <label for="supply_choice" class="block text-sm font-medium text-gray-700">Supply Choice</label>
+                                <div class="mt-1 flex flex-row">
+                                    <input type="radio" id="bring_own" name="supply_choice" value="bring_own" {{ $reservation->supply_choice === 'bring_own' ? 'checked' : '' }} class="mr-2">
+                                    <label for="bring_own">Bring Own Supplies</label>
+                                    <input type="radio" id="borrow_supplies" name="supply_choice" value="borrow_supplies" {{ $reservation->supply_choice === 'borrow_supplies' ? 'checked' : '' }} class="ml-4 mr-2">
+                                    <label for="borrow_supplies">Borrow Our Supplies</label>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- Inventory Supplies -->
+                            <div id="inventoryFields" style="{{ $reservation->supply_choice === 'borrow_supplies' ? 'display: block;' : 'display: none;' }}">
+                                <div class="sm:col-span-6">
+                                    <label for="inventory_supplies" class="block text-sm font-medium text-gray-700">Inventory Supplies</label>
+                                    @foreach ($inventories as $inventory)
+                                        <div class="flex items-center mb-2">
+                                        <input type="checkbox" id="inventory_{{ $inventory->id }}" name="inventory_supplies[]" value="{{ $inventory->id }}" {{ is_array($reservation->inventory_supplies) && in_array($inventory->id, $reservation->inventory_supplies) ? 'checked' : '' }} class="mr-2">
+                                            <label for="inventory_{{ $inventory->id }}"> {{ $inventory->name }}</label>
+                                            <input type="number" id="quantity_{{ $inventory->id }}" name="inventory_quantities[]" value="{{ is_object($reservation->inventory_supplies) ? $reservation->inventory_supplies->where('id', $inventory->id)->first()->pivot->quantity ?? 1 : 1 }}" class="ml-4 w-8 border border-gray-400 rounded-md py-1 px-2">
 
-            </div>
-        @endforeach
-    </div>
-</div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
 
                             <!-- Status -->
                             <div class="sm:col-span-6 pt-5">
@@ -220,8 +220,36 @@
         borrowSuppliesRadio.addEventListener('change', function () {
             toggleInventoryFields();
         });
+
+        // Get the supply choice value from the database
+        const supplyChoice = "{{ $reservation->supply_choice }}";
+
+        // Set the appropriate radio button based on the database value
+        if (supplyChoice === 'bring_own') {
+            bringOwnRadio.checked = true;
+        } else {
+            borrowSuppliesRadio.checked = true;
+        }
+
+        // If the supply choice is to borrow supplies, populate the inventory supplies and quantities
+        if (supplyChoice === 'borrow_supplies') {
+            const inventorySupplies = {!! json_encode($reservation->inventory_supplies) !!};
+            const inventoryQuantities = {!! json_encode($reservation->inventory_quantities) !!};
+
+            inventorySupplies.forEach((supplyId, index) => {
+                const inventoryCheckbox = document.getElementById('inventory_' + supplyId);
+                if (inventoryCheckbox) {
+                    inventoryCheckbox.checked = true;
+                    const quantityInput = document.getElementById('quantity_' + supplyId);
+                    if (quantityInput) {
+                        quantityInput.value = inventoryQuantities[index];
+                    }
+                }
+            });
+        }
     });
 </script>
+
 </body>
 </html>
 @endsection

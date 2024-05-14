@@ -181,6 +181,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservation/step-two', [FrontendReservationController::class, 'stepTwo'])->name('reservations.step.two');
     Route::post('/reservation/step-two', [FrontendReservationController::class, 'storeStepTwo'])->name('reservations.store.step.two');
     Route::get('/reservation/thankyou', [FrontendReservationController::class, 'thankyou'])->name('reservations.thankyou');
+    Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservations.show');
+
     //\Illuminate\Support\Facades\Mail::send(new \App\Mail\NotifReservation());
 });
 

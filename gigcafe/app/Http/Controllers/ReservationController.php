@@ -25,8 +25,9 @@ class ReservationController extends Controller
 
     public function index()
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
 
         $reservations = Reservation::all();
         return view('reservations.index', compact('reservations'));
@@ -34,8 +35,9 @@ class ReservationController extends Controller
 
     public function create()
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
 
         $services = Service::all();
         $inventories = Inventory::all();
@@ -48,8 +50,9 @@ class ReservationController extends Controller
      */
     public function store(ReservationStoreRequest $request)
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
 
         try {
             $package = Package::findOrFail($request->package_id);
@@ -71,11 +74,12 @@ class ReservationController extends Controller
                 }
             }
     
-            // Retrieve the reservation from the session or create a new one
-            $reservation = $request->session()->get('reservation', new Reservation());
-    
-            // Fill the reservation with validated data
+            // Create and fill the reservation with validated data
+            $reservation = new Reservation();
             $reservation->fill($request->validated());
+    
+            // Set the status to Pending by default
+            $reservation->status = ReservationStatus::Pending;
     
             // Save the reservation to the database
             $reservation->save();
@@ -101,62 +105,44 @@ class ReservationController extends Controller
             $reservation->inventory_supplies = $inventorySupplies;
             $reservation->save();
     
-            // Store the reservation in the session
-            $request->session()->put('reservation', $reservation);
-    
             return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
         } catch (ModelNotFoundException $e) {
             return back()->with('error', 'Package not found.');
         }
     }
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+   public function show($id)
+{
+    $reservation = Reservation::with(['service', 'package'])->findOrFail($id);
+    return response()->json($reservation);
+}
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Reservation $reservation)
+    // ReservationController.php
+    public function edit($id)
     {
-        if (auth()->user()->role == 'customer') {
-            abort(403, 'This route is only meant for restaurant staffs.');
-        }
-    
-        // Retrieve all inventories
-        $inventories = Inventory::all();
-    
-        // Retrieve reservations with a specific status
-        $reservations = Reservation::where('status', ReservationStatus::Notfulfilled)->get();
-    
-        // Retrieve available packages
-        $packages = Package::where('status', PackageStatus::Available)->get();
-    
-        // Retrieve available services
+        $reservation = Reservation::with('inventory_supplies')->findOrFail($id);
         $services = Service::all();
-    
-        // Retrieve inventory supplies associated with the reservation
-        $inventorySupplies = $reservation->inventory_supplies;
-    
-        return view('reservations.edit', compact('reservation', 'reservations', 'packages', 'inventories', 'services', 'inventorySupplies'));
+        $packages = Package::all();
+        $inventories = Inventory::all();
+
+        return view('reservations.edit', compact('reservation', 'services', 'packages', 'inventories'));
     }
-    
-    
-
-
-
-    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
 
         try {
             $reservation = Reservation::findOrFail($id);
@@ -203,34 +189,33 @@ class ReservationController extends Controller
             // Update reservation status if provided
             if ($request->has('status')) {
                 $status = $request->input('status');
-                $reservation->status = $status;
+                if (in_array($status, ReservationStatus::cases())) {
+                    $reservation->status = ReservationStatus::from($status);
+                }
             }
     
             // Save the reservation
             $reservation->save();
     
             // Send the notification email only if the status is Fulfilled
-            if ($reservation->status === 'Fulfilled') {
+            if ($reservation->status === ReservationStatus::Fulfilled) {
                 Mail::to($reservation->email)->send(new NotifReservation());
             }
-    
-            // Store the updated reservation in the session
-            $request->session()->put('reservation', $reservation);
     
             return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
         } catch (ModelNotFoundException $e) {
             return back()->with('error', 'Reservation not found.');
         }
     }
-    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Reservation $reservation)
     {
-        if (auth()->user()->role == 'customer')
-        abort(403, 'This route is only meant for restaurant staffs.');
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
         
         $reservation->delete();
 

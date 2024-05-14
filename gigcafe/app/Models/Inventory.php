@@ -16,11 +16,11 @@ class Inventory extends Model
         'price',
         'quantity',
         'status',
-    ];    
+    ];
 
-    public function inventories()
+    public function reservations()
     {
-        return $this->belongsToMany(Inventory::class, 'inventories');
+        return $this->belongsToMany(Reservation::class)->withPivot('quantity');
     }
-
 }
+

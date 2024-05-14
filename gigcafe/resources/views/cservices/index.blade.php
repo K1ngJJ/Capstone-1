@@ -71,7 +71,9 @@
         <div class="grid lg:grid-cols-4 gap-y-6">
             @foreach ($services as $service)
             <div class="max-w-xs mx-4 mb-2 rounded-lg shadow-lg">
+            <a href="{{ route('cservices.show', $service->id) }}">
                 <img class="w-full h-48" src="{{ Storage::url($service->image) }}" alt="Image" />
+            </a>
                 <div class="px-6 py-4">
                     <a href="{{ route('cservices.show', $service->id) }}" class="flex items-center justify-between">
                         <div class="flex flex-col items-center justify-center">
