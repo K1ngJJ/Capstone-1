@@ -164,7 +164,7 @@
                                     <label class="form-check-label" for="dropdownCheck">
                                     Vegan
                                     </label>
-                                </div>
+                                </div>  
                             </div>
 
                             <div class="dropdown-divider"></div>

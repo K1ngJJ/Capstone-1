@@ -10,10 +10,11 @@ use App\Models\Reservation;
 use App\Models\Package;
 use App\Models\Service;
 use App\Models\Inventory;
-//use App\Rules\DateBetween;
-//use App\Rules\TimeBetween;
+use App\Rules\DateBetween;
+use App\Rules\TimeBetween;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Rules\OneReservationPerDay;
 
 class ReservationController extends Controller
 {
@@ -56,7 +57,7 @@ class ReservationController extends Controller
             'first_name' => ['required'],
             'last_name' => ['required'],
             // Remove the 'email' validation rule as we're auto-filling the email
-            'res_date' => ['required', 'date'],
+            'res_date' => ['required', 'date', new DateBetween(), new OneReservationPerDay(auth()->user()->email), new TimeBetween()],
             'tel_number' => ['required'],
             'guest_number' => ['required'],
         ]);
