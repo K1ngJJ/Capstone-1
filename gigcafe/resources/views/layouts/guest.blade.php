@@ -88,6 +88,10 @@
                                     <x-dropdown-link :href="route('cservices.index')">
                                         {{ __('Services') }}
                                     </x-dropdown-link>
+
+                                    <x-dropdown-link :href="route('gallery')">
+                                        {{ __('Gallery') }}
+                                    </x-dropdown-link>
                                    
                                     @if (Auth::check() && auth()->user()->role == 'customer')
                                     <x-dropdown-link :href="route('reservations.step.one')">

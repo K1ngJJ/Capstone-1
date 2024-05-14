@@ -129,36 +129,37 @@ function previewImage(input) {
                 </div>
             </div>
         @endif
-        @if (Auth::check() && auth()->user()->role == 'admin')
+        @if (Auth::check() && auth()->user()->role != 'customer')
         <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
-            <form method="get" action="{{ route('filterMenu') }}">
+            <form method="get" action="{{ route('filterGallery') }}">
                 @foreach ($services as $service)
-                    <button type="submit" name="menuType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
+                    <button type="submit" name="galleryType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
                 @endforeach
             </form>
             </div>
         @else
-        <div class="col-md-8 offset-md-1 col-12 text-center menu-type my-3">
-            <form method="get" action="{{ route('filterMenu') }}">
+        <div class="col-md-10 offset-md-1 col-12 text-center menu-type my-3">
+            <form method="get" action="{{ route('filterGallery') }}">
                 @foreach ($services as $service)
-                    <button type="submit" name="menuType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
+                    <button type="submit" name="galleryType" value="{{ $service->name }}" class="btn btn-light menu-type-button">{{ $service->name }}</button>
                 @endforeach
             </form>
             </div>
         @endif
-            <div class="col-md-2 d-flex align-items-center">
+
+        <div class="col-md-1 d-flex align-items-center">
                 <div class="dropstart w-100 d-flex justify-content-end">    
                     <button type="button" class="btn btn-dark" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">Filter <i class="fa fa-filter" aria-hidden="true"></i></button>
                     <div class="dropdown-menu">
-                        <form method="get" action="{{ route('filterMenu') }}" class="px-4 py-3 " style="min-width: 350px">    
+                        <form method="get" action="{{ route('filterGallery') }}" class="px-4 py-3 " style="min-width: 350px">    
                             <div class="mb-2">
-                                <label for="category" class="form-label">Category</label>
+                                <label for="ItemType" class="form-label">Item Type</label>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="itemTypeInputGroup">Type:</label>
-                                    <select name="category" class="form-select" id="itemTypeInputGroup">
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->name }}">{{ $service->name }}</option>
-                                        @endforeach
+                                    <select name="galleryType" class="form-select" id="itemTypeInputGroup" >
+                                        <option name="galleryType" value="">All</option>
+                                        <option name="galleryType" value="Wedding">Wedding</option>
+                                        <option name="galleryType" value="Birthday">Birthday</option>
                                     </select>
                                 </div>
                             </div>
@@ -181,6 +182,7 @@ function previewImage(input) {
         <div class="card-body w-100">
             <div class="flex-center">
                 <img class="card-img-top menuImage" src="{{ asset('galleryImages/' . $gallery->image) }}">
+                
             </div>
             <form class="d-flex flex-column justify-content-between h-100" action="" method="post">
                 @csrf

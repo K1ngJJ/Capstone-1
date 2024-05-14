@@ -219,4 +219,4 @@ Route::get('/gallery/delete/{id}', [GalleryController::class, 'delete'])->name('
 }); 
 Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
 Route::get('/gallery/editGalleryImages/{id}', [GalleryController::class, 'showImages'])->name('showGalleryImages');
-Route::get('/gallery/filter', [GalleryController::class, 'filter'])->name('filterMenu');
+Route::get('/gallery/filter', [GalleryController::class, 'filter'])->name('filterGallery');

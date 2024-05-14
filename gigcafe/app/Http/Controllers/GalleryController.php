@@ -16,13 +16,7 @@ class GalleryController extends Controller
         return view('galleries.gallery', compact('galleries', 'services'));
     }
 
-    public function showDetails($id)
-    {
-        $menu = Menu::find($id);
-        return view('editMenuDetails', ['menu' => $menu]);
-    }
-
-    // Display the specific menu image field for edit
+    // Display the specific gallery image field for edit
     public function showImages($id)
     {
         $galleries = Gallery::find($id);
@@ -82,13 +76,34 @@ class GalleryController extends Controller
     
         return redirect()->route('gallery');
     }
+
+
+    public function filter(Request $request)
+    {
+        $galleryQuery = Gallery::query();
+    
+        if($request->filled('galleryType'))
+        {
+            $galleryQuery->where('category', $request->galleryType);
+        }
+    
+        $galleries = $galleryQuery->get(); // Fetch filtered galleries
+    
+        $services = Service::all(); // Fetch services
+    
+        return view('galleries.gallery', [
+            'galleries' => $galleries, // Pass filtered galleries to the view
+            'services' => $services, // Pass services to the view
+        ]);
+    }
+    
     
     
     public function delete($id)
     {
         if (auth()->user()->role == 'customer')
         abort(403, 'This route is only meant for restaurant staffs.');
-    
+
         $gallery = Gallery::find($id);
 
         if (!$gallery) {
