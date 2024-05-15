@@ -171,8 +171,8 @@ class ReservationController extends Controller
             $inventorySupplies = $this->handleInventorySupplies($request);
             $reservation->inventory_supplies = $inventorySupplies;
             
-            // Update reservation status if provided
-            if ($request->has('status')) {
+             // Update reservation status if provided
+             if ($request->has('status')) {
                 $status = $request->input('status');
                 if (in_array($status, ReservationStatus::cases())) {
                     $reservation->status = ReservationStatus::from($status);
@@ -182,13 +182,13 @@ class ReservationController extends Controller
             // Save the reservation
             $reservation->save();
             
-            // Send the notification email only if the status is Fulfilled
-            if ($reservation->status === 'Fulfilled') {
-                Mail::to($reservation->email)->send(new NotifReservation());
+           // Send the notification email if the status is Declined, Approved, or Fulfilled
+            if ($reservation->status === 'Declined' || $reservation->status === 'Approved' || $reservation->status === 'Fulfilled') {
+                Mail::to($reservation->email)->send(new NotifReservation($reservation->status));
             }
 
-             // Store the updated reservation in the session
-        $request->session()->put('reservation', $reservation);
+            // Store the updated reservation in the session
+            $request->session()->put('reservation', $reservation);
     
     
             return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');

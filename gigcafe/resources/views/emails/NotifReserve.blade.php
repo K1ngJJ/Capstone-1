@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# Your reservation was confirm
+# Your reservation was Fulfilled
 
 Some details about the reservation...
 
