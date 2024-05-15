@@ -56,12 +56,12 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="contactnum" class="col-md-4 col-form-label text-md-end">{{ __('Contact No.') }}</label>
+                                    <label for="mobile_number" class="col-md-4 col-form-label text-md-end">{{ __('Contact No.') }}</label>
     
                                     <div class="col-md-6">
-                                        <input id="contactnum" type="text" class="form-control @error('contactnum') is-invalid @enderror" name="contactnum" value="{{ old('username') }}" required autocomplete="contactnum" autofocus>
+                                        <input id="mobile_number" type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" value="{{ old('username') }}" required autocomplete="mobile_number" autofocus>
     
-                                        @error('contactnum')
+                                        @error('mobile_number')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

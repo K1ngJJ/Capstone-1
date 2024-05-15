@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'name' => $request->name,
             'email' => $request->email,
-            'contactnum' => $request->contactnum,
+            'mobile_number' => $request->mobile_number,
             'password' => Hash::make($request->password),
             'role' => 'customer' // user who registers themselves are all customers.
         ]);

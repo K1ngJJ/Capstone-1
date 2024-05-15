@@ -72,7 +72,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'name' => $data['name'],
             'email' => $data['email'],
-            'contactnum' => $data['contactnum'], 
+            'mobile_number' => $data['mobile_number'], 
             'password' => Hash::make($data['password']),
             'role' => 'customer', // user who registers themselves are all customers.
         ]);

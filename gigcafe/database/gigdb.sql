@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 04, 2024 at 11:31 AM
+-- Generation Time: May 15, 2024 at 02:44 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -84,7 +84,10 @@ INSERT INTO `cart_items` (`id`, `user_id`, `menu_id`, `order_id`, `quantity`, `f
 (23, 46, 17, 24, 1, 1),
 (24, 46, 5, 25, 1, 0),
 (25, 46, 4, 36, 1, 0),
-(26, 46, 3, 38, 1, 0);
+(26, 46, 3, 38, 1, 1),
+(27, 46, 5, 41, 1, 1),
+(28, 46, 5, 41, 2, 1),
+(29, 46, 4, 42, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +135,22 @@ CREATE TABLE `ch_messages` (
 --
 
 INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
-('31a41af5-8082-4122-8fc4-5486de8bcc4e', 1, 1, 'hi', NULL, 1, '2024-04-11 23:04:44', '2024-04-11 23:04:54');
+('05a8284a-fe5b-4908-b302-a93af2c8fa8a', 1, 2, 'pre punta kana dito', NULL, 1, '2024-05-12 20:02:19', '2024-05-12 20:02:46'),
+('10f9a00f-fa58-4764-83fd-7c7de8f874e9', 1, 46, 'QWDSQWDQWD', NULL, 1, '2024-05-14 00:48:43', '2024-05-14 00:48:44'),
+('1bad8952-2081-46e7-ab47-d55d31a421ad', 1, 46, '123', NULL, 1, '2024-05-12 20:12:43', '2024-05-12 20:13:05'),
+('214691bc-46d9-4160-af0a-f70b067106fa', 1, 46, 'djdjkdjawbdhkwaDHWQDKU', NULL, 1, '2024-05-14 00:48:24', '2024-05-14 00:48:30'),
+('31a41af5-8082-4122-8fc4-5486de8bcc4e', 1, 1, 'hi', NULL, 1, '2024-04-11 23:04:44', '2024-04-11 23:04:54'),
+('3eeb11b4-675e-4384-9944-252596c11d70', 1, 46, '🐱', NULL, 1, '2024-05-14 00:49:24', '2024-05-14 00:49:26'),
+('69d9d7e4-959b-4166-badc-adfebef8bf86', 1, 93, 'wqhdwqhdqlkd', NULL, 1, '2024-05-14 22:27:30', '2024-05-14 22:28:03'),
+('84d777e1-abec-48df-a445-62368214b48a', 46, 1, '', '{\"new_name\":\"8ef70c62-3a41-4672-b857-6fdd1a7e98f9.jpg\",\"old_name\":\"561124.jpg\"}', 1, '2024-05-14 00:51:16', '2024-05-14 22:26:35'),
+('8eb320c8-313e-43f5-bfa4-5aad51ef31d1', 93, 1, 'dwldjoqwdjk', NULL, 1, '2024-05-14 22:28:49', '2024-05-14 22:28:50'),
+('af05ee48-a0b7-4f50-8846-17f3d0026f53', 1, 46, '', '{\"new_name\":\"f435239a-9e20-41a0-89f8-9c1981db9cf5.jpg\",\"old_name\":\"17947.jpg\"}', 1, '2024-05-14 00:50:10', '2024-05-14 00:51:04'),
+('b13caedc-2d44-4a7a-bac8-e685355a6791', 46, 1, 'DWDQWDJWVDHWVEJHD', NULL, 1, '2024-05-14 00:48:36', '2024-05-14 00:48:36'),
+('c58541d8-4778-4674-bc8a-88dfaa724c1c', 1, 93, 'awkjdwakdhawih🤗', NULL, 1, '2024-05-14 22:28:25', '2024-05-14 22:28:26'),
+('ca584f6a-5db5-437e-a4fc-efdc1c91e571', 46, 1, '', '{\"new_name\":\"f487a583-87fd-409e-b91a-0270e707ad6c.jpg\",\"old_name\":\"7314.jpg\"}', 1, '2024-05-14 00:49:37', '2024-05-14 00:49:38'),
+('d02fd51b-66a3-48d0-895f-f3bdb44941b6', 1, 93, '', '{\"new_name\":\"bc6cee98-6d5b-4121-902b-6282c0e29388.jpg\",\"old_name\":\"436859018_391315340545971_5221176735793842929_n.jpg\"}', 1, '2024-05-14 22:28:39', '2024-05-14 22:28:40'),
+('fb0022f7-f59e-47e2-b524-f018f074b725', 46, 1, 'DWQDWFRGFEFERFREF', NULL, 1, '2024-05-14 00:48:55', '2024-05-14 00:48:57'),
+('fc3f8359-0ea6-465c-85ed-d41768c0800b', 1, 46, '😝', NULL, 1, '2024-05-14 00:49:06', '2024-05-14 00:49:08');
 
 -- --------------------------------------------------------
 
@@ -153,6 +171,13 @@ CREATE TABLE `discounts` (
   `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `discounts`
+--
+
+INSERT INTO `discounts` (`id`, `created_at`, `updated_at`, `discountCode`, `percentage`, `minSpend`, `cap`, `startDate`, `endDate`, `description`) VALUES
+(1, '2024-05-12 20:11:58', '2024-05-12 20:11:58', '123', 10, '500.00', '990.00', '2024-05-13', '2024-05-14', 'hgfasdhjkasdkhiuh');
+
 -- --------------------------------------------------------
 
 --
@@ -168,6 +193,28 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `galleries`
+--
+
+CREATE TABLE `galleries` (
+  `id` bigint NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `galleries`
+--
+
+INSERT INTO `galleries` (`id`, `image`, `category`, `created_at`, `updated_at`) VALUES
+(15, '1715272929-.jpg', 'Wedding', '2024-05-09 07:17:08', '2024-05-09 08:42:09'),
+(17, '1715361551-436859018_391315340545971_5221176735793842929_n.jpg', 'Birthday', '2024-05-10 09:19:11', '2024-05-10 09:19:11');
 
 -- --------------------------------------------------------
 
@@ -192,6 +239,19 @@ CREATE TABLE `inventories` (
 INSERT INTO `inventories` (`id`, `name`, `price`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
 (4, 'Knife', '10.00', 40, 'Unavailable', NULL, NULL),
 (5, 'Table Cloth', '10.00', 100, 'Available', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory_reservation`
+--
+
+CREATE TABLE `inventory_reservation` (
+  `id` bigint UNSIGNED NOT NULL,
+  `inventory_id` bigint UNSIGNED NOT NULL,
+  `reservation_id` bigint UNSIGNED NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -319,7 +379,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2024_04_03_999999_create_chatify_favorites_table', 2),
 (11, '2024_04_03_999999_create_chatify_messages_table', 2),
 (12, '2017_03_04_000000_create_bans_table', 3),
-(13, '2024_05_04_095105_create_payments_table', 4);
+(13, '2024_05_04_095105_create_payments_table', 4),
+(14, '2014_10_12_200000_add_two_factor_columns_to_users_table', 5),
+(15, '2024_04_15_144152_create_ratings_table', 5),
+(16, '2024_05_06_114714_create_sessions_table', 5);
 
 -- --------------------------------------------------------
 
@@ -342,32 +405,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `created_at`, `updated_at`, `dateTime`, `completed`, `type`) VALUES
-(1, 3, '2024-02-09 02:24:36', '2024-02-09 02:24:36', '2024-02-09 10:24:00', 0, 'dineIn'),
-(2, 3, '2024-02-09 02:36:51', '2024-02-09 02:36:51', '2024-02-09 10:36:00', 0, 'takeAway'),
-(4, 3, '2024-02-09 21:35:23', '2024-02-09 21:35:23', '2024-02-10 05:35:00', 0, 'dineIn'),
-(6, 5, '2024-02-11 01:40:39', '2024-02-11 01:40:39', '2024-02-11 09:40:00', 0, 'dineIn'),
-(7, 5, '2024-02-11 06:30:47', '2024-02-11 06:30:47', '2024-02-11 14:30:00', 0, 'dineIn'),
-(9, 5, '2024-02-21 05:18:02', '2024-02-21 05:18:02', '2024-02-21 13:17:00', 0, 'takeAway'),
-(10, 7, '2024-04-01 19:12:34', '2024-04-01 19:12:34', '2024-04-03 03:12:00', 0, 'takeAway'),
-(11, 5, '2024-04-02 14:55:34', '2024-04-02 14:55:34', '2024-04-03 22:55:00', 0, 'takeAway'),
-(12, 5, '2024-04-02 14:55:34', '2024-04-02 14:55:34', '2024-04-03 22:55:00', 0, 'takeAway'),
-(13, 5, '2024-04-02 15:42:06', '2024-04-02 15:42:46', '2024-04-10 23:41:00', 1, 'takeAway'),
-(14, 5, '2024-04-02 15:46:42', '2024-04-02 15:47:54', '2024-04-03 23:46:00', 1, 'takeAway'),
-(16, 5, '2024-04-02 21:39:34', '2024-04-02 21:44:18', '2024-04-04 05:39:00', 1, 'takeAway'),
-(19, 5, '2024-04-02 22:04:43', '2024-04-02 22:47:06', '2024-04-04 06:04:00', 1, 'takeAway'),
-(22, 5, '2024-04-02 22:37:47', '2024-04-02 22:46:51', '2024-04-04 06:37:00', 1, 'takeAway'),
-(23, 9, '2024-04-02 22:46:02', '2024-04-02 22:46:45', '2024-04-04 06:45:00', 1, 'takeAway'),
-(24, 46, '2024-04-07 20:38:31', '2024-05-03 18:48:46', '2024-04-09 05:38:00', 1, 'takeAway'),
-(25, 46, '2024-05-04 01:39:02', '2024-05-04 01:39:02', '2024-05-05 09:38:00', 0, 'takeAway'),
-(26, 46, '2024-05-04 02:29:34', '2024-05-04 02:29:34', '2024-05-14 10:29:00', 0, 'dineIn'),
-(27, 46, '2024-05-04 02:34:54', '2024-05-04 02:34:54', '2024-05-06 10:34:00', 0, 'dineIn'),
-(28, 46, '2024-05-04 02:35:26', '2024-05-04 02:35:26', '2024-05-06 10:34:00', 0, 'takeAway'),
-(29, 46, '2024-05-04 02:37:02', '2024-05-04 02:37:02', '2024-05-06 10:34:00', 0, 'takeAway'),
-(30, 46, '2024-05-04 02:37:25', '2024-05-04 02:37:25', '2024-05-05 10:37:00', 0, 'takeAway'),
-(31, 46, '2024-05-04 02:48:29', '2024-05-04 02:48:29', '2024-05-05 10:48:00', 0, 'takeAway'),
-(32, 46, '2024-05-04 02:48:29', '2024-05-04 02:48:29', '2024-05-05 10:48:00', 0, 'takeAway'),
-(36, 46, '2024-05-04 03:21:54', '2024-05-04 03:21:54', '2024-05-05 11:21:00', 0, 'takeAway'),
-(38, 46, '2024-05-04 03:24:04', '2024-05-04 03:24:04', '2024-05-14 11:24:00', 0, 'takeAway');
+(38, 46, '2024-05-04 03:24:04', '2024-05-07 00:45:47', '2024-05-14 11:24:00', 1, 'takeAway'),
+(41, 46, '2024-05-07 00:42:24', '2024-05-07 00:48:16', '2024-05-08 08:42:00', 1, 'dineIn'),
+(42, 46, '2024-05-12 20:13:54', '2024-05-12 20:15:30', '2024-05-13 04:13:00', 1, 'dineIn');
 
 -- --------------------------------------------------------
 
@@ -434,15 +474,19 @@ CREATE TABLE `payments` (
   `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payment_status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `reservation_id` bigint UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `payment_id`, `payer_id`, `payer_email`, `amount`, `currency`, `payment_status`, `created_at`, `updated_at`) VALUES
-(2, 'PAYID-MY3BWGI8CJ34475471419604', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 120.00, 'PHP', 'approved', '2024-05-04 03:25:36', '2024-05-04 03:25:36');
+INSERT INTO `payments` (`id`, `payment_id`, `payer_id`, `payer_email`, `amount`, `currency`, `payment_status`, `created_at`, `updated_at`, `reservation_id`) VALUES
+(14, 'PAYID-MY3SOSQ8MR023307R447733J', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 10.00, 'PHP', 'approved', '2024-05-04 22:32:07', '2024-05-04 22:32:07', NULL),
+(15, 'PAYID-MY3SOSQ8MR023307R447733J', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 10.00, 'PHP', 'approved', '2024-05-04 22:33:33', '2024-05-04 22:33:33', NULL),
+(16, 'PAYID-MY3SYSI1CB996710N038310F', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 10.00, 'PHP', 'approved', '2024-05-04 22:51:05', '2024-05-04 22:51:05', NULL),
+(17, 'PAYID-MY3WKXY2UR25237KC331122G', 'R8HYARYLLR8FQ', 'Customer@personal.account.com', 1000.00, 'PHP', 'approved', '2024-05-05 02:54:41', '2024-05-05 02:54:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -490,9 +534,7 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `tel_number`, `service_id`, `package_id`, `inventory_supplies`, `status`, `res_date`, `guest_number`, `created_at`, `updated_at`, `user_id`) VALUES
-(63, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 28, 28, 'Bring Own Supplies', 'Not fulfilled', '2024-04-21 15:25:00', 44, '2024-04-19 23:26:01', '2024-04-19 23:26:01', NULL),
-(66, 'King', 'Pacheco', 'jermey13@example.net', '09948862312', 29, 28, 'Bring Own Supplies', 'Not fulfilled', '2024-04-21 16:23:00', 44, '2024-04-20 00:23:22', '2024-04-20 00:23:22', NULL),
-(68, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 29, 31, 'Knife (8), Table Cloth (23)', 'Not fulfilled', '2024-05-05 16:18:00', 44, '2024-05-04 00:19:16', '2024-05-04 00:19:16', NULL);
+(96, 'Squad', 'Quinx', 'pachecoking38@gmail.com', '09948862312', 28, 28, '', 'Fulfilled', '2024-05-15 19:25:00', 2, '2024-05-15 06:25:14', '2024-05-15 06:31:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -515,7 +557,9 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`id`, `name`, `description`, `image`, `created_at`, `updated_at`) VALUES
 (28, 'Wedding', 'Wedding Service', 'public/services/tWcSIyhYYy6Cjn52a532GNu8SPxJhWufRYYOA2a8.jpg', '2024-02-20 22:16:09', '2024-02-20 22:16:09'),
-(29, 'Birthday', 'Birthday Service', 'public/services/Wy2g3q9SqWKoVPJzw0YTYtXxZaOkYQp1s2Ij8EBR.jpg', '2024-02-20 22:18:02', '2024-02-20 22:18:02');
+(29, 'Birthday', 'Birthday Service', 'public/services/Wy2g3q9SqWKoVPJzw0YTYtXxZaOkYQp1s2Ij8EBR.jpg', '2024-02-20 22:18:02', '2024-02-20 22:18:02'),
+(30, 'Anniversary', 'qwertyu', 'public/services/uUj7XpI3ERAZsinNbPJ03SmAXwISpXNRsO3yt9bY.jpg', '2024-05-10 12:05:26', '2024-05-10 12:05:26'),
+(31, 'Debut', 'qwertyu', 'public/services/RIu3r1k76nT3qAujmpHWUSkL96fPYOyFEeLLeSXh.jpg', '2024-05-10 13:02:28', '2024-05-10 13:02:28');
 
 -- --------------------------------------------------------
 
@@ -558,17 +602,8 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `order_id`, `discount_id`, `final_amount`, `created_at`, `updated_at`) VALUES
-(1, 12, NULL, '1611.20', '2024-04-02 15:05:37', '2024-04-02 15:05:37'),
-(2, 13, NULL, '530.00', '2024-04-02 15:42:26', '2024-04-02 15:42:26'),
-(3, 14, NULL, '1600.60', '2024-04-02 15:46:55', '2024-04-02 15:46:55'),
-(4, 16, NULL, '4261.20', '2024-04-02 21:42:31', '2024-04-02 21:42:31'),
-(5, 19, NULL, '593.60', '2024-04-02 22:06:00', '2024-04-02 22:06:00'),
-(6, 22, NULL, '90.10', '2024-04-02 22:43:45', '2024-04-02 22:43:45'),
-(7, 23, NULL, '530.00', '2024-04-02 22:46:23', '2024-04-02 22:46:23'),
-(8, 24, NULL, '63.60', '2024-04-07 20:39:16', '2024-04-07 20:39:16'),
-(9, 25, NULL, '530.00', '2024-05-04 01:40:53', '2024-05-04 01:40:53'),
-(10, 36, NULL, '530.00', '2024-05-04 03:22:26', '2024-05-04 03:22:26'),
-(11, 38, NULL, '10.60', '2024-05-04 03:24:33', '2024-05-04 03:24:33');
+(12, 41, NULL, '1590.00', '2024-05-07 00:44:11', '2024-05-07 00:44:11'),
+(13, 42, 1, '477.00', '2024-05-12 20:14:54', '2024-05-12 20:14:54');
 
 -- --------------------------------------------------------
 
@@ -581,7 +616,6 @@ CREATE TABLE `users` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contactnum` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -592,18 +626,19 @@ CREATE TABLE `users` (
   `active_status` tinyint(1) NOT NULL DEFAULT '0',
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'avatar.png',
   `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
-  `messenger_color` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `messenger_color` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `contactnum`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'Admin', 'admin', 'gigcafe026@gmail.com', '09948862312', '2024-04-04 01:54:39', '$2y$10$3DsTsm3xbZ1VlI1r1lsjqOIlvWcVcuI/JdAgaeyYgZXjD8frjB4RC', 'kSFEelCCPKhfANl8CIm5v6cj3fKPsjgydFIBT0EhoSnpBQbVmuiPV8BwIPA8', '2024-02-09 01:55:19', '2024-04-13 02:12:53', 'admin', 0, 1, 'avatar.png', 0, '#ff2522'),
-(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', '09151997276', '2024-04-04 01:57:02', '$2y$10$XX.Tow31ysr6yAfAJXLdT.QUnfvg5455pHGVYI.WZwC/nfiK73vLC', 'eULyCBFZOkVqUHPPrJHW2QROSOVnUl6ayLI0VpGHohl0jaDEnUHdT3mIoSFE', '2024-02-09 02:00:05', '2024-04-13 02:13:15', 'kitchenStaff', 0, 0, 'avatar.png', 0, '#ff2522'),
-(46, 'JayJay Pacheco', 'JayJay', 'pachecoking38@gmail.com', '9451997276', '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'WtG9OlcDkvBCo3y5wR81ZMBMMuELh96gNGeAGSp4amikHAGeBaqk7tgF8B7O', '2024-04-07 20:32:03', '2024-04-12 23:28:10', 'customer', 0, 0, 'avatar.png', 0, NULL),
-(54, 'Jackson Gleichner', 'iferry', 'jermey13@example.net', '(657) 397-4245', '2024-04-13 01:32:04', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'Tj3pZ6J3tPM2W2vUK3CiLW9eF6335qPd6uNKSJjBNgpw51ScNLaZPdcohIMN', '2024-04-13 01:32:04', '2024-04-13 01:39:48', 'customer', 1, 0, 'avatar.png', 0, NULL);
+INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`, `mobile_number`) VALUES
+(1, 'Admin', 'admin', 'gigcafe026@gmail.com', '2024-04-04 01:54:39', '$2y$10$3DsTsm3xbZ1VlI1r1lsjqOIlvWcVcuI/JdAgaeyYgZXjD8frjB4RC', 'nSN9o3BPxXdewJ3JHggnZfk5gl2ukqBcDqb8VQwZ0XWs0KPG7UyQoFIwRdIQ', '2024-02-09 01:55:19', '2024-05-14 22:29:05', 'admin', 1, 0, 'avatar.png', 0, '#ff2522', ''),
+(2, 'Staff', 'Staff', 'squadquinx8@gmail.com', '2024-04-04 01:57:02', '$2y$10$XX.Tow31ysr6yAfAJXLdT.QUnfvg5455pHGVYI.WZwC/nfiK73vLC', 'h2InEHumisfqbO6BhkWq0Mwj96AQHvIBx4g6fXuMgtjjQDkNhaecGAIl5sOa', '2024-02-09 02:00:05', '2024-05-12 20:03:40', 'kitchenStaff', 1, 0, 'avatar.png', 1, '#3F51B5', ''),
+(46, 'JayJay Pacheco', 'JayJay', 'pachecoking38@gmail.com', '2024-04-07 20:32:28', '$2y$10$7zYYbdCB.9H2DfsejrMgb.rfGODhE9NkctO6cRFsKb8Ya8GILlyLa', 'EjDAQnqVewFvKdnvzlOY3vXZO4hKfVWkgbs67W1rTxJGHvZ8DezeMhwgVM6L', '2024-04-07 20:32:03', '2024-05-14 00:50:28', 'customer', 1, 0, 'avatar.png', 0, NULL, ''),
+(93, 'King JayJay Pacheco', 'zrnjj', 'pachecokingjj@gmail.com', '2024-05-14 22:23:02', '$2y$10$gUasQM9pA09MgtHAJoLLBO9qpS7xkIbTfX8jnlj3dBISE9E0j824O', NULL, '2024-05-14 22:19:59', '2024-05-14 22:26:26', 'customer', 1, 1, 'avatar.png', 0, NULL, '+639948862312');
 
 --
 -- Indexes for dumped tables
@@ -650,10 +685,23 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `galleries`
+--
+ALTER TABLE `galleries`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `inventories`
 --
 ALTER TABLE `inventories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `inventory_reservation`
+--
+ALTER TABLE `inventory_reservation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_inventory_reservation_reservation_id` (`reservation_id`);
 
 --
 -- Indexes for table `menus`
@@ -697,7 +745,8 @@ ALTER TABLE `password_resets`
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_payments_reservations` (`reservation_id`) USING BTREE;
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -755,13 +804,13 @@ ALTER TABLE `bans`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `discounts`
 --
 ALTER TABLE `discounts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -770,10 +819,22 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `galleries`
+--
+ALTER TABLE `galleries`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `inventory_reservation`
+--
+ALTER TABLE `inventory_reservation`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -791,25 +852,25 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -821,29 +882,41 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `inventory_reservation`
+--
+ALTER TABLE `inventory_reservation`
+  ADD CONSTRAINT `fk_inventory_reservation_reservation_id` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_reservation_id` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `transactions`

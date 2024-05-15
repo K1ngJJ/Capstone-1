@@ -70,12 +70,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'contactnum' => 'required|string|max:20',
+            'mobile_number' => 'required|string|max:20',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->contactnum = $request->contactnum;
+        $user->mobile_number = $request->mobile_number;
         $user->save();
 
         return back()->with('success', 'Changes saved successfully.');

@@ -77,7 +77,7 @@
                         <td></td>
                         <td>{{ $users->name }}</td>
                         <td>{{ $users->email }}</td>
-                        <td>{{ $users->contactnum }}</td>
+                        <td>{{ $users->mobile_number }}</td>
                         <td>
                             <a href="{{ route('user.update', ['id' => $users->id]) }}" class="btn btn-success btn-{{ $users->status ? 'success' : 'danger' }}">
                                 {{ $users->status ? 'Enable' : 'Disable' }}
@@ -109,8 +109,8 @@
                                             <input type="email" class="form-control" id="email" name="email" value="{{ $users->email }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="contactnum" class="form-label">Contact Number</label>
-                                            <input type="text" class="form-control" id="contactnum" name="contactnum" value="{{ $users->contactnum }}">
+                                            <label for="mobile_number" class="form-label">Contact Number</label>
+                                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" value="{{ $users->mobile_number }}">
                                         </div>
                                     
                                         <div class="modal-footer">

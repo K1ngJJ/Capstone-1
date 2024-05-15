@@ -46,7 +46,7 @@ class AccountCreationController extends Controller
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
-            'contactnum' => $request->contactnum,
+            'mobile_number' => $request->mobile_number,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role

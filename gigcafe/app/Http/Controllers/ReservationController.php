@@ -137,13 +137,13 @@ class ReservationController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */
+     * */
     public function update(Request $request, $id)
     {
         if (auth()->user()->role == 'customer') {
             abort(403, 'This route is only meant for restaurant staffs.');
         }
-
+    
         try {
             $reservation = Reservation::findOrFail($id);
             
@@ -168,22 +168,7 @@ class ReservationController extends Controller
             $reservation->fill($request->except(['package_id']));
             
             // Update inventory supplies if necessary
-            $inventorySupplies = '';
-            if ($request->supply_choice == 'bring_own') {
-                $inventorySupplies = 'Bring Own Supplies';
-            } elseif ($request->supply_choice == 'borrow_supplies') {
-                $inventorySuppliesArray = [];
-                if ($request->has('inventory_supplies')) {
-                    foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
-                        $inventory = Inventory::find($inventoryId);
-                        $quantity = $request->input('inventory_quantities')[$key];
-                        $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
-                    }
-                }
-                $inventorySupplies = implode(', ', $inventorySuppliesArray);
-            }
-            
-            // Update the reservation's inventory supplies
+            $inventorySupplies = $this->handleInventorySupplies($request);
             $reservation->inventory_supplies = $inventorySupplies;
             
             // Update reservation status if provided
@@ -196,17 +181,41 @@ class ReservationController extends Controller
     
             // Save the reservation
             $reservation->save();
-    
+            
             // Send the notification email only if the status is Fulfilled
-            if ($reservation->status === ReservationStatus::Fulfilled) {
+            if ($reservation->status === 'Fulfilled') {
                 Mail::to($reservation->email)->send(new NotifReservation());
             }
+
+             // Store the updated reservation in the session
+        $request->session()->put('reservation', $reservation);
+    
     
             return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
         } catch (ModelNotFoundException $e) {
             return back()->with('error', 'Reservation not found.');
         }
     }
+    
+
+private function handleInventorySupplies($request)
+{
+    if ($request->supply_choice == 'bring_own') {
+        return 'Bring Own Supplies';
+    } elseif ($request->supply_choice == 'borrow_supplies') {
+        $inventorySuppliesArray = [];
+        if ($request->has('inventory_supplies')) {
+            foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                $inventory = Inventory::find($inventoryId);
+                $quantity = $request->input('inventory_quantities')[$key];
+                $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
+            }
+        }
+        return implode(', ', $inventorySuppliesArray);
+    }
+    return '';
+}
+
 
     /**
      * Remove the specified resource from storage.

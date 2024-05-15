@@ -48,9 +48,9 @@
         </div>
 
         <div>
-            <x-input-label for="contactnum" :value="__('contactnum')" />
-            <x-text-input id="contactnum" name="contactnum" type="text" class="mt-1 block w-full" :value="old('contactnum', $user->contactnum)" required autofocus autocomplete="contactnum" />
-            <x-input-error class="mt-2" :messages="$errors->get('contactnum')" />
+            <x-input-label for="mobile_number" :value="__('mobile_number')" />
+            <x-text-input id="mobile_number" name="mobile_number" type="text" class="mt-1 block w-full" :value="old('mobile_number', $user->mobile_number)" required autofocus autocomplete="mobile_number" />
+            <x-input-error class="mt-2" :messages="$errors->get('mobile_number')" />
         </div>
 
         <div class="flex items-center gap-4">
