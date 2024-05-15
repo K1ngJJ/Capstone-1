@@ -137,11 +137,12 @@
                         <td class="email">{{ $reservation->res_date }}</td>
                         <td>
                             <div>
-                                @if($reservation->status)
+                            @if(auth()->user()->role === 'admin' || $reservation->status !== 'Fulfilled')
                                 <button onclick="window.location.href='{{ route('reservations.edit', $reservation->id) }}'" class="my-md-2 mt-4 mb-5 px-4 py-1 bg-green-500 btn-sm btn-success d-flex flex-md-row flex-column justify-content-md-between">
                                     Edit
                                 </button>
-                                @endif
+                            @endif
+
                                 <button type="button" class="my-md-2 mt-4 mb-5 px-3 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $reservation->id }}">
                                     Delete
                                 </button>
