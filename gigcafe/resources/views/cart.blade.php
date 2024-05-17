@@ -94,15 +94,15 @@
                             <h5 class="text-secondary mt-5 text-center">Order Type</h5>
                             <div class="d-flex justify-content-center mt-4">
                                 <div class="form-check form-check-inline">
-                                    <input value="dineIn" class="form-check-input @error('type') is-invalid @enderror h5" type="radio" name="type" id="dineInRadio">
-                                    <label class="form-check-label" for="dineInRadio">
+                                    <input value="Dine-In" class="form-check-input @error('type') is-invalid @enderror h5" type="radio" name="type" id="Dine-InRadio">
+                                    <label class="form-check-label" for="Dine-InRadio">
                                         Dine In
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input value="takeAway" class="form-check-input @error('type') is-invalid @enderror h5" type="radio" name="type" id="takeAwayRadio">
-                                    <label class="form-check-label" for="takeAwayRadio">
-                                        Take Away 
+                                    <input value="Take-Out" class="form-check-input @error('type') is-invalid @enderror h5" type="radio" name="type" id="Take-OutRadio">
+                                    <label class="form-check-label" for="Take-OutRadio">
+                                        Take Out 
                                     </label>
                                     @error('type')
                                         <span class="invalid-feedback" role="alert">

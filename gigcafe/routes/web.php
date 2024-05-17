@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/services', ServiceController::class);
     Route::resource('/reservations', ReservationController::class);
     Route::resource('/packages', PackageController::class);
+    Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+
 });
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 
@@ -171,6 +173,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/staff/order/{order}', [OrderController::class, 'specificKitchenOrder'])->name('specificKitchenOrder');
     Route::put('/staff/order/update/{orderItem}', [OrderController::class, 'orderStatusUpdate'])->name('orderStatusUpdate');
     Route::get('/staff/previous-order', [OrderController::class, 'previousOrder'])->name('previousOrder');
+    Route::get('/staff/previous-order/filter', [OrderController::class, 'filterPreviousOrders'])->name('filterPreviousOrders');
 });
 
 

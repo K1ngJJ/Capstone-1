@@ -230,4 +230,34 @@ private function handleInventorySupplies($request)
 
         return redirect()->route('reservations.index')->with('warning', 'Reservation deleted successfully.');
     }
+
+    public function updateStatus(Request $request, $id)
+{
+    if (auth()->user()->role == 'customer') {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    try {
+        $reservation = Reservation::findOrFail($id);
+        $status = $request->input('status');
+
+        // Check if the provided status is valid
+        if (in_array($status, array_column(ReservationStatus::cases(), 'value'))) {
+            $reservation->status = $status;
+            $reservation->save();
+
+            // Optionally send an email notification if required
+            if (in_array($reservation->status, ['Declined', 'Approved', 'Fulfilled', 'Cancelled', 'Pending'])) {
+                Mail::to($reservation->email)->send(new NotifReservation($reservation->status));
+            }
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Invalid status'], 400);
+        }
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => 'Reservation not found'], 404);
+    }
+}
+
 }

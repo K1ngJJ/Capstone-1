@@ -16,35 +16,71 @@
 
 @section('content')
 <style>
+    .btn-dark {
+        background-color: black;
+        color: white;
+    } 
 
-.btn-danger {
-    background-color: black; 
-    color: white;
-    border: gray;
-}
+    .btn-dark:hover {
+        background-color: white;
+        color: black;
+    } 
 
-.btn-complete {
-    background-color: red; 
-    color: white;
-    border: gray;
-} 
+    .btn-success {
+        background-color: black;
+        color: white;
+    } 
+    .btn-success:hover {
+        background-color: white;
+        color: black;
+    }
 
-.btn-warning {
-    background-color: orange; 
-    color: white;
-    border: gray;
-} 
+    .btn-danger {
+        background-color: black; 
+        color: white;
+        border: gray;
+    }
 
-.btn-success {
-    color: white;
-} 
-.btn-success:hover {
-    background-color: white;
-    color: black;
-}
+    .btn-complete {
+        background-color: red; 
+        color: white;
+        border: gray;
+    } 
+
+    .btn-warning {
+        background-color: darkorange; 
+        color: white;
+    } 
+
+    .btn-warning:hover {
+        background-color: white; /* Changing background color on hover */
+        color: black; /* Changing text color on hover */
+    }
 
 
-.modal-body {
+    .bold-divider {
+        font-weight: bold; /* Make text bold */
+        height: 2px; /* Increase height to make the line bolder */
+        background-color: black; /* Ensure the line is visible */
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .custom-red-icon {
+        color: black; /* Red color */
+        border: 2px solid darkred; /* Red border */
+        padding: 5px; /* Padding for spacing between border and icon */
+        border-radius: 4px; /* Rounded corners */
+        transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    .custom-red-icon:hover {
+        color: white; /* Change icon color on hover */
+        border-color: white; /* Change border color on hover */
+        background-color: darkred; /* Add background color on hover */
+    }
+
+    .modal-body {
         border-radius: 10px;
         background-color: #f9f9f9;
     }
@@ -91,6 +127,7 @@
 
 </style>
 
+
 @if (!$previousOrders->count())
 <!-- no previous orders -->
 <section class="empty-order min-vh-100 flex-center pt-5">
@@ -112,11 +149,64 @@
         <h2 class="mt-5 mb-4">Previous Orders</h2>
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
+                  <tr>
+                    <th scope="col">
+                        <div class="dropstart w-100 d-flex justify-content-right">    
+                            <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">Filter <i class="fa fa-filter" aria-hidden="true"></i></button>
+                            <div class="dropdown-menu">
+                                <form method="get" action="{{ route('filterPreviousOrders') }}" class="px-4 py-3" style="min-width: 350px">    
+                                    <div class="mb-2">
+                                    <label for="DateRange" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Order ID</label>
+                                        <input type="text" name="orderID" class="form-control text-xs font-small" id="orderID" placeholder="Enter Order ID">
+                                    </div>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="DateRange" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><strong>From Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>   </label>
+                                        <label for="DateRange" class="py-1 px-4 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To Date</strong></label>
+                                        <div class="input-group">
+                                            <input type="date" name="startDate" class="form-control text-xs font-small" placeholder="Start Date" aria-label="Start Date">
+                                            <span class="input-group-text">~</span>
+                                            <input type="date" name="endDate" class="form-control text-xs font-small" placeholder="End Date" aria-label="End Date">
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <div class="mb-2">
+                                        <label for="orderTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Time</label>
+                                        <input type="time" name="orderTime" class="form-control text-md font-small" id="orderTime">
+                                    </div>
+                                    <!--div class="mb-2">
+                                        <label for="finalPrice" class="form-label">Final Price</label>
+                                        <input type="number" name="finalPrice" class="form-control" id="finalPrice" placeholder="Enter Final Price">
+                                    </div-->
+                                    <div class="dropdown-divider"></div>
+                                    <!-- Dropdown for Dine In / Take Out -->
+                                    <div class="mb-2">
+                                        <label for="orderType" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Order Type</label>
+                                        <select name="orderType" class="form-control text-md font-small" id="orderType">
+                                            <option value="">All</option>
+                                            <option value="Dine-In">Dine In</option>
+                                            <option value="Take-Out">Take Out</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Sorting fields -->
+                                    <input type="hidden" name="sortField" value="{{ Request::get('sortField') }}">
+                                    <input type="hidden" name="sortOrder" value="{{ Request::get('sortOrder') }}">
+                                    
+                                    <div class="dropdown-divider col-12 mb-3"></div>
+
+                                    <button type="submit" class="btn btn-outline-dark btn-md">Filter</button>
+                                </form>
+                            </div>
+                        </div>
+                    </th>
+                    <th scope="col"><a href="{{ route('filterPreviousOrders', ['sortField' => 'id', 'sortOrder' => (Request::get('sortField') == 'id' && Request::get('sortOrder') == 'asc') ? 'desc' : 'asc']) }}">Order ID</a></th>
+                    <th scope="col"><a href="{{ route('filterPreviousOrders', ['sortField' => 'dateTime', 'sortOrder' => (Request::get('sortField') == 'dateTime' && Request::get('sortOrder') == 'asc') ? 'desc' : 'asc']) }}">Date</a></th>
+                    <th scope="col"><a href="{{ route('filterPreviousOrders', ['sortField' => 'dateTime', 'sortOrder' => (Request::get('sortField') == 'dateTime' && Request::get('sortOrder') == 'asc') ? 'desc' : 'asc']) }}">Time</a></th>
                     <th scope="col">Final Price</th>
                     <th scope="col">
                         Status &nbsp;&nbsp;&nbsp;
@@ -127,11 +217,12 @@
             <tbody>
                 @foreach ($previousOrders as $order)
                     <tr>
-                         <td>
+                        <td>
                             <a href="#" class="view-details" data-toggle="modal" data-target="#viewOrderModal{{ $order->id }}">
-                            <i class="fas fa-eye"></i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-eye px-1 custom-red-icon" style="font-size: 20px;"></i>
+                            </a>
                         </td>
-                        <th scope="row"><a href="{{ route('specificKitchenOrder', $order->id) }}">#{{ $order->id }}</a></th>
+                        <td><a href="{{ route('specificKitchenOrder', $order->id) }}" class="my-md-2 mt-4 mb-5 px-3 py-1 btn-sm btn-warning flex-md-row "><strong># </strong>{{ $order->id }}</a></td>
                         <td>{{ $order->getOrderDate() }}</td>
                         <td>{{ $order->getOrderTime() }}</td>
                         <td>₱ {{ $order->getTotalFromScratch() }}</td>
@@ -158,6 +249,8 @@
         </div>
     </div>
 </section>
+
+
 @endif
 
 <!-- Modal markup -->
@@ -172,9 +265,16 @@
                 </button>
             </div>
             <div class="modal-body p-4 bg-light custom-modal-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('transactions.pdf', $order->transaction->id) }}" class="btn btn-dark btn-sm">
+                    <i class="fa fa-download" style="font-size: 15px;"></i></a>
+                </div>
+
+                <div class="dropdown-divider bold-divider"></div>
+
                 <div class="reservation-info">
                     <div class="info-item">
-                        <span class="info-label">ID:</span> <span class="info-value">#{{ $order->id }}</span>
+                        <span class="info-label">Order ID:</span> <span class="info-value">#{{ $order->id }}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Customer:</span> <span class="info-value">{{ $order->user->name }}</span>
@@ -184,6 +284,9 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">Mobile Number:</span> <span class="info-value">{{ $order->user->mobile_number }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Order Type:</span> <span class="info-value">{{ $order->type }}</span>
                     </div>
                     <!-- Add other order details here -->
                     <!-- Example: -->
@@ -200,9 +303,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <a href="{{ route('transactions.pdf', $order->transaction->id) }}" class="btn btn-dark btn-sm">
-                        <i class="fa fa-download"></i> Download PDF
-                    </a>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>

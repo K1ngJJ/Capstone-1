@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -71,6 +72,63 @@ class OrderController extends Controller
         $transactions = Transaction::with('order.user', 'order.cartItems.menu')->get();
         return view('previousOrder', compact('previousOrders', 'transactions'));
     }
+    
+    public function filterPreviousOrders(Request $request) {
+        if (auth()->user()->role == 'customer') {
+            abort(403, 'This route is only meant for restaurant staffs.');
+        }
+    
+        $query = Order::where('completed', 1);
+    
+        // Filter by Order ID
+        if ($request->filled('orderID')) {
+            $query->where('id', $request->orderID);
+        }
+    
+        // Filter by Order Date
+        if ($request->filled('startDate') && $request->filled('endDate')) {
+            $startDate = $request->startDate;
+            $endDate = $request->endDate;
+            $query->whereBetween('dateTime', [$startDate, $endDate]);
+        }
+    
+        // Filter by Order Time
+        if ($request->filled('orderTime')) {
+            $query->whereTime('dateTime', $request->orderTime);
+        }
+    
+        // Filter by Order Type (Dine In or Take Out)
+        if ($request->filled('orderType')) {
+            $query->where('type', $request->orderType);
+        }
+    
+        // Determine sort field and order
+        $sortField = $request->filled('sortField') ? $request->sortField : 'dateTime';
+        $sortOrder = $request->filled('sortOrder') && $request->sortOrder == 'asc' ? 'asc' : 'desc';
+    
+        // Apply sorting based on the sort field
+        switch ($sortField) {
+            case 'dateTime':
+                $query->orderBy('dateTime', $sortOrder); // Sort by date and time
+                break;
+            default:
+                $query->orderBy($sortField, $sortOrder); // Sort by other fields
+                break;
+        }
+    
+        // Paginate the results
+        $previousOrders = $query->paginate(8);
+    
+        // Eager load related transactions
+        $transactions = Transaction::with('order.user', 'order.cartItems.menu')->get();
+    
+        // Return the view with filtered and sorted orders
+        return view('previousOrder', compact('previousOrders', 'transactions'));
+    }
+    
+
+
+    
     
     
 }
