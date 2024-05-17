@@ -274,6 +274,9 @@
                                             <div class="info-item">
                                                 <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies }}</span>
                                             </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Status:</span> <span class="info-value">{{ $reservation->status }}</span>
+                                            </div>
                                             <!--div class="info-item">
                                                 <span class="info-label">Status:</span>
                                                 <select id="reservationStatus{{ $reservation->id }}" class="form-control">

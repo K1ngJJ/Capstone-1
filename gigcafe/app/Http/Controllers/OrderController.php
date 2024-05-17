@@ -7,6 +7,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -73,6 +74,7 @@ class OrderController extends Controller
         return view('previousOrder', compact('previousOrders', 'transactions'));
     }
     
+
     public function filterPreviousOrders(Request $request) {
         if (auth()->user()->role == 'customer') {
             abort(403, 'This route is only meant for restaurant staffs.');
@@ -93,8 +95,11 @@ class OrderController extends Controller
         }
     
         // Filter by Order Time
-        if ($request->filled('orderTime')) {
-            $query->whereTime('dateTime', $request->orderTime);
+        if ($request->filled('startTime') && $request->filled('endTime')) {
+            $startTime = Carbon::parse($request->startTime)->format('H:i:s');
+            $endTime = Carbon::parse($request->endTime)->format('H:i:s');
+            $query->whereTime('dateTime', '>=', $startTime)
+                  ->whereTime('dateTime', '<=', $endTime);
         }
     
         // Filter by Order Type (Dine In or Take Out)
@@ -107,14 +112,7 @@ class OrderController extends Controller
         $sortOrder = $request->filled('sortOrder') && $request->sortOrder == 'asc' ? 'asc' : 'desc';
     
         // Apply sorting based on the sort field
-        switch ($sortField) {
-            case 'dateTime':
-                $query->orderBy('dateTime', $sortOrder); // Sort by date and time
-                break;
-            default:
-                $query->orderBy($sortField, $sortOrder); // Sort by other fields
-                break;
-        }
+        $query->orderBy($sortField, $sortOrder);
     
         // Paginate the results
         $previousOrders = $query->paginate(8);

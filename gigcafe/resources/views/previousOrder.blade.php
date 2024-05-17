@@ -163,8 +163,14 @@
                                     <div class="dropdown-divider"></div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="DateRange" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><strong>From Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>   </label>
-                                        <label for="DateRange" class="py-1 px-4 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To Date</strong></label>
+                                    <div class="d-flex justify-content-between">
+                                        <label for="DateRange" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            From Date
+                                        </label>
+                                        <label for="DateRange" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                            To Date
+                                        </label>
+                                    </div>
                                         <div class="input-group">
                                             <input type="date" name="startDate" class="form-control text-xs font-small" placeholder="Start Date" aria-label="Start Date">
                                             <span class="input-group-text">~</span>
@@ -174,15 +180,33 @@
 
                                     <div class="dropdown-divider"></div>
 
-                                    <div class="mb-2">
+                                    <div class="col-12 mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <label for="startTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                From Time
+                                            </label>
+                                            <label for="endTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                                To Time
+                                            </label>
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="time" name="startTime" class="form-control text-xs font-small" placeholder="Start Time" aria-label="Start Time">
+                                            <span class="input-group-text">~</span>
+                                            <input type="time" name="endTime" class="form-control text-xs font-small" placeholder="End Time" aria-label="End time">
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <!--div class="mb-2">
                                         <label for="orderTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Time</label>
                                         <input type="time" name="orderTime" class="form-control text-md font-small" id="orderTime">
-                                    </div>
+                                    </div-->
                                     <!--div class="mb-2">
                                         <label for="finalPrice" class="form-label">Final Price</label>
                                         <input type="number" name="finalPrice" class="form-control" id="finalPrice" placeholder="Enter Final Price">
                                     </div-->
-                                    <div class="dropdown-divider"></div>
+                                
                                     <!-- Dropdown for Dine In / Take Out -->
                                     <div class="mb-2">
                                         <label for="orderType" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Order Type</label>
