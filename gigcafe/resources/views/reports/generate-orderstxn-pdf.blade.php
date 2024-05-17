@@ -68,11 +68,12 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Order ID</th>
+                <!--th>Customer</th-->
                 <th>Discount ID</th>
                 <th>Final Amount</th>
-                <th>Created At</th>
+                <th>Date</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
@@ -81,11 +82,12 @@
             @endphp
             @foreach($orderstxn as $ordertxn)
             <tr>
-                <td>{{ $ordertxn->id }}</td>
                 <td>{{ $ordertxn->order_id }}</td>
+                <!--td>{{ $ordertxn->order->user->name }}</td-->
                 <td>{{ $ordertxn->discount_id }}</td>
                 <td>{{ $ordertxn->final_amount }}</td>
-                <td>{{ $ordertxn->created_at->format('d-m-Y') }}</td>
+                <td>{{ $ordertxn->created_at->toDateString() }}</td> <!-- Display date -->
+                <td>{{ $ordertxn->created_at->toTimeString() }}</td> <!-- Display time -->
             </tr>
             @php
                 $totalFinalAmount += $ordertxn->final_amount;

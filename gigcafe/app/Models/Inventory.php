@@ -22,5 +22,6 @@ class Inventory extends Model
     {
         return $this->belongsToMany(Reservation::class)->withPivot('quantity');
     }
+    
 }
 

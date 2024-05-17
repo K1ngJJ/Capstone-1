@@ -49,4 +49,16 @@ class Reservation extends Model
         return $this->hasOne(Payment::class);
     }
 
+    public function getInventorySupplies()
+    {
+        // Load inventory supplies if they are not already loaded
+        if (!$this->relationLoaded('inventory_supplies')) {
+            $this->load('inventory_supplies');
+        }
+
+        // Return the loaded inventory supplies
+        return $this->inventory_supplies;
+    }
+
+
 }

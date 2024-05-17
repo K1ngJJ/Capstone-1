@@ -58,8 +58,8 @@
                         <th scope="row"><a href="{{ route('specificDiscount', $discount->id) }}">
                             {{ $discount->discountCode }} </a></th>
                         <td>{{ $discount->percentage }}%</td>
-                        <td>RM{{ number_format($discount->minSpend, 2) }}</td>
-                        <td>RM{{ number_format($discount->cap, 2) }}</td>
+                        <td>₱{{ number_format($discount->minSpend, 2) }}</td>
+                        <td>₱{{ number_format($discount->cap, 2) }}</td>
                         <td>{{ $discount->startDate }}</td>
                         <td>{{ $discount->endDate }}</td>
                     </tr>

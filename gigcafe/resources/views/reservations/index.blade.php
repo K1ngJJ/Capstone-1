@@ -90,7 +90,6 @@
     .info-value {
         color: #212529;
     }
-
 </style>
 
 <section class="kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
@@ -100,16 +99,14 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col">Reso ID</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Tel No.</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
                         <th scope="col">Service</th>
                         <th scope="col">Package</th>
-                        <th scope="col">Guests</th>
                         <th scope="col">Supply</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Guests</th>
                         <th scope="col">
                         <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" download><i class="fa fa-download"></i><a>
                         <a href="{{ route('reservations.create') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i></a>
@@ -121,20 +118,18 @@
                     <tr>
                         <th scope="row">
                             <a href="#" class="view-details" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
-                            <i class="fas fa-eye"></i>#{{ $reservation->id }}
+                            <i class="fas fa-eye px-2 mt-4"></i>#{{ $reservation->id }}
                             </a>
                         </th>
                         <td class="mt-4 @if($reservation->status == 'Fulfilled') px-3 alert alert-success @else px-1 alert alert-warning @endif">
                             {{ $reservation->status }}
                         </td>
-                        <td>{{ $reservation->first_name }} {{ $reservation->last_name }}</td>
-                        <td>{{ $reservation->email }}</td>
-                        <td>{{ $reservation->tel_number }}</td>
+                        <td>{{ $reservation->res_date->toDateString() }}</td> <!-- Display date -->
+                        <td>{{ $reservation->res_date->toTimeString() }}</td>
                         <td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
                         <td>{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</td>
-                        <td>{{ $reservation->guest_number }}</td>
                         <td class="email">{{ $reservation->inventory_supplies }}</td>
-                        <td class="email">{{ $reservation->res_date }}</td>
+                        <td>{{ $reservation->guest_number }}</td>
                         <td>
                             <div>
                             @if(auth()->user()->role === 'admin' || $reservation->status !== 'Fulfilled')
@@ -194,41 +189,44 @@
                                     </button>
                                 </div>
                                 <div class="modal-body p-4 bg-light custom-modal-body">
-                                        <div class="reservation-info">
-                                            <!--h5 class="font-weight-bold text-primary mb-3">Reservation Details</h5-->
-                                            <div class="info-item">
-                                                <span class="info-label">ID:</span> <span class="info-value">{{ $reservation->id }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Name:</span> <span class="info-value">{{ $reservation->first_name }} {{ $reservation->last_name }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Email:</span> <span class="info-value">{{ $reservation->email }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Tel No.:</span> <span class="info-value">{{ $reservation->tel_number }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Date:</span> <span class="info-value">{{ $reservation->res_date }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Service:</span> <span class="info-value">{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Package:</span> <span class="info-value">{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Guests:</span> <span class="info-value">{{ $reservation->guest_number }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies }}</span>
-                                            </div>
-                                            <div class="info-item">
-                                                <span class="info-label">Status:</span> <span class="info-value">{{ $reservation->status }}</span>
-                                            </div>
+                                    <div class="reservation-info">
+                                        <!--h5 class="font-weight-bold text-primary mb-3">Reservation Details</h5-->
+                                        <div class="info-item">
+                                            <span class="info-label">Reso ID:</span> <span class="info-value">{{ $reservation->id }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Name:</span> <span class="info-value">{{ $reservation->first_name }} {{ $reservation->last_name }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Email:</span> <span class="info-value">{{ $reservation->email }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Mobile No.:</span> <span class="info-value">{{ $reservation->tel_number }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Date:</span> <span class="info-value">{{ $reservation->res_date }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Service:</span> <span class="info-value">{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Package:</span> <span class="info-value">{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Guests:</span> <span class="info-value">{{ $reservation->guest_number }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies }}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Status:</span> <span class="info-value">{{ $reservation->status }}</span>
                                         </div>
                                     </div>
+                                </div>
                                 <div class="modal-footer">
+                                    <a href="{{ route('reservations.pdf', $reservation->id) }}" class="btn btn-dark btn-sm">
+                                        <i class="fa fa-download"></i> Download PDF
+                                    </a>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>
                             </div>

@@ -49,6 +49,44 @@ class PdfController extends Controller
         return $pdf->download('ReservationsTxn-data.pdf');
     }
     
+
+    public function reservationPdf($id)
+    {
+        // Find the reservation with related service and package
+        $reservation = Reservation::with('service', 'package')->findOrFail($id);
+
+        // Retrieve inventory supplies using the new method
+        $inventorySupplies = $reservation->inventory_supplies()->get();
+
+        // Prepare data for PDF including inventory supplies
+        $data = [
+            'title' => 'Reservation Details',
+            'date' => date('m/d/Y'),
+            'reservation' => $reservation,
+            'inventorySupplies' => $inventorySupplies,
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.generate-reservation-pdf', $data);
+
+        // Download PDF
+        return $pdf->download("Reservation-{$reservation->id}.pdf");
+    }
+
+    public function transactionPdf($id)
+    {
+        $transactions = Transaction::with('order.user', 'order.cartItems.menu')->findOrFail($id);
+
+        $data = [
+            'title' => 'Transaction Details',
+            'date' => date('m/d/Y'),
+            'transactions' => $transactions,
+        ];
+
+        $pdf = Pdf::loadView('reports.generate-order-transaction-pdf', $data);
+        return $pdf->download("Transaction-{$transactions->id}.pdf");
+    }
+
     
     
 }

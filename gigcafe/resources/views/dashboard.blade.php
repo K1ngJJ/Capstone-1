@@ -15,12 +15,21 @@
 
 
 @section('content')
+<style>
 
+.horizontal-line {
+    border-top: 1px solid #ccc; /* Adjust the color and thickness as needed */
+    margin-top: 20px; /* Adjust the margin as needed */
+    margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+
+</style>
 <!-- todo - session success stuff -->
 <section class="container">
     <div class="row mt-5">
         <div class="col mt-lg-0 mt-5">
-            <h1 class="mt-lg-0 mt-3">Dashboard</h1>
+            <h1 class="mt-lg-0 mt-3">Order Dashboard</h1>
         </div>
         <div class="col-lg-5 col-12 d-flex justify-content-center mt-lg-0 mt-5">
             <div class="col-11 flex-center py-2 shadow rounded bg-white">
@@ -36,7 +45,7 @@
     <!-- first row -->
     <div class="row my-5 justify-content-between">
         <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
-            <div id="generated-revenue" class="col-11 pt-3 h-100 shadow rounded bg-white" 
+            <div id="generated-revenue" class="col-11 pt-3 h-100 shadow rounded bg-white"
                     data-daily="{{ $dailyRevenue }}" data-total="{{ $totalRevenue }}">
             </div>
         </div>
@@ -118,6 +127,94 @@
             data-sales="{{ $categoricalSales }}">
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="horizontal-line"></div>
+
+     <!--Reservation Analytics-->
+    <div class="row mt-5">
+        <div class="col mt-lg-0 mt-5">
+            <h1 class="mt-lg-0 mt-3">Reservation Dashboard</h1>
+        </div>
+        <div class="col-lg-5 col-12 d-flex justify-content-center mt-lg-0 mt-5">
+            <div class="col-11 flex-center py-2 shadow rounded bg-white">
+            <div class="flex-center">
+            <img src="{{ URL::asset('/images/calendar.svg') }}" style="height: 32px; width: 32px;">
+            </div>
+            <p class="flex-center mt-lg-0 px-3">From: {{ $startDate }}</p>
+            <p class="flex-center mt-lg-0 px-3">To: {{ $today }} </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-5 justify-content-between">
+    @if(isset($reservationsByDate))
+    <!-- Reservation Analytics -->
+        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+            <div id="reservation-analytics" class="col-11 p-3 h-100 shadow rounded bg-white">
+                <h5 class="text-center">Reservation Analytics</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Reservations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reservationsByDate as $reservation)
+                            <tr>
+                                <td>{{ $reservation->date }}</td>
+                                <td>{{ $reservation->count }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+    </div>
+@endif
+
+    @if(isset($paymentsByDate))
+    <!-- Payment Analytics -->
+        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+            <div id="payment-analytics" class="col-11 p-3 h-100 shadow rounded bg-white">
+                <h5 class="text-center">Payment Analytics</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($paymentsByDate as $payment)
+                            <tr>
+                                <td>{{ $payment->date }}</td>
+                                <td>{{ $payment->total_amount }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+@endif
+</div>
+
 
 </section>
 

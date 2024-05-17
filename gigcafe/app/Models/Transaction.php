@@ -10,7 +10,10 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
+        'discount_id',
         'final_amount',
+        'created_at',
     ];
 
     public function discount() {

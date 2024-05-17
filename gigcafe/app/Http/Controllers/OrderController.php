@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\Transaction;
 
 class OrderController extends Controller
 {
@@ -39,7 +40,8 @@ class OrderController extends Controller
 
         $activeOrders = Order::where('completed', 0)->orderBy('dateTime', 'desc')->paginate(8);
         $firstOrder = $order;
-        return view('kitchenOrder', compact('firstOrder', 'activeOrders'));
+        $transactions = Transaction::with('order.user', 'order.cartItems.menu')->get();
+        return view('kitchenOrder', compact('firstOrder', 'activeOrders', 'transactions'));
     }
 
     public function orderStatusUpdate(CartItem $orderItem) { // Kitchen or Admin update order status
@@ -66,6 +68,9 @@ class OrderController extends Controller
         // this is actually 'previousOrders' not 'activeOrders', but i name it this way 
         // just for the blade's variable naming sake
         $previousOrders = Order::where('completed', 1)->orderBy('dateTime', 'desc')->paginate(8);
-        return view('previousOrder', compact('previousOrders'));
+        $transactions = Transaction::with('order.user', 'order.cartItems.menu')->get();
+        return view('previousOrder', compact('previousOrders', 'transactions'));
     }
+    
+    
 }

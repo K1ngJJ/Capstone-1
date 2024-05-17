@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use App\Models\Reservation;
+use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -56,7 +58,7 @@ class DashboardController extends Controller
         // =============   End of Total Orders   =====================
 
         // ================   Product Category   =====================
-        $categoricalSales = [0, 0, 0, 0, 0, 0, 0];
+        $categoricalSales = [0, 0, 0, 0, 0, 0, 0, 0];
         foreach ($oneMonthTransactions as $transaction) {
             $cartItems = $transaction->order->cartItems;
 
@@ -66,19 +68,21 @@ class DashboardController extends Controller
                 $itemQty = $item->quantity;
 
                 switch($itemType) {
-                    case "Appetizer":
+                    case "Silog":
                         $categoricalSales[0] += $itemPrice * $itemQty;
-                    case "Bento":
+                    case "Sandwich":
                         $categoricalSales[1] += $itemPrice * $itemQty;
-                    case "Beverage":
+                    case "Burger":
                         $categoricalSales[2] += $itemPrice * $itemQty;
-                    case "Dessert":
+                    case "Pasta":
                         $categoricalSales[3] += $itemPrice * $itemQty;
-                    case "Ramen":
+                    case "Snacks":
                         $categoricalSales[4] += $itemPrice * $itemQty;
-                    case "Sushi":
+                    case "MilkTea":
                         $categoricalSales[5] += $itemPrice * $itemQty;
-                    case "Temaki":
+                    case "FruitTea":
+                        $categoricalSales[6] += $itemPrice * $itemQty;
+                    case "Etc.":
                         $categoricalSales[6] += $itemPrice * $itemQty;
                 }
             }
@@ -143,9 +147,22 @@ class DashboardController extends Controller
 
         // calculate number of customer
         $numCustomer = User::where("role", "customer")->count();
+
+         // Reservation Analytics
+         $reservationsByDate = Reservation::selectRaw('DATE(res_date) as date, COUNT(*) as count')
+         ->groupBy('date')
+         ->orderBy('date')
+         ->get();
+
+         // Payment Reservation Analytics
+        $paymentsByDate = Payment::selectRaw('DATE(created_at) as date, SUM(amount) as total_amount')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->get();
         
         $startDate = Carbon::parse($lastMonthDate)->format('Y-m-d');
         return view('dashboard', compact("startDate", "today", "totalRevenue", "dailyRevenue", "totalCost", "grossProfit",
-                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales")); 
+                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByDate", "paymentsByDate")); 
     }
+
 }

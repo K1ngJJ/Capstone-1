@@ -15,6 +15,7 @@ use App\Rules\TimeBetween;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Rules\OneReservationPerDay;
+use App\Rules\UniqueReservationDate;
 
 class ReservationController extends Controller
 {

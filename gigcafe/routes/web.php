@@ -77,6 +77,8 @@ Route::middleware('auth')->group(function () {
     //Transactions
     Route::get('orderstxn-pdf', [PdfController::class, 'orderstxnPdf'])->name('OrdersTxn.Pdf');
     Route::get('reservationstxn-pdf', [PdfController::class, 'reservationstxnPdf'])->name('ReservationsTxn.Pdf');
+    Route::get('/reservations/{id}/pdf', [PdfController::class, 'reservationPdf'])->name('reservations.pdf');
+    Route::get('transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
 });
 
 
@@ -222,3 +224,5 @@ Route::get('/gallery/delete/{id}', [GalleryController::class, 'delete'])->name('
 Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
 Route::get('/gallery/editGalleryImages/{id}', [GalleryController::class, 'showImages'])->name('showGalleryImages');
 Route::get('/gallery/filter', [GalleryController::class, 'filter'])->name('filterGallery');
+
+
