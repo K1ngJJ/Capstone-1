@@ -81,6 +81,36 @@
         border-color: white;
     }
 
+    .custom-red-icon {
+        color: black; /* Red color */
+        border: 2px solid darkred; /* Red border */
+        padding: 4px; /* Padding for spacing between border and icon */
+        border-radius: 5px; /* Rounded corners */
+        transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    .custom-red-icon:hover {
+        color: white; /* Change icon color on hover */
+        border-color: white; /* Change border color on hover */
+        background-color: darkred; /* Add background color on hover */
+    }
+
+    .alert-failed{
+        color: #400200; 
+        border: 1px solid #C54644;
+        padding: 4px;
+        border-radius: 5px;
+        background-color: #f3d3d9;
+    }
+
+    .alert-pending{
+        color: solid lightgray; 
+        border: 1px solid gray;
+        padding: 4px;
+        border-radius: 5px;
+        background-color: lightgray;
+    }
+
     .modal-body {
             border-radius: 10px;
             background-color: #f9f9f9;
@@ -130,59 +160,190 @@
 
     <section class="kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
         <div class="container mt-lg-0 mt-5">
-            <h2 class="mt-5 mb-4">Catering Reservations</h2>
+            <h2 class="mt-5 mb-4" style="font-size: 1.0rem;font-style: italic;">Catering Reservations</h2>
+        <div class="row my-5 justify-content-between">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
+    <!--Filter Reservations-->
+        <div class="dropstart w-100 d-flex justify-content-right">    
+            <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">
+                Filter <i class="fa fa-filter" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu">
+                <form method="get" action="{{ route('filterReservation') }}" class="px-4 py-3" style="min-width: 350px">    
+                    <div class="mb-2">
+                        <label for="id" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">ID</label>
+                        <input type="text" name="id" class="form-control text-xs font-small" id="id" placeholder="Enter ID">
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="col-12 mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label for="startDate" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">From Date</label>
+                            <label for="endDate" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">To Date</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="date" name="startDate" class="form-control text-xs font-small" placeholder="Start Date" aria-label="Start Date">
+                            <span class="input-group-text">~</span>
+                            <input type="date" name="endDate" class="form-control text-xs font-small" placeholder="End Date" aria-label="End Date">
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="col-12 mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label for="startTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">From Time</label>
+                            <label for="endTime" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">To Time</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="time" name="startTime" class="form-control text-xs font-small" placeholder="Start Time" aria-label="Start Time">
+                            <span class="input-group-text">~</span>
+                            <input type="time" name="endTime" class="form-control text-xs font-small" placeholder="End Time" aria-label="End Time">
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="col-12 mb-3">
+                        <label for="status" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Status</label>
+                        <select name="status" class="form-control text-xs font-small" id="status">
+                            <option value=""  disabled selected>Select Status</option>
+                            <option value="Fulfilled">Fulfilled</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Declined">Declined</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="payment_status" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Payment Status</label>
+                        <select name="payment_status" class="form-control text-xs font-small" id="payment_status">
+                            <option value=""  disabled selected>Select Status</option>
+                            <option value="Fully Payment">Fully Payment</option>
+                            <option value="Down Payment ">Down Payment </option>
+                            <option value="Pay in Restaurant">Pay in Restaurant</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="col-12 mb-3">
+                        <label for="service" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Service</label>
+                        <select name="service" class="form-control text-xs font-small" id="service">
+                            <option value=""  disabled selected>Select Service</option>
+                            @foreach($services as $service)
+                                <option value="{{ $service->name }}">{{ $service->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="col-12 mb-3">
+                        <label for="package" class="py-1 px-2 text-xs font-small tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Package</label>
+                        <select name="package" class="form-control text-xs font-small" id="package">
+                            <option value=""  disabled selected>Select Package</option>
+                            @foreach($packages as $package)
+                                <option value="{{ $package->name }}">{{ $package->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="dropdown-divider col-12 mb-3"></div>
+
+                    <button type="submit" class="btn btn-outline-dark btn-md">Filter</button>
+                </form>
+            </div>
+        </div>
+    <!-- End Filter Reservations-->
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead>
+                    <thead class="bg-gray-50 dark:bg-gray-900">
                         <tr>
-                            <th scope="col">Status</th>
-                            <th scope="col">Reso ID</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Service</th>
+                            <th scope="col">
+                                <div class="px-4">Reso ID</div></th>
+                            <th scope="col">
+                                <div class="px-4">Date</div></th>
+                            <th scope="col">
+                                <div class="px-4">Time</div></th>
+                            <th scope="col">
+                                <div class="px-4">Status</div></th>
+                            <th scope="col">
+                                <div class="px-4">Payment Mode</div></th>
+                            <!--th scope="col">Service</th>
                             <th scope="col">Package</th>
                             <th scope="col">Supply</th>
-                            <th scope="col">Guests</th>
+                            <th scope="col">Guests</th-->       
                             <th scope="col">
-                            <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" download><i class="fa fa-download"></i><a>
-                            <a href="{{ route('reservations.create') }}" class="btn btn-dark btn-sm"><i class="fa fa-plus"></i></a>
+                                <div class="px-4">
+                            <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" id="pdfDownloadBtn"><i class="fa fa-download"></i></a>
+                           <!-- Modal -->
+                                <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="loadingModalLabel">Preparing PDF</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Please wait while the PDF is being prepared for download...
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            <a href="{{ route('reservations.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($reservations as $reservation)
                         <tr>
-                            <td class="mt-2 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-2 alert alert-success' : 'px-2 alert alert-warning' }}">
-                                    {{ $reservation->status }}
-                                </a>
-                            </td>
-                            <th>
-                                <a href="#" class="view-details mt-4 px-3 my-md-2 mb-5 px-2 py-1 btn-sm primary-btn" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
-                                &nbsp;<i class="fas fa-eye" style="font-size: 15px;"></i> #{{ $reservation->id }}
+                            <th class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <a href="#" class="view-details my-md-1 px-2 py-1 btn-sm primary-btn" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
+                                #{{ $reservation->id }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-eye my-md-1 px-2 py-1 " style="font-size: 15px;"></i>&nbsp; 
                                 </a>
                             </th>
-                            <td>{{ $reservation->res_date->toDateString() }}</td> <!-- Display date -->
-                            <td>{{ $reservation->res_date->toTimeString() }}</td>
-                            <td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
+                            <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toDateString() }}</div></td> <!-- Display date -->
+                            <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toTimeString() }}</div></td>
+                            <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <div class="mt-1 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-4 alert alert-success' : '' }}
+                                             {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-4 alert alert-failed' : '' }}
+                                             {{ $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'px-3 alert alert-warning' : '' }}
+                                             {{ $reservation->status == 'Pending' ? 'px-4 alert alert-pending' : '' }}">
+                                {{ $reservation->status }}
+                            </div>
+                            </td>
+                            <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <div class="mt-1 px-2 alert 
+                                {{ $reservation->payment_status == 'Fully Payment' ? 'alert-success' : '' }} 
+                                {{ $reservation->payment_status == 'Down Payment' ? 'alert-warning' : '' }}
+                                {{ $reservation->payment_status == 'Pay in Restaurant' || $reservation->payment_status == 'Not Paid' ? 'alert-failed' : '' }}">
+                                &nbsp;&nbsp;{{ $reservation->payment_status }}&nbsp;&nbsp;
+                            </div>
+                            </td> 
+                            <!--td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
                             <td>{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</td>
                             <td class="email">{{ $reservation->inventory_supplies }}</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $reservation->guest_number }}</td>
-                            <td>
-                                <div>
-                                    <button type="button" class="my-md-2 mt-4 mb-5 px-3 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $reservation->id }}">
-                                    <i class="fa fa-trash" style="font-size: 20px;"></i>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $reservation->guest_number }}</-->
+                            <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class=" d-flex ">
+                                    <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
+                                        <i class="fas fa-eye px-3 py-1 custom-red-icon" style="font-size: 17px;"></i> 
+                                    </a>
+                                    <button type="button" class="my-md-1 px-2 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $reservation->id }}">
+                                        <i class="fa fa-trash" style="font-size: 17px;"></i>
                                     </button>
-
-                                    <!--form class="my-md-2 mt-4 mb-5  d-flex flex-md-row flex-column justify-content-md-between" method="POST" action="{{ route('reservations.destroy', $reservation->id) }}" onsubmit="return confirm('Are you sure?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="primary-btn btn-sm px-3">Delete</button>
-                                    </form-->
-                                    <!--button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
-                                        View Details
-                                    </button-->
                                 </div>
-                            </td>
+                            </td>              
                         </tr>
 
                         <!-- Delete Modal -->
@@ -207,6 +368,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
                         <!-- End Delete Modal -->
 
                     <!-- Modal for viewing reservation details -->
@@ -245,7 +408,7 @@
 
                                         <div class="reservation-info">
                                             <div class="info-item">
-                                                <span class="info-label">Reso ID:</span> <span class="info-value">{{ $reservation->id }}</span>
+                                                <span class="info-label">Reso ID:</span> <span class="info-value"><strong>{{ $reservation->id }}</strong></span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">Name:</span> <span class="info-value">{{ $reservation->first_name }} {{ $reservation->last_name }}</span>
@@ -275,7 +438,14 @@
                                                 <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies }}</span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Status:</span> <span class="info-value">{{ $reservation->status }}</span>
+                                                <span class="info-label">Status:</span> <span class="info-value mt-2 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-2 alert alert-success' : 'px-2 alert alert-warning' }}
+                                                {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-2 alert alert-failed' : 'px-2 alert alert-warning' }}">{{ $reservation->status }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Payment Status:</span> <span class=" info-value mt-2 px-2 alert 
+                                                {{ $reservation->payment_status == 'Fully Payment' ? 'alert-success' : '' }} 
+                                                {{ $reservation->payment_status == 'Down Payment' ? 'alert-warning' : '' }}
+                                                {{ $reservation->payment_status == 'Pay in Restaurant' ? 'alert-failed' : '' }}">{{ $reservation->payment_status }}</span>
                                             </div>
                                             <!--div class="info-item">
                                                 <span class="info-label">Status:</span>
@@ -287,7 +457,7 @@
                                             </div-->
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer d-flex justify-content-between">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -329,6 +499,28 @@
         });
     });
     </script>
+
+<script>
+document.getElementById('pdfDownloadBtn').addEventListener('click', function() {
+   // Show loading modal
+   $('#loadingModal').modal('show');
+    // Show loading style (e.g., spinner)
+    // You can add your loading animation here
+    
+    // Optionally, you can add a delay before starting the download
+    // setTimeout(function() {
+    //     // Start the download
+    //     window.location.href = "{{ route('ReservationsTxn.Pdf') }}";
+    // }, 1000); // 1000 milliseconds delay
+
+    // Or, you can directly start the download without delay
+    window.location.href = "{{ route('ReservationsTxn.Pdf') }}";
+
+    // To prevent the default behavior (i.e., following the link) and handle the download manually
+    // You can uncomment the following line if you want to prevent the default behavior
+    // return false;
+});
+</script>
 
 
 

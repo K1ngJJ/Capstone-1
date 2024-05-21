@@ -148,11 +148,12 @@ class DashboardController extends Controller
         // calculate number of customer
         $numCustomer = User::where("role", "customer")->count();
 
-         // Reservation Analytics
-         $reservationsByDate = Reservation::selectRaw('DATE(res_date) as date, COUNT(*) as count')
-         ->groupBy('date')
-         ->orderBy('date')
-         ->get();
+    $reservationsByMonth = Reservation::selectRaw('YEAR(res_date) as year, MONTH(res_date) as month, COUNT(*) as count')
+    ->groupBy('year', 'month')
+    ->orderBy('year')
+    ->orderBy('month')
+    ->get();
+
 
          // Payment Reservation Analytics
         $paymentsByDate = Payment::selectRaw('DATE(created_at) as date, SUM(amount) as total_amount')
@@ -162,7 +163,7 @@ class DashboardController extends Controller
         
         $startDate = Carbon::parse($lastMonthDate)->format('Y-m-d');
         return view('dashboard', compact("startDate", "today", "totalRevenue", "dailyRevenue", "totalCost", "grossProfit",
-                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByDate", "paymentsByDate")); 
+                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByMonth", "paymentsByDate")); 
     }
 
 }

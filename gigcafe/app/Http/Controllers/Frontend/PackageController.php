@@ -24,6 +24,7 @@ class PackageController extends Controller
         $menus = Menu::where('type', $menuType)->get();
         return response()->json($menus);
     }
+    
 
 
 }   

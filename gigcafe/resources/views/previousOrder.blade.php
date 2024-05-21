@@ -147,6 +147,8 @@
 <section class="kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
     <div class="container mt-lg-0 mt-5">
         <h2 class="mt-5 mb-4">Previous Orders</h2>
+        <div class="row my-5 justify-content-between">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white">
         <table class="table table-hover">
             <thead>
                   <tr>
@@ -265,6 +267,9 @@
                 @endforeach
             </tbody>
         </table>
+
+        </div>
+    </div>
         <div class="my-md-5 mt-4 mb-5 d-flex flex-md-row flex-column justify-content-md-between">
             <a href="{{ route('kitchenOrder') }}" class="primary-btn">Active Orders</a>
             <div class="col-md-8 col-12 d-flex justify-content-md-end justify-content-center">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Models\Package;
 use App\Models\Service;
+use App\Models\User;
 use App\Models\Inventory;
 use App\Rules\DateBetween;
 use App\Rules\TimeBetween;
@@ -49,36 +50,43 @@ class ReservationController extends Controller
     }
 
     public function storeStepOne(Request $request)
-    {
-        if (auth()->user()->role != 'customer') {
-            abort(403, 'This route is only meant for customers.');
-        }
-    
-        $validated = $request->validate([
-            'first_name' => ['required'],
-            'last_name' => ['required'],
-            // Remove the 'email' validation rule as we're auto-filling the email
-            'res_date' => ['required', 'date', new DateBetween(), new OneReservationPerDay(auth()->user()->email), new TimeBetween()],
-            'tel_number' => ['required'],
-            'guest_number' => ['required'],
-        ]);
-    
-        // Get the authenticated user's email and add it to the validated data
-        $validated['email'] = auth()->user()->email;
-    
-        // Check if reservation session data exists
-        if (empty($request->session()->get('reservation'))) {
-            $reservation = new Reservation();
-            $reservation->fill($validated);
-            $request->session()->put('reservation', $reservation);
-        } else {
-            $reservation = $request->session()->get('reservation');
-            $reservation->fill($validated);
-            $request->session()->put('reservation', $reservation);
-        }
-    
-        return redirect()->route('reservations.step.two');
+{
+    // Ensure only customers can access this route
+    if (auth()->user()->role != 'customer') {
+        abort(403, 'This route is only meant for customers.');
     }
+
+    $user = auth()->user(); // Get the authenticated user
+
+    // Validate the request
+    $validated = $request->validate([
+        'first_name' => ['required'],
+        'last_name' => ['required'],
+        'res_date' => ['required', 'date', new DateBetween(), new OneReservationPerDay($user->email), new TimeBetween(), new UniqueReservationDate($user->role)],
+        'tel_number' => ['required'],
+        'guest_number' => ['required', 'integer', 'min:1'],
+    ]);
+
+    // Add user's email and ID to the validated data
+    $validated['email'] = $user->email;
+    $validated['user_id'] = $user->id;
+    $validated['role'] = $user->role;
+
+    // Check if reservation session data exists, and store it
+    if (empty($request->session()->get('reservation'))) {
+        $reservation = new Reservation();
+        $reservation->fill($validated);
+        $request->session()->put('reservation', $reservation);
+    } else {
+        $reservation = $request->session()->get('reservation');
+        $reservation->fill($validated);
+        $request->session()->put('reservation', $reservation);
+    }
+
+    return redirect()->route('reservations.step.two');
+}
+
+
     
 
     public function stepTwo(Request $request)
@@ -112,50 +120,52 @@ class ReservationController extends Controller
 
 
     public function storeStepTwo(Request $request)
-    {
-        if (auth()->user()->role != 'customer') {
-            abort(403, 'This route is only meant for customers.');
-        }
-    
-        $validated = $request->validate([
-            'package_id' => ['required'],
-            'service_id' => ['required'],
-        ]);
-    
-        // Retrieve the reservation from the session
-        $reservation = $request->session()->get('reservation');
-    
-        // Fill the reservation with validated data
-        $reservation->fill($validated);
-    
-        // Save the reservation to the database
-        $reservation->save();
-    
-        // Save inventory supplies and quantities as a single sentence in the reservation
-        $inventorySupplies = '';
-        if ($request->supply_choice == 'bring_own') {
-            $inventorySupplies = 'Bring Own Supplies';
-        } elseif ($request->supply_choice == 'borrow_supplies') {
-            // Save inventory supplies and quantities as a single sentence in the reservation
-            $inventorySuppliesArray = [];
-            if ($request->has('inventory_supplies')) {
-                foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
-                    $inventory = Inventory::find($inventoryId);
-                    $quantity = $request->input('inventory_quantities')[$key];
-                    $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
-                }
-            }
-            $inventorySupplies = implode(', ', $inventorySuppliesArray);
-        }
-
-        $reservation->inventory_supplies = $inventorySupplies;
-        $reservation->save();
-    
-        // Forget the reservation from the session
-        $request->session()->forget('reservation');
-    
-        return redirect()->route('reservations.thankyou');
+{
+    if (auth()->user()->role != 'customer') {
+        abort(403, 'This route is only meant for customers.');
     }
+
+    $validated = $request->validate([
+        'package_id' => ['required'],
+        'service_id' => ['required'],
+        'payment_status' => ['required'], // Add validation for the payment method
+    ]);
+
+    // Retrieve the reservation from the session
+    $reservation = $request->session()->get('reservation');
+
+    // Fill the reservation with validated data
+    $reservation->fill($validated);
+
+    // Save the reservation to the database
+    $reservation->save();
+
+    // Save inventory supplies and quantities as a single sentence in the reservation
+    $inventorySupplies = '';
+    if ($request->supply_choice == 'bring_own') {
+        $inventorySupplies = 'Bring Own Supplies';
+    } elseif ($request->supply_choice == 'borrow_supplies') {
+        // Save inventory supplies and quantities as a single sentence in the reservation
+        $inventorySuppliesArray = [];
+        if ($request->has('inventory_supplies')) {
+            foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                $inventory = Inventory::find($inventoryId);
+                $quantity = $request->input('inventory_quantities')[$key];
+                $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
+            }
+        }
+        $inventorySupplies = implode(', ', $inventorySuppliesArray);
+    }
+
+    $reservation->inventory_supplies = $inventorySupplies;
+    $reservation->save();
+
+    // Forget the reservation from the session
+    $request->session()->forget('reservation');
+
+    return redirect()->route('reservations.thankyou');
+}
+
     
 
 
@@ -178,11 +188,10 @@ class ReservationController extends Controller
         // Set the notification flag in the session to prevent duplicate notifications
         Session::flash('reservation_notification_sent', true);
     }
-        // Retrieve reservations belonging to the current customer
-        $reservations = Reservation::where('email', $user->email)->get();
+    $latestReservation = Reservation::where('email', $user->email)->where('status', '!=', 'Fulfilled')->latest()->first();
 
-        // Pass reservation IDs to the view
-        return view('reservations.thankyou', ['reservations' => $reservations]);
+    // Pass the latest reservation and payment method to the view
+    return view('reservations.thankyou', ['latestReservation' => $latestReservation, 'payment_status' => $latestReservation->payment_status]);
 
     }
 }

@@ -50,6 +50,17 @@
             background-color: #dfe1e2;
             color: black;
             transition-duration: 0.8s;
+
+            
+        }
+
+        .bold-divider {
+            font-weight: bold; /* Make text bold */
+            height: 2px; /* Increase height to make the line bolder */
+            background-color: darkorange; /* Ensure the line is visible */
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+
         }
     </style>
 </head>
@@ -115,9 +126,10 @@
                             <form method="POST" action="{{ route('reservations.store.step.two') }}">
                                 @csrf
                                 <div class="sm:col-span-6">
-                                    <label for="service_id" class="block text-sm font-medium text-gray-700">Services</label>
+                                <label for="service_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Services</label>
                                     <div class="mt-1">
                                         <select id="service_id" name="service_id" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                        <option value="">Select Service</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}" {{ $service->id == $reservation->service_id ? 'selected' : '' }}>
                                                     {{ $service->name }}
@@ -130,10 +142,13 @@
                                     @enderror
                                 </div>
 
+                                <div class="dropdown-divider bold-divider"></div>
+
                                 <div class="sm:col-span-6 pt-10">
-                                    <label for="package_id" class="block text-sm font-medium text-gray-700">Packages</label>
+                                <label for="package_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Packages</label>
                                     <div class="mt-1">
                                         <select id="package_id" name="package_id" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                        <option value="">Select Package</option>
                                             @foreach ($packages as $package)
                                                 <option value="{{ $package->id }}" {{ $package->id == $reservation->package_id ? 'selected' : '' }}>
                                                     {{ $package->name }} ({{ $package->guest_number }} Guests)
@@ -146,6 +161,25 @@
                                     @enderror
                                 </div>
                                 <span class="text-xs">If there are no packages it may mean that there are no packages that can fit your guest count.</span>
+
+                                <div class="dropdown-divider bold-divider"></div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="payment_status" class="block py-1 px-2 text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                        E-Payment Mode
+                                    </label>
+                                    <select name="payment_status" id="payment_status" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                        <option value="" disabled selected>Select Payment Mode</option>
+                                        <option value="Fully Payment">Full Payment</option>
+                                        <option value="Down Payment">Down Payment</option>
+                                        <option value="Pay in Restaurant">Pay in Restaurant</option>
+                                    </select>
+                                </div>
+                                @error('payment_status')
+                                        <div class="text-sm text-red-400">{{ $message }}</div>
+                                    @enderror
+
+                                <div class="dropdown-divider bold-divider"></div>
 
                                 <div class="sm:col-span-6">
                                 <br>
@@ -218,3 +252,40 @@
         });
     });
 </script>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var serviceDropdown = document.getElementById('service_id');
+        var packageDropdown = document.getElementById('package_id');
+        var packageError = document.getElementById('package-error');
+
+        serviceDropdown.addEventListener('change', function () {
+            var serviceId = this.value;
+
+            // Clear previous options
+            packageDropdown.innerHTML = '';
+
+            // Fetch available packages for the selected service
+            fetch('/fetch-packages/' + serviceId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        packageError.textContent = data.error;
+                    } else {
+                        // Populate packages dropdown with fetched data
+                        data.packages.forEach(function (package) {
+                            var option = document.createElement('option');
+                            option.value = package.id;
+                            option.text = package.name + ' (' + package.guest_number + ' Guests)';
+                            packageDropdown.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    packageError.textContent = 'Error fetching data.';
+                });
+        });
+    });
+</script>
+@endpush

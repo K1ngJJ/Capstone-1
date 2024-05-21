@@ -92,6 +92,7 @@ function previewImage(input) {
 
         <div class="row menu-bar">
         @if (Auth::check() && auth()->user()->role != 'customer')
+        <div class="d-flex">    
             <div class="col-md-1 d-flex align-items-center">
                 <div class="dropstart">    
                     <button type="button" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="filter-button">
@@ -172,7 +173,7 @@ function previewImage(input) {
                 </div>
             </div>
         </div>
-        
+</div>
         
 
 

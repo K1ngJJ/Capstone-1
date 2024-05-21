@@ -61,6 +61,9 @@ class ServiceController extends Controller
     {
         // Get the authenticated user if available
         $user = Auth::user();
+
+        // Fetch only the packages that are available for the given service
+        $availablePackages = $service->packages()->where('status', PackageStatus::Available)->get();
         
         // Proceed with the rest of the logic
         $availablePackages = Package::where(function ($query) use ($user) {
@@ -72,6 +75,7 @@ class ServiceController extends Controller
             ->whereHas('services', function ($query) use ($service) {
                 $query->where('services.id', $service->id);
             })
+            ->where('status', PackageStatus::Available)
             ->get();
         
         $menus = Menu::all();

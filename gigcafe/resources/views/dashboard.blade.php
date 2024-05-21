@@ -2,6 +2,7 @@
 
 @section('links')
     <script src="{{ asset('js/dashboard.js') }}" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
 
 @section('bodyID')
@@ -21,6 +22,14 @@
     border-top: 1px solid #ccc; /* Adjust the color and thickness as needed */
     margin-top: 20px; /* Adjust the margin as needed */
     margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+.bold-divider {
+    font-weight: bold; /* Make text bold */
+    height: 2px; /* Increase height to make the line bolder */
+    background-color: black; /* Ensure the line is visible */
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 
@@ -145,7 +154,7 @@
 
 
 
-    <div class="horizontal-line"></div>
+    <div class="horizontal-line bold-divider"></div>
 
      <!--Reservation Analytics-->
     <div class="row mt-5">
@@ -163,32 +172,11 @@
         </div>
     </div>
 
-    <div class="row my-5 justify-content-between">
-    @if(isset($reservationsByDate))
-    <!-- Reservation Analytics -->
-        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
-            <div id="reservation-analytics" class="col-11 p-3 h-100 shadow rounded bg-white">
-                <h5 class="text-center">Reservation Analytics</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Total Reservations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($reservationsByDate as $reservation)
-                            <tr>
-                                <td>{{ $reservation->date }}</td>
-                                <td>{{ $reservation->count }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-    </div>
-@endif
 
+
+
+
+<div class="row my-3 justify-content-between">
     @if(isset($paymentsByDate))
     <!-- Payment Analytics -->
         <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
@@ -212,10 +200,56 @@
                 </table>
             </div>
         </div>
-@endif
+    @endif
 </div>
 
 
+
+
+<!-- Reservation Analytics -->
+<div class="row my-3 justify-content-between">
+    @if(isset($reservationsByMonth))
+        <div id="reservation-analytics"  class="col-12 pt-3 h-50 shadow rounded bg-white">
+            <h5 class="text-center">Reservation Analytics by Month</h5>
+            <canvas id="reservation-chart"></canvas>
+        </div>
+    @endif
+</div>
+
+<script>
+    // Get data from PHP and format for Chart.js
+    var months = [];
+    var counts = [];
+
+    @foreach($reservationsByMonth as $reservation)
+        months.push("{{ date('F Y', mktime(0, 0, 0, $reservation->month, 1, $reservation->year)) }}");
+        counts.push({{ $reservation->count }});
+    @endforeach
+  
+    // Create the chart
+    var ctx = document.getElementById('reservation-chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Total Reservations',
+                data: counts,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color with transparency
+                borderColor: 'rgba(54, 162, 235, 1)', // Blue color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<!-- End Reservation Analytics -->
 </section>
 
 

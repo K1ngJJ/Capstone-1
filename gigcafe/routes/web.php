@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/reservations', ReservationController::class);
     Route::resource('/packages', PackageController::class);
     Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
-
+    Route::get('/filter-reservation', [ReservationController::class, 'filterReservation'])->name('filterReservation');
 });
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 
@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reservationstxn-pdf', [PdfController::class, 'reservationstxnPdf'])->name('ReservationsTxn.Pdf');
     Route::get('/reservations/{id}/pdf', [PdfController::class, 'reservationPdf'])->name('reservations.pdf');
     Route::get('transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
+    Route::get('packages/{id}/pdf', [PdfController::class, 'packagePdf'])->name('packages.pdf');
 });
 
 

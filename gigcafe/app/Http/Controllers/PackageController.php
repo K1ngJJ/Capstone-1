@@ -22,8 +22,8 @@ class PackageController extends Controller
     {
         if (auth()->user()->role == 'customer')
         abort(403, 'This route is only meant for restaurant staffs.');
-        $packages = Package::all();
-        return view('packages.index', compact('packages'));
+        $package = Package::all();
+        return view('packages.index', compact('package'));
     }
 
     /**
@@ -65,9 +65,10 @@ class PackageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        
+        $package = Package::with(['package'])->findOrFail($id);
+        return response()->json($package);
     }
 
     /**

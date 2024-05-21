@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use App\Models\Payment;
@@ -26,20 +27,18 @@ class PaymentController extends Controller
     public function index()
     {
         $user = auth()->user();
-    
+
         // Check if the user is a customer
         if ($user->role !== 'customer') {
             abort(403, 'This route is only meant for customers.');
         }
-    
-        // Retrieve the latest reservation belonging to the current customer
-        $latestReservation = Reservation::where('email', $user->email)->where('status', '!=', 'Fulfilled')->latest()->first();
-    
-        // Pass the latest reservation and its payment status to the view
-        $paymentStatus = $latestReservation ? $latestReservation->payment_status : null;
-        return view('reservations.thankyou', ['latestReservation' => $latestReservation, 'paymentStatus' => $paymentStatus]);
+
+        // Retrieve reservations belonging to the current customer
+        $reservations = Reservation::where('email', $user->email)->get();
+
+        // Pass reservations to the view
+        return view('reservations.thankyou', ['reservations' => $reservations]);
     }
-    
 
     /**
      * Initiate a payment on PayPal.
@@ -94,49 +93,44 @@ class PaymentController extends Controller
         if (auth()->user()->role !== 'customer') {
             abort(403, 'This route is only meant for customers.');
         }
-    
+
         // Retrieve payment and reservation details from session
         $paymentDetails = $request->session()->get('payment_details');
-    
+
         if ($request->input('paymentId') && $request->input('PayerID') && $paymentDetails) {
-            try {
-                $transaction = $this->gateway->completePurchase([
-                    'payer_id' => $request->input('PayerID'),
-                    'transactionReference' => $request->input('paymentId'),
-                ])->send();
-    
-                if ($transaction->isSuccessful()) {
-                    // Payment was successful
-                    $data = $transaction->getData();
-    
-                    // Save transaction data to the database
-                    $payment = new Payment();
-                    $payment->payment_id = $data['id'];
-                    $payment->payer_id = $data['payer']['payer_info']['payer_id'];
-                    $payment->payer_email = $data['payer']['payer_info']['email'];
-                    $payment->amount = $paymentDetails['amount'];
-                    $payment->currency = env('PAYPAL_CURRENCY');
-                    $payment->payment_status = $data['state'];
-                    $payment->reservation_id = $paymentDetails['reservation_id'];
-                    $payment->save();
-    
-                    // Update the reservation status based on the payment status
-                    $reservation = Reservation::find($paymentDetails['reservation_id']);
-                    $reservation->payment_status = $paymentDetails['payment_status'];
-                    $reservation->save();
-    
-                    return redirect()->route('reservations.thankyou')->with('success', 'Payment successful! Transaction ID: ' . $data['id']);
-                } else {
-                    return back()->withErrors(['error' => $transaction->getMessage()]);
-                }
-            } catch (\Exception $e) {
-                return back()->withErrors(['error' => $e->getMessage()]);
+            $transaction = $this->gateway->completePurchase([
+                'payer_id' => $request->input('PayerID'),
+                'transactionReference' => $request->input('paymentId'),
+            ])->send();
+
+            if ($transaction->isSuccessful()) {
+                // Payment was successful
+                $data = $transaction->getData();
+
+                // Save transaction data to the database
+                $payment = new Payment();
+                $payment->payment_id = $data['id'];
+                $payment->payer_id = $data['payer']['payer_info']['payer_id'];
+                $payment->payer_email = $data['payer']['payer_info']['email'];
+                $payment->amount = $paymentDetails['amount'];
+                $payment->currency = env('PAYPAL_CURRENCY');
+                $payment->payment_status = $data['state'];
+                $payment->reservation_id = $paymentDetails['reservation_id'];
+                $payment->save();
+
+                // Optionally update the reservation status
+                $reservation = Reservation::find($paymentDetails['reservation_id']);
+                $reservation->status = 'Partially Paid'; // Or any appropriate status
+                $reservation->save();
+
+                return redirect()->route('reservations.thankyou')->with('success', 'Payment successful! Transaction ID: ' . $data['id']);
+            } else {
+                return back()->withErrors(['error' => $transaction->getMessage()]);
             }
         } else {
             return back()->withErrors(['error' => 'Transaction declined or invalid session data.']);
         }
     }
-    
 
     /**
      * Handle payment cancellation.

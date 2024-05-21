@@ -21,9 +21,12 @@ class Reservation extends Model
         'package_id',
         'service_id',
         'status',
+        'payment_status',
         'res_date',
         'guest_number',
         'inventory_supplies',
+        'user_id',
+        'role',
     ];
 
     protected $dates = [

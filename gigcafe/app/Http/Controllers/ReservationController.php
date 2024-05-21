@@ -29,8 +29,10 @@ class ReservationController extends Controller
             abort(403, 'This route is only meant for restaurant staffs.');
         }
 
+        $services = Service::all();
+        $packages = Package::all();
         $reservations = Reservation::all();
-        return view('reservations.index', compact('reservations'));
+        return view('reservations.index', compact('reservations', 'services', 'packages'));
     }
 
     public function create()
@@ -258,6 +260,59 @@ private function handleInventorySupplies($request)
     } catch (ModelNotFoundException $e) {
         return response()->json(['error' => 'Reservation not found'], 404);
     }
+}
+
+public function filterReservation(Request $request)
+{
+    $query = Reservation::query();
+
+    // Filter by ID
+    if ($request->filled('id')) {
+        $query->where('id', $request->id);
+    }
+
+    // Filter by date range
+    if ($request->filled('startDate') && $request->filled('endDate')) {
+        $query->whereBetween('res_date', [$request->startDate, $request->endDate]);
+    }
+
+    // Filter by time range
+    if ($request->filled('startTime') && $request->filled('endTime')) {
+        $query->whereTime('res_date', '>=', $request->startTime)
+              ->whereTime('res_date', '<=', $request->endTime);
+    }
+
+    // Filter by status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Filter by payment_status
+    if ($request->filled('payment_status')) {
+        $query->where('payment_status', $request->payment_status);
+    }
+
+    // Filter by service
+    if ($request->filled('service')) {
+        $query->whereHas('service', function($q) use ($request) {
+            $q->where('name', $request->service);
+        });
+    }
+
+    // Filter by package
+    if ($request->filled('package')) {
+        $query->whereHas('package', function($q) use ($request) {
+            $q->where('name', $request->package);
+        });
+    }
+
+    $reservations = $query->get();
+
+    // Fetch services and packages for the filter form
+    $services = Service::all();
+    $packages = Package::all();
+
+    return view('reservations.index', compact('reservations', 'services', 'packages'));
 }
 
 }
