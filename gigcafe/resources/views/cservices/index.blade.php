@@ -76,15 +76,25 @@
             </a>
                 <div class="px-6 py-4">
                     <a href="{{ route('cservices.show', $service->id) }}" class="flex items-center justify-between">
-                        <div class="flex flex-col items-center justify-center">
-                            <h4 class="mb-3 text-xl font-semibold tracking-tight text-black-600 hover:text-black-400 uppercase">
-                                {{ $service->name }}
-                            </h4>
-                            <a href="{{ route('reservations.step.one') }}" class="flex items-center bg-custom-color hover:bg-black-600 text-custom font-bold py-2 px-2 rounded">
+                    <div class="flex flex-col items-center justify-center w-full">
+                        <h4 class="mb-3 text-xl font-semibold tracking-tight text-black-600 hover:text-black-400 uppercase">
+                            {{ $service->name }}
+                        </h4>
+                        <div class="flex items-center justify-between w-full px-4">
+                            <a href="{{ route('reservations.step.one') }}" class="bg-custom-color hover:bg-black-600 text-custom font-bold py-2 px-2 rounded">
                                 Book Now
                             </a>
+                            <div class="flex-grow"></div>
+                            <div class="flex items-center text-xl font-bold">
+                                <span class="text-yellow-500 text-2xl font-bold">★</span> <!-- Star icon -->
+                                @php
+                                    $averageRating = isset($serviceRatings[$service->id]) ? number_format($serviceRatings[$service->id], 1) : '0.0';
+                                @endphp
+                                {{ $averageRating }}
+                            </div>
                         </div>
-                        
+                    </div>
+
                     </a>
                 </div>
             </div>

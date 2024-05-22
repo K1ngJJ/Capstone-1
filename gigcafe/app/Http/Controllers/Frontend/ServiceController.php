@@ -6,6 +6,7 @@ use App\Enums\PackageStatus;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Package;
 use App\Models\Menu;
+use App\Models\Rating;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
@@ -29,8 +30,13 @@ class ServiceController extends Controller
     }
     
     $services = Service::all();
+
+    $serviceRatings = Rating::selectRaw('service_id, AVG(service_rating) as average_rating')
+    ->groupBy('service_id')
+    ->get()
+    ->pluck('average_rating', 'service_id');
     
-    return view('cservices.index', compact('packages', 'services'));
+    return view('cservices.index', compact('packages', 'services', 'serviceRatings'));
 }
 
 
@@ -77,12 +83,17 @@ class ServiceController extends Controller
             })
             ->where('status', PackageStatus::Available)
             ->get();
+
+            $packageRatings = Rating::selectRaw('package_id, AVG(package_rating) as average_rating')
+            ->groupBy('package_id')
+            ->get()
+            ->pluck('average_rating', 'package_id');
         
         $menus = Menu::all();
         $services = Service::all(); 
         $selectedId = $service->id; 
         
-        return view('cservices.show', compact('service', 'availablePackages', 'menus', 'services', 'selectedId'));
+        return view('cservices.show', compact('service', 'availablePackages', 'menus', 'services', 'selectedId', 'packageRatings'));
     }
     
 

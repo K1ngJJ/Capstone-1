@@ -48,10 +48,6 @@ class Reservation extends Model
         return $this->belongsToMany(Inventory::class)->withPivot('quantity');
     }
 
-    public function payment() {
-        return $this->hasOne(Payment::class);
-    }
-
     public function getInventorySupplies()
     {
         // Load inventory supplies if they are not already loaded
@@ -63,5 +59,14 @@ class Reservation extends Model
         return $this->inventory_supplies;
     }
 
+    public function payment() 
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+    public function rating()
+    {
+        return $this->hasOne(Rating::class, 'reserv_id');
+    }
 
 }

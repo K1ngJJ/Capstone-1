@@ -34,7 +34,7 @@ class ReservationController extends Controller
         }
     
         // Retrieve reservations belonging to the current customer
-        $reservations = Reservation::where('email', $user->email)->get();
+        $reservations = Reservation::where('email', $user->email)->with('rating')->get();
         
         return view('reservations.history', compact('reservations'));
     }

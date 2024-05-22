@@ -18,6 +18,7 @@ use App\Http\Controllers\BotManController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\RatingController;
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -228,5 +229,8 @@ Route::get('/gallery/delete/{id}', [GalleryController::class, 'delete'])->name('
 Route::get('/gallery', [GalleryController::class, 'gallery'])->name('gallery');
 Route::get('/gallery/editGalleryImages/{id}', [GalleryController::class, 'showImages'])->name('showGalleryImages');
 Route::get('/gallery/filter', [GalleryController::class, 'filter'])->name('filterGallery');
+
+//Ratings
+Route::post('/submit_rating', [RatingController::class, 'submitRating'])->name('submit_rating');
 
 

@@ -8,7 +8,7 @@
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
+<head >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,8 +20,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-
 
     <style>
         .menu-title {
@@ -83,9 +81,9 @@
             color: gold; 
         }
     </style>
-    </head>
+</head>
 
-    @section('content')
+@section('content')
 <section class="banner">
     <div class="container">
         <br>
@@ -100,97 +98,98 @@
                 <div class="table-container">
                     <table class="min-w-full">
                         <thead class="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th scope="col"
-                                            class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            <strong>Reso_ID</strong>
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Name
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Email
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Date
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Service
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Package
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Guests
-                                        </th>
-                                        <th scope="col"
-                                            class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                            Supply
-                                        </th>
-                                        <th scope="col"
-                                        class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                        Status
-                                         </th>
-                                         <th scope="col" class="relative py-3 px-6 flex justify-end items-center">
-                                            <span class="sr-only">Edit</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($reservations as $reservation)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
-                                        <strong>#{{ $reservation->id }}</strong>
-                                        </td>
-                                        <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
-                                            {{ $reservation->first_name }} {{ $reservation->last_name }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->email }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->res_date }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->service ? $reservation->service->name : 'No package associated' }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->package ? $reservation->package->name : 'No package associated' }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->guest_number }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->inventory_supplies }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
-                                            {{ $reservation->status }}
-                                        </td>
-                                        <td class="py-4 px-2 text-sm font-medium text-right ">
-                                            <div class="flex space-x-2">
-                                                @if($reservation->status == 'Fulfilled')
-                                                <button class="py-2 px-4 bg-green-500 hover:bg-green-700 rounded-lg text-white rate-btn" data-reservation-id="{{ $reservation->id }}">Rate</button>
-                                                @else
-                                                    <button class="px-4 py-2 bg-red-500 hover:bg-red-700 rounded-lg text-white">Cancel</button>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="RateModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="modal-title" id="editModalLabel">Rate Reservation</h2>
-                                    </div>
-                                    <div class="modal-body">
+                            <tr>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    <strong>Reso_ID</strong>
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Name
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Email
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Date
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Service
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Package
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Guests
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Supply
+                                </th>
+                                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Status
+                                </th>
+                                <th scope="col" class="relative py-3 px-6 flex justify-end items-center">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($reservations as $reservation)
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
+                                    <strong>#{{ $reservation->id }}</strong>
+                                </td>
+                                <td class="py-4 px-2 text-sm font-medium text-gray-900  dark:text-white">
+                                    {{ $reservation->first_name }} {{ $reservation->last_name }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->email }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->res_date }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->service ? $reservation->service->name : 'No package associated' }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->package ? $reservation->package->name : 'No package associated' }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->guest_number }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->inventory_supplies }}
+                                </td>
+                                <td class="py-4 px-2 text-sm text-gray-500  dark:text-gray-400">
+                                    {{ $reservation->status }}
+                                </td>
+                               
+                                <td class="py-4 px-2 text-sm font-medium text-right ">
+                                <div class="flex space-x-2">
+                                    @if($reservation->rating)
+                                        <button class="py-2 px-4 bg-gray-500 rounded-lg text-white rated-btn" data-reservation-id="{{ $reservation->id }}">Rated</button>
+                                    @elseif($reservation->status == 'Pending')
+                                        <button class="px-4 py-2 bg-red-500 hover:bg-red-700 rounded-lg text-white">Cancel</button>
+                                    @elseif($reservation->status == 'Fulfilled' && !$reservation->rating)
+                                        <button class="py-2 px-4 bg-green-500 hover:bg-green-700 rounded-lg text-white rate-btn" data-reservation-id="{{ $reservation->id }}" data-service-id="{{ $reservation->service_id }}" data-package-id="{{ $reservation->package_id }}">Rate</button>
+                                    @endif
+                                </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <!-- Rating Modal -->
+                    <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="RateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="editModalLabel">Rate Reservation</h2>
+                                </div>
+
+                                <input type="hidden" id="reserv_id" name="reserv_id">
+                                <input type="hidden" id="serviceId" name="service_id">
+                                <input type="hidden" id="packageId" name="package_id">
+                                <div class="modal-body">
                                     <label>Service</label><br>
                                     <div class="stars" id="stars">
                                         <span class="star" data-value="1">&#9733;</span>
@@ -199,9 +198,8 @@
                                         <span class="star" data-value="4">&#9733;</span>
                                         <span class="star" data-value="5">&#9733;</span>
                                     </div>
-                                    <input type="hidden" name="rating" id="rating" value="0"> <!-- This will store the selected rating -->
-                                        <!-- Add this HTML code inside your modal body -->
-                                        <br><label>Food </label><br>
+                                    <input type="hidden" name="rating" id="rating" value="0"> 
+                                    <br><label>Food </label><br>
                                     <div class="stars" id="qualityStars">
                                         <span class="star" data-value="1">&#9733;</span>
                                         <span class="star" data-value="2">&#9733;</span>
@@ -209,139 +207,129 @@
                                         <span class="star" data-value="4">&#9733;</span>
                                         <span class="star" data-value="5">&#9733;</span>
                                     </div>
-                                    <input type="hidden" name="qualityRating" id="qualityRating" value="0"> <!-- This will store the selected rating -->
-
+                                    <input type="hidden" name="qualityRating" id="qualityRating" value="0"> 
                                     <hr>
                                     <div>
-                                         <br>
+                                        <br>
                                         <label>Overall Rating:</label>
                                         <span id="averageRating"></span>
                                     </div>
-                                            <div id="overallRatingStars" class="stars">
-                                                <!-- Stars for overall rating will be displayed here -->
-                                            </div>
-
+                                    <div id="overallRatingStars" class="stars"></div>
                                     <br><label>Comments:</label>
-                                    <textarea id="comment" class="form-control" rows="3"></textarea>
+                                    <textarea id="comment" class="form-control" rows="3" required></textarea>
+                                    <small id="commentError" class="text-danger" style="display: none;">Please enter a comment.</small>
                                 </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-danger" id="submitRating">Submit</button>
-                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" id="submitRating">Submit</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+    function resetModalFields() {
+        $('#stars .star').removeClass('selected');
+        $('#qualityStars .star').removeClass('selected');
+        $('#rating').val('0');
+        $('#qualityRating').val('0');
+        $('#comment').val('');
+        $('#commentError').hide();
+        $('#overallRatingStars').empty();
+        $('#averageRating').text('');
+    }
+
     $(document).ready(function () {
         $('.rate-btn').click(function () {
+            var reservationId = $(this).data('reservation-id');
+            var serviceId = $(this).data('service-id');
+            var packageId = $(this).data('package-id');
+
+            $('#reserv_id').val(reservationId);
+            $('#serviceId').val(serviceId);
+            $('#packageId').val(packageId);
+
             $('#rateModal').modal('show');
         });
 
-        // Function to handle click on stars for service rating
         $('#stars .star').click(function () {
-            var rating = $(this).attr('data-value'); // Get the rating value
-            $('#rating').val(rating); // Set the rating value in the hidden input field
-
-            // Update visual appearance of stars
+            var rating = $(this).attr('data-value');
+            $('#rating').val(rating);
             $('#stars .star').removeClass('selected');
             $(this).prevAll().addBack().addClass('selected');
-
-            // Calculate average and update overall rating stars
             updateOverallRating();
         });
 
-        // Function to handle click on stars for quality rating
         $('#qualityStars .star').click(function () {
-            var qualityRating = $(this).attr('data-value'); // Get the rating value
-            $('#qualityRating').val(qualityRating); // Set the rating value in the hidden input field
-
-            // Update visual appearance of stars
+            var qualityRating = $(this).attr('data-value');
+            $('#qualityRating').val(qualityRating);
             $('#qualityStars .star').removeClass('selected');
             $(this).prevAll().addBack().addClass('selected');
-
-            // Calculate average and update overall rating stars
             updateOverallRating();
         });
 
-        // Function to update overall rating stars based on average
         function updateOverallRating() {
             var serviceRating = parseInt($('#rating').val());
             var qualityRating = parseInt($('#qualityRating').val());
             var averageRating = (serviceRating + qualityRating) / 2;
 
-            // Update visual appearance of overall rating stars
-            $('#overallRatingStars').empty(); // Clear existing stars
-
-            // Fill up stars based on average rating
+            $('#overallRatingStars').empty();
             for (var i = 1; i <= 5; i++) {
-                var starClass = i <= averageRating ? 'selected' : ''; // Add 'selected' class for filled stars
+                var starClass = i <= averageRating ? 'selected' : '';
                 $('#overallRatingStars').append('<span class="star ' + starClass + '">&#9733;</span>');
             }
-
-            // Update average rating value
-            $('#averageRating').text(averageRating.toFixed(1)); // Display average rating with one decimal place
+            $('#averageRating').text(averageRating.toFixed(1));
         }
 
-        // Function to handle modal submission for service rating
-        $('#submitRating').click(function () {
-            var reservationId = $('#rateModal').data('reservation-id');
-            var rating = $('#rating').val();
-
-            // Perform AJAX request to submit the service rating
-            // Example:
-            $.ajax({
-                url: '/submit-service-rating',
-                method: 'POST',
-                data: {
-                    reservationId: reservationId,
-                    rating: rating
-                },
-                success: function (response) {
-                    // Handle success response
-                    $('#rateModal').modal('hide');
-                    // You can update UI or show a confirmation message here
-                },
-                error: function (xhr, status, error) {
-                    // Handle error
-                    console.error(xhr.responseText);
-                }
-            });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
 
-        // Function to handle modal submission for quality rating
-        $('#submitQualityRating').click(function () {
-            var reservationId = $('#rateModal').data('reservation-id');
-            var qualityRating = $('#qualityRating').val();
+        $('#submitRating').click(function () {
+            var reservationId = $('#reserv_id').val();
+            var serviceId = $('#serviceId').val();
+            var packageId = $('#packageId').val();
+            var serviceRating = $('#rating').val();
+            var packageRating = $('#qualityRating').val();
+            var comment = $('#comment').val();
 
-            // Perform AJAX request to submit the quality rating
-            // Example:
+            if (comment === '') {
+                $('#commentError').show();
+                return;
+            } else {
+                $('#commentError').hide();
+            }
+
             $.ajax({
-                url: '/submit-quality-rating',
+                url: '{{ route("submit_rating") }}',
                 method: 'POST',
                 data: {
-                    reservationId: reservationId,
-                    qualityRating: qualityRating
+                    reserv_id: reservationId,
+                    service_id: serviceId,
+                    package_id: packageId,
+                    service_rating: serviceRating,
+                    package_rating: packageRating,
+                    comment: comment
                 },
                 success: function (response) {
-                    // Handle success response
                     $('#rateModal').modal('hide');
-                    // You can update UI or show a confirmation message here
+                    resetModalFields();
+                    // Optionally reload the page or update the specific row to reflect the rating
+                    location.reload();
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
                     console.error(xhr.responseText);
                 }
             });
         });
     });
 </script>
-
-
 </section>
 </html>
 @endsection

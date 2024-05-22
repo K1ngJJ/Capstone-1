@@ -374,6 +374,13 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ $package->description }}</h6>
                         <div class="d-flex justify-content-between">
                             <p class="card-text fs-5 fw-bold">₱{{ $package->price }}</p>
+                            <p class="card-text fs-5 fw-bold">
+                                <span class="text-yellow-500">★</span> <!-- Star icon -->
+                                @php
+                                $averageRating = isset($packageRatings[$package->id]) ? number_format($packageRatings[$package->id], 1) : '0.0';
+                                @endphp
+                                {{ $averageRating }}
+                            </p>
                         </div>
 
                 @if ($package->user_id !== null)
