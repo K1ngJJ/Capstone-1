@@ -18,6 +18,10 @@
 
 The documentation for the package can be viewed by clicking the following link:
 
+[https://laravel-paypal.readthedocs.io/en/latest/](https://laravel-paypal.readthedocs.io/en/latest/)
+
+The old documentation can be found at the following link:
+
 [https://srmklive.github.io/laravel-paypal/docs.html](https://srmklive.github.io/laravel-paypal/docs.html)
 
 <a name="usage"></a>
@@ -67,6 +71,20 @@ return [
 You can override PayPal API configuration by calling `setApiCredentials` method:
 
 ```php
+$config = [
+    'mode'    => 'live',
+    'live' => [
+        'client_id'         => 'PAYPAL_LIVE_CLIENT_ID',
+        'client_secret'     => 'PAYPAL_LIVE_CLIENT_SECRET',
+        'app_id'            => 'PAYPAL_LIVE_APP_ID',
+    ],
+
+    'payment_action' => 'Sale',
+    'currency'       => 'USD',
+    'notify_url'     => 'https://your-site.com/paypal/notify',
+    'locale'         => 'en_US',
+    'validate_ssl'   => true,
+];
 $provider->setApiCredentials($config);
 ```
 

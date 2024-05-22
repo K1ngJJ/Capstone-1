@@ -256,6 +256,52 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_exception_when_get_error_for_creating_a_billing_plan()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansErrorResponse()
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->client = $this->client->addMonthlyPlan('Demo Plan', 'Demo Plan', 100);
+    }
+
+    /** @test */
+    public function it_throws_exception_when_get_error_for_creating_a_product()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockGetCatalogProductsErrorResponse()
+            )
+        );
+
+        $this->expectException(\RuntimeException::class);
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+    }
+
+    /** @test */
     public function it_can_create_a_subscription_without_trial()
     {
         $this->client->setAccessToken([
@@ -453,6 +499,158 @@ class AdapterCreateSubscriptionHelpersTest extends TestCase
         );
 
         $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_add_setup_fees_when_creating_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+        $setup_fee = 9.99;
+
+        $this->client = $this->client->addSetupFee($setup_fee)
+            ->addProductById('PROD-XYAB12ABSB7868434')
+            ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_add_shipping_address_when_creating_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+
+        $this->client = $this->client->addShippingAddress('John Doe', 'House no. 123', 'Street 456', 'Test Area', 'Test Area', 10001, 'US')
+            ->addProductById('PROD-XYAB12ABSB7868434')
+            ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_add_custom_payment_failure_threshold_value_when_creating_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+        $threshold = 5;
+
+        $this->client = $this->client->addPaymentFailureThreshold($threshold)
+            ->addProductById('PROD-XYAB12ABSB7868434')
+            ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_set_tax_percentage_when_creating_subscription()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+        $percentage = 10;
+
+        $this->client = $this->client->addTaxes($percentage)
+            ->addProductById('PROD-XYAB12ABSB7868434')
+            ->addBillingPlanById('P-5ML4271244454362WXNWU5NQ');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setupSubscription('John Doe', 'john@example.com', $start_date);
+
+        $this->assertNotEmpty($response);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertArrayHasKey('plan_id', $response);
+    }
+
+    /** @test */
+    public function it_can_create_a_subscription_with_fixed_installments()
+    {
+        $this->client->setAccessToken([
+            'access_token'  => self::$access_token,
+            'token_type'    => 'Bearer',
+        ]);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateCatalogProductsResponse()
+            )
+        );
+
+        $start_date = Carbon::now()->addDay()->toDateString();
+
+        $this->client = $this->client->addProduct('Demo Product', 'Demo Product', 'SERVICE', 'SOFTWARE');
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreatePlansResponse()
+            )
+        );
+
+        $this->client = $this->client->addPlanTrialPricing('DAY', 7)
+            ->addMonthlyPlan('Demo Plan', 'Demo Plan', 100, 12);
+
+        $this->client->setClient(
+            $this->mock_http_client(
+                $this->mockCreateSubscriptionResponse()
+            )
+        );
+
+        $response = $this->client->setReturnAndCancelUrl('https://example.com/paypal-success', 'https://example.com/paypal-cancel')
+            ->setupSubscription('John Doe', 'john@example.com', $start_date);
 
         $this->assertNotEmpty($response);
         $this->assertArrayHasKey('id', $response);

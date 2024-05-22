@@ -97,7 +97,7 @@ class CartController extends Controller
                     if ($usableDiscountCode->minSpend > $subtotal) {
                         return redirect()
                             ->route('cart')
-                            ->with('error', "You need to spend at least RM ".$usableDiscountCode->minSpend." in order to use this discount code.");
+                            ->with('error', "You need to spend at least ₱ ".$usableDiscountCode->minSpend." in order to use this discount code.");
                     }
 
                     // Everything is okay. The discount code can be used.

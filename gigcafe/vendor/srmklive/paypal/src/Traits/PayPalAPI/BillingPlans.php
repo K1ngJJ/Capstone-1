@@ -4,11 +4,12 @@ namespace Srmklive\PayPal\Traits\PayPalAPI;
 
 trait BillingPlans
 {
+    use BillingPlans\PricingSchemes;
+
     /**
      * Create a new billing plan.
      *
-     * @param array  $data
-     * @param string $request_id
+     * @param array $data
      *
      * @throws \Throwable
      *
@@ -16,11 +17,10 @@ trait BillingPlans
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_create
      */
-    public function createPlan(array $data, string $request_id)
+    public function createPlan(array $data)
     {
         $this->apiEndPoint = 'v1/billing/plans';
 
-        $this->options['headers']['PayPal-Request-Id'] = $request_id;
         $this->options['json'] = $data;
 
         $this->verb = 'post';
@@ -31,21 +31,15 @@ trait BillingPlans
     /**
      * List all billing plans.
      *
-     * @param int  $page
-     * @param int  $size
-     * @param bool $totals
-     *
      * @throws \Throwable
      *
      * @return array|\Psr\Http\Message\StreamInterface|string
      *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#plans_list
      */
-    public function listPlans(int $page = 1, int $size = 20, bool $totals = true)
+    public function listPlans()
     {
-        $totals = ($totals) ? 'true' : 'false';
-
-        $this->apiEndPoint = "v1/billing/plans?page={$page}&page_size={$size}&total_required={$totals}";
+        $this->apiEndPoint = "v1/billing/plans?page={$this->current_page}&page_size={$this->page_size}&total_required={$this->show_totals}";
 
         $this->verb = 'get';
 

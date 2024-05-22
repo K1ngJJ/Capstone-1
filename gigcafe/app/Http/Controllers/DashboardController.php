@@ -24,6 +24,8 @@ class DashboardController extends Controller
         if (auth()->user()->role != 'admin')
             abort(403, 'This route is only meant for admin.');
 
+        $notifications = auth()->user()->unreadNotifications;
+
         // General variables useful for all charts / graphs
         $lastMonthDate = Carbon::now()->subDays(30)->toDateTimeString();
         $today = Carbon::today()->toDateString();
@@ -163,7 +165,19 @@ class DashboardController extends Controller
         
         $startDate = Carbon::parse($lastMonthDate)->format('Y-m-d');
         return view('dashboard', compact("startDate", "today", "totalRevenue", "dailyRevenue", "totalCost", "grossProfit",
-                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByMonth", "paymentsByDate")); 
+                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByMonth", "paymentsByDate", 'notifications')); 
+    }
+
+    public function markNotification(Request $request)
+    {
+        auth()->user()
+            ->unreadNotifications
+            ->when($request->input('id'), function ($query) use ($request) {
+                return $query->where('id', $request->input('id'));
+            })
+            ->markAsRead();
+
+        return response()->noContent();
     }
 
 }

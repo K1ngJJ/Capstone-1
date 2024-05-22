@@ -24,7 +24,7 @@ class AdapterConfigTest extends TestCase
     public function it_throws_exception_if_invalid_credentials_are_provided()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+        $this->expectExceptionMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
 
         $this->client = new PayPalClient([]);
     }
@@ -33,7 +33,7 @@ class AdapterConfigTest extends TestCase
     public function it_throws_exception_if_invalid_mode_is_provided()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+        $this->expectExceptionMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
 
         $credentials = $this->getApiCredentials();
         $credentials['mode'] = '';
@@ -45,7 +45,7 @@ class AdapterConfigTest extends TestCase
     public function it_throws_exception_if_empty_credentials_are_provided()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectErrorMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
+        $this->expectExceptionMessage('Invalid configuration provided. Please provide valid configuration for PayPal API. You can also refer to the documentation at https://srmklive.github.io/laravel-paypal/docs.html to setup correct configuration.');
 
         $credentials = $this->getApiCredentials();
         $credentials['sandbox'] = [];
@@ -59,7 +59,7 @@ class AdapterConfigTest extends TestCase
         $item = 'client_id';
 
         $this->expectException(\RuntimeException::class);
-        $this->expectErrorMessage("{$item} missing from the provided configuration. Please add your application {$item}.");
+        $this->expectExceptionMessage("{$item} missing from the provided configuration. Please add your application {$item}.");
 
         $credentials = $this->getApiCredentials();
         $credentials['sandbox'][$item] = '';
@@ -115,6 +115,18 @@ class AdapterConfigTest extends TestCase
 
         $this->assertNotEmpty($this->client->getRequestHeader('Prefer'));
         $this->assertEquals($this->client->getRequestHeader('Prefer'), 'return=representation');
+    }
+
+    /** @test */
+    public function it_can_set_multiple_request_headers()
+    {
+        $this->client->setRequestHeaders([
+            'PayPal-Request-Id'             => 'some-request-id',
+            'PayPal-Partner-Attribution-Id' => 'some-attribution-id',
+        ]);
+
+        $this->assertNotEmpty($this->client->getRequestHeader('PayPal-Request-Id'));
+        $this->assertEquals($this->client->getRequestHeader('PayPal-Partner-Attribution-Id'), 'some-attribution-id');
     }
 
     /** @test */

@@ -5,7 +5,7 @@
 <p align="center">
 <a href="https://discord.gg/nAZBEkH"><img src="https://img.shields.io/static/v1?logo=discord&label=&message=Discord&color=36393f&style=flat-square" alt="Discord"></a>
 <a href="https://github.com/cybercog/laravel-ban/releases"><img src="https://img.shields.io/github/release/cybercog/laravel-ban.svg?style=flat-square" alt="Releases"></a>
-<a href="https://travis-ci.org/cybercog/laravel-ban"><img src="https://img.shields.io/travis/cybercog/laravel-ban/master.svg?style=flat-square" alt="Build Status"></a>
+<a href="https://github.com/cybercog/laravel-ban/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/cybercog/laravel-ban/tests.yml?style=flat-square" alt="Build"></a>
 <a href="https://styleci.io/repos/83971055"><img src="https://styleci.io/repos/83971055/shield" alt="StyleCI"></a>
 <a href="https://scrutinizer-ci.com/g/cybercog/laravel-ban/?branch=master"><img src="https://img.shields.io/scrutinizer/g/cybercog/laravel-ban.svg?style=flat-square" alt="Code Quality"></a>
 <a href="https://github.com/cybercog/laravel-ban/blob/master/LICENSE"><img src="https://img.shields.io/github/license/cybercog/laravel-ban.svg?style=flat-square" alt="License"></a>
@@ -62,8 +62,8 @@ Use case is not limited to User model, any Eloquent model could be banned: Organ
 
 First, pull in the package through Composer:
 
-```shell script
-$ composer require cybercog/laravel-ban
+```shell
+composer require cybercog/laravel-ban
 ```
 
 #### Registering package
@@ -80,11 +80,11 @@ Include the service provider within `app/config/app.php`:
 
 #### Apply database migrations
 
-At last you need to publish and run database migrations:
+At last, you need to publish and run database migrations:
 
-```shell script
-$ php artisan vendor:publish --provider="Cog\Laravel\Ban\Providers\BanServiceProvider" --tag="migrations"
-$ php artisan migrate
+```shell
+php artisan vendor:publish --provider="Cog\Laravel\Ban\Providers\BanServiceProvider" --tag="migrations"
+php artisan migrate
 ```
 
 ## Usage
@@ -92,11 +92,11 @@ $ php artisan migrate
 ### Prepare bannable model
 
 ```php
-use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements BannableContract
+class User extends Authenticatable implements BannableInterface
 {
     use Bannable;
 }
@@ -108,8 +108,8 @@ Bannable model must have `nullable timestamp` column named `banned_at`. This val
 
 #### Create a new migration file
 
-```shell script
-$ php artisan make:migration add_banned_at_column_to_users_table
+```shell
+php artisan make:migration add_banned_at_column_to_users_table
 ```
 
 Then insert the following code into migration file:
@@ -121,22 +121,22 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBannedAtColumnToUsersTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('banned_at')->nullable();
         });
     }
-    
-    public function down()
+
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('banned_at');
         });
     }
-}
+};
 ```
 
 ### Available methods
@@ -250,11 +250,11 @@ $users = User::onlyBanned()->get();
 To apply query scopes all the time you can define `shouldApplyBannedAtScope` method in bannable model. If method returns `true` all banned models will be hidden by default.
 
 ```php
-use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements BannableContract
+class User extends Authenticatable implements BannableInterface
 {
     use Bannable;
     
@@ -342,8 +342,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 Run the tests with:
 
-```shell script
-$ vendor/bin/phpunit
+```shell
+vendor/bin/phpunit
 ```
 
 ## Security
@@ -366,6 +366,10 @@ If you discover any security related issues, please email open@cybercog.su inste
 
 - `Laravel Ban` package is open-sourced software licensed under the [MIT License](LICENSE) by [Anton Komarev].
 - `Fat Boss In Jail` image licensed under [Creative Commons 3.0](https://creativecommons.org/licenses/by/3.0/us/) by Gan Khoon Lay.
+
+## 🌟 Stargazers over time
+
+[![Stargazers over time](https://chart.yhype.me/github/repository-star/v1/MDEwOlJlcG9zaXRvcnk4Mzk3MTA1NQ==.svg)](https://yhype.me?utm_source=github&utm_medium=cybercog-laravel-ban&utm_content=chart-repository-star-cumulative)
 
 ## About CyberCog
 

@@ -126,15 +126,16 @@
                             <form method="POST" action="{{ route('reservations.store.step.two') }}">
                                 @csrf
                                 <div class="sm:col-span-6">
-                                <label for="service_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Services</label>
+                                <label for="service_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">For what event?</label>
                                     <div class="mt-1">
                                         <select id="service_id" name="service_id" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                        <option value="">Select Service</option>
+                                        <option value="" disabled selected>Select Event</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}" {{ $service->id == $reservation->service_id ? 'selected' : '' }}>
                                                     {{ $service->name }}
                                                 </option>
                                             @endforeach
+                                            <option value="">Other</option>
                                         </select>
                                     </div>
                                     @error('service_id')
@@ -148,7 +149,7 @@
                                 <label for="package_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Packages</label>
                                     <div class="mt-1">
                                         <select id="package_id" name="package_id" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                        <option value="">Select Package</option>
+                                        <option value="" disabled selected>Select Package</option>
                                             @foreach ($packages as $package)
                                                 <option value="{{ $package->id }}" {{ $package->id == $reservation->package_id ? 'selected' : '' }}>
                                                     {{ $package->name }} ({{ $package->guest_number }} Guests)
@@ -166,7 +167,7 @@
 
                                 <div class="col-12 mb-3">
                                     <label for="payment_status" class="block py-1 px-2 text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                        E-Payment Mode
+                                        Payment Mode
                                     </label>
                                     <select name="payment_status" id="payment_status" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                                         <option value="" disabled selected>Select Payment Mode</option>
@@ -180,7 +181,8 @@
                                     @enderror
 
                                 <div class="dropdown-divider bold-divider"></div>
-
+                                <div class="row my-5 justify-content-between">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
                                 <div class="sm:col-span-6">
                                 <br>
                                     <label for="supply_choice" class="block text-sm font-medium text-gray-700">Supply Choice</label>
@@ -206,7 +208,8 @@
                                     @endforeach
                                 </div>
                                 </div>
-
+</div>
+</div>
                                 <div class="button-container mt-2 p-4 flex justify-between">
                                     <a href="{{ route('reservations.step.one') }}" class="px-4 py-2 btn btn-custom-color">Previous</a>
                                     <button type="submit" class="px-4 py-2 btn btn-custom-color">Make Reservation</button>

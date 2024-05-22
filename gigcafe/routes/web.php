@@ -55,6 +55,7 @@ Route::middleware(['verified','PreventBackHistory'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/mark-as-read', [DashboardController::class, 'markNotification'])->name('markNotification');
     //Reservation Items
     Route::resource('/services', ServiceController::class);
     Route::resource('/reservations', ReservationController::class);
