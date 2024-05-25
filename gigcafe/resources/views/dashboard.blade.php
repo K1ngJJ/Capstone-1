@@ -3,6 +3,8 @@
 @section('links')
     <script src="{{ asset('js/dashboard.js') }}" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 @endsection
 
 @section('bodyID')
@@ -16,6 +18,7 @@
 
 
 @section('content')
+
 <style>
 
 .horizontal-line {
@@ -32,41 +35,20 @@
     margin-bottom: 0.5rem;
 }
 
-
+#reservation-chart {
+    max-width: 900px; /* Adjust the width as needed */
+    margin: 0; /* Center the chart */
+}
 </style>
 <!-- todo - session success stuff -->
 <section class="container">
 <div class="card-body">
-                    @if(session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    @if(auth()->user()->role === 'admin')
-                        @forelse($notifications as $notification)
-                            <div class="alert alert-success" role="alert">
-                                [{{ $notification->created_at }}] User {{ $notification->data['name'] }} ({{ $notification->data['email'] }}) has just registered.
-                                <a href="#" class="float-right mark-as-read" data-id="{{ $notification->id }}">
-                                    Mark as read
-                                </a>
-                            </div>
-
-                            @if($loop->last)
-                                <a href="#" id="mark-all">
-                                    Mark all as read
-                                </a>
-                            @endif
-                        @empty
-                            There are no new notifications
-                        @endforelse
-                    @else
-                        You are logged in!
-                    @endif
-                </div>
+<div class="container">
+</div>
 
     <div class="row mt-5">
-        <div class="col mt-lg-0 mt-5">
+        <div class="col mt-lg-0 mt-5 justify-content-between">
+        @include('partials.notification', ['unreadNotifications' => auth()->user()->unreadNotifications])
             <h1 class="mt-lg-0 mt-3">Order Dashboard</h1>
         </div>
         <div class="col-lg-5 col-12 d-flex justify-content-center mt-lg-0 mt-5">
@@ -238,7 +220,7 @@
 <!-- Reservation Analytics -->
 <div class="row my-3 justify-content-between">
     @if(isset($reservationsByMonth))
-        <div id="reservation-analytics"  class="col-12 pt-3 h-50 shadow rounded bg-white">
+        <div id="reservation-analytics" class="col-12 pt-3 shadow rounded bg-white" style="height: 400px; width: 1000px;">
             <h5 class="text-center">Reservation Analytics by Month</h5>
             <canvas id="reservation-chart"></canvas>
         </div>
@@ -266,7 +248,7 @@
                 data: counts,
                 backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color with transparency
                 borderColor: 'rgba(54, 162, 235, 1)', // Blue color
-                borderWidth: 1
+                borderWidth: 0
             }]
         },
         options: {
@@ -279,40 +261,8 @@
     });
 </script>
 <!-- End Reservation Analytics -->
+
 </section>
 
 
 @endsection
-@section('scripts')
-@parent
-    <script>
-    function sendMarkRequest(id = null) {
-        return $.ajax("{{ route('markNotification') }}", {
-            method: 'POST',
-            data: {
-                _token,
-                id
-            }
-        });
-    }
-
-    $(function() {
-        $('.mark-as-read').click(function() {
-            let request = sendMarkRequest($(this).data('id'));
-
-            request.done(() => {
-                $(this).parents('div.alert').remove();
-            });
-        });
-
-        $('#mark-all').click(function() {
-            let request = sendMarkRequest();
-
-            request.done(() => {
-                $('div.alert').remove();
-            })
-        });
-    });
-    </script>
-@endsection
-

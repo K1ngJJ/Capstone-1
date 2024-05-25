@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -100,13 +101,10 @@ class RegisterController extends Controller
 
         $user = $this->create($request->all());
 
-        $this->guard()->login($user);
+        event(new Registered($user));
 
-        $user->sendEmailVerificationNotification();
+        Auth::login($user);
 
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        return redirect(RouteServiceProvider::HOME);
     }
-
-    
 }

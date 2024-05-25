@@ -295,8 +295,10 @@
             </div>
             <div class="modal-body p-4 bg-light custom-modal-body">
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('transactions.pdf', $order->transaction->id) }}" class="btn btn-dark btn-sm">
-                    <i class="fa fa-download" style="font-size: 15px;"></i></a>
+                    @if ($order->transaction)
+                        <a href="{{ route('transactions.pdf', $order->transaction->id) }}" class="btn btn-dark btn-sm">
+                        <i class="fa fa-download" style="font-size: 15px;"></i></a>
+                    @endif
                 </div>
 
                 <div class="dropdown-divider bold-divider"></div>
@@ -305,15 +307,17 @@
                     <div class="info-item">
                         <span class="info-label">Order ID:</span> <span class="info-value">#{{ $order->id }}</span>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Customer:</span> <span class="info-value">{{ $order->user->name }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Email:</span> <span class="info-value">{{ $order->user->email }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Mobile Number:</span> <span class="info-value">{{ $order->user->mobile_number }}</span>
-                    </div>
+                    @if ($order->user)
+                        <div class="info-item">
+                            <span class="info-label">Customer:</span> <span class="info-value">{{ $order->user->name }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email:</span> <span class="info-value">{{ $order->user->email }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Mobile Number:</span> <span class="info-value">{{ $order->user->mobile_number }}</span>
+                        </div>
+                    @endif
                     <div class="info-item">
                         <span class="info-label">Order Type:</span> <span class="info-value">{{ $order->type }}</span>
                     </div>
@@ -338,5 +342,6 @@
     </div>
 </div>
 @endforeach
+
 @endsection
 

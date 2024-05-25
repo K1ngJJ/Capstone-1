@@ -19,6 +19,8 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\NotificationController;
+
 
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
@@ -55,7 +57,6 @@ Route::middleware(['verified','PreventBackHistory'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/mark-as-read', [DashboardController::class, 'markNotification'])->name('markNotification');
     //Reservation Items
     Route::resource('/services', ServiceController::class);
     Route::resource('/reservations', ReservationController::class);
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-reservation', [ReservationController::class, 'filterReservation'])->name('filterReservation');
 });
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::post('/mark-as-read', [NotificationController::class, 'markNotification'])->name('markNotification');
 
 
 
@@ -82,7 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('orderstxn-pdf', [PdfController::class, 'orderstxnPdf'])->name('OrdersTxn.Pdf');
     Route::get('reservationstxn-pdf', [PdfController::class, 'reservationstxnPdf'])->name('ReservationsTxn.Pdf');
     Route::get('/reservations/{id}/pdf', [PdfController::class, 'reservationPdf'])->name('reservations.pdf');
-    Route::get('transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
+    Route::get('/transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
     Route::get('packages/{id}/pdf', [PdfController::class, 'packagePdf'])->name('packages.pdf');
 });
 
