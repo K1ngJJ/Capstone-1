@@ -9,6 +9,8 @@
         "barryvdh/laravel-dompdf": "^2.1",
         "botman/botman": "^2.8",
         "botman/driver-web": "^1.5",
+        "chartisan/chartisan": "*",
+        "consoletvs/charts": "*",
         "cybercog/laravel-ban": "^4.7",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

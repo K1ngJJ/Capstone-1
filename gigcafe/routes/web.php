@@ -57,6 +57,7 @@ Route::middleware(['verified','PreventBackHistory'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/mark-as-read', [NotificationController::class, 'markNotification'])->name('markNotification');
     //Reservation Items
     Route::resource('/services', ServiceController::class);
     Route::resource('/reservations', ReservationController::class);
@@ -65,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-reservation', [ReservationController::class, 'filterReservation'])->name('filterReservation');
 });
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
-    Route::post('/mark-as-read', [NotificationController::class, 'markNotification'])->name('markNotification');
 
 
 
@@ -192,6 +192,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservation/step-two', [FrontendReservationController::class, 'storeStepTwo'])->name('reservations.store.step.two');
     Route::get('/reservation/thankyou', [FrontendReservationController::class, 'thankyou'])->name('reservations.thankyou');
     Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservations.show');
+    Route::post('/reservations/cancel/{id}', [FrontendReservationController::class, 'cancelReservation'])->name('reservations.cancel');
+
 
     //\Illuminate\Support\Facades\Mail::send(new \App\Mail\NotifReservation());
 });

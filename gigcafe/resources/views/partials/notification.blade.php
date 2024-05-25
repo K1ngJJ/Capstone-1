@@ -26,13 +26,15 @@
 .notifications-dropdown {
     display: none;
     position: absolute;
-    left: 0;
+    top: 0; /* Align with the top edge of the container */
+    right: 0; /* Align with the right edge of the container */
     background-color: white;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     width: 300px;
     font-size: 12px;
 }
+
 
 .notification:hover .notifications-dropdown {
     display: block;
@@ -75,7 +77,7 @@
 </style>
 
 <div class="notification">
-    <i class="fa fa-bell" style="font-size: 24px;"></i>
+    <i class="fa fa-bell" style="font-size: 35px;"></i>
     @if(auth()->user()->unreadNotifications->count())
         <span class="badge">{{ auth()->user()->unreadNotifications->count() }}</span>
     @endif

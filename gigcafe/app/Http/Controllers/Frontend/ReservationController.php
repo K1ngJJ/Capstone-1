@@ -27,17 +27,43 @@ class ReservationController extends Controller
     public function history()
     {
         $user = auth()->user();
-    
-        // Check if the user is a customer
-        if ($user->role !== 'customer') {
-            abort(403, 'This route is only meant for customers.');
-        }
-    
-        // Retrieve reservations belonging to the current customer
-        $reservations = Reservation::where('email', $user->email)->with('rating')->get();
+
+    // Check if the user is a customer
+    if ($user->role !== 'customer') {
+        abort(403, 'This route is only meant for customers.');
+    }
+
+    // Retrieve reservations belonging to the current customer, excluding those with a status of "Cancelled"
+    $reservations = Reservation::where('email', $user->email)
+                               ->where('status', '!=', 'Cancelled')
+                               ->with('rating')
+                               ->get();
         
         return view('reservations.history', compact('reservations'));
     }
+
+    public function cancelReservation($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $user = auth()->user();
+
+        // Check if the reservation belongs to the logged-in user
+        if ($reservation->email !== $user->email) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Update the reservation status to "Cancelled"
+        $reservation->status = 'Cancelled';
+        $reservation->save();
+
+        return redirect()->route('reservations.history')->with('success', 'Reservation has been cancelled.');
+    }
+
+
+
+
+
+
     public function stepOne(Request $request)
     {
         if (auth()->user()->role != 'customer')
@@ -167,7 +193,11 @@ class ReservationController extends Controller
 }
 
     
-
+public function show($id)
+{
+    $reservation = Reservation::with(['service', 'package'])->findOrFail($id);
+    return response()->json($reservation);
+}
 
 
     public function thankyou()

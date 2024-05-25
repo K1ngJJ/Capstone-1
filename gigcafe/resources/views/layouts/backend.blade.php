@@ -356,6 +356,11 @@
 
     <!-- Chatify container -->
 
+    <div class="floating-icons" style="position: fixed; top: 90px; right: 50px;">
+    <!-- Sublime Icon Placement -->
+    @include('partials.notification', ['unreadNotifications' => auth()->user()->unreadNotifications])
+    </div>
+
     <!-- Floating icons -->
     <div class="floating-icons">
         <!-- Add your floating icons here -->

@@ -177,20 +177,46 @@
             <div class="flex-center">
             <img src="{{ URL::asset('/images/calendar.svg') }}" style="height: 32px; width: 32px;">
             </div>
-            <p class="flex-center mt-lg-0 px-3">From: {{ $startDate }}</p>
-            <p class="flex-center mt-lg-0 px-3">To: {{ $today }} </p>
+            <p class="flex-center mt-lg-0 px-3">From: {{ $rstartDate }}</p>
+            <p class="flex-center mt-lg-0 px-3">To: {{ $rtoday }} </p>
+            </div>
+        </div>
+    </div>
+
+
+<!-- first row -->
+<div class="row my-5 justify-content-between">
+        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+            <div id="estimated-rcost" class="col-11 p-3 h-100 shadow rounded bg-white"> 
+                <h5 class="text-center">Estimated Cost</h5>
+                <h2 class="my-4 apexcharts-yaxis-title fw-bold text-center">₱ {{ number_format($totalAmount, 2) }}</h2>
+                <p class="small text-muted text-center">Total Amount of Payments for Fulfilled Reservations</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+            <!-- TODO -->
+            <div id="total-reservation" class="col-11 p-3 h-100 shadow rounded bg-white"> 
+                <h5 class="text-center">Total Reservation</h5>
+                <h2 class="my-4 apexcharts-yaxis-title fw-bold text-center">{{ $totalReservations }}</h2>
+                <p class="small text-muted text-center">Total Number of Fulfilled Reservations</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+            <!-- TODO -->
+            <div id="customers" class="col-11 p-3 h-100 shadow rounded bg-white">    
+                <h5 class="text-center">Total Customers</h5>
+                <h2 class="my-4 apexcharts-yaxis-title fw-bold text-center">{{ $resCustomer }}</h2>
+                <p class="small text-muted text-center">Total Number of Customers Who Made Reservations</p>
             </div>
         </div>
     </div>
 
 
 
-
-
-<div class="row my-3 justify-content-between">
-    @if(isset($paymentsByDate))
+<!--div class="row my-3 justify-content-between">
+    @if(isset($paymentsByDate))-->
     <!-- Payment Analytics -->
-        <div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
+        <!--div class="col-lg-4 col-12 mb-lg-0 mb-3 flex-center">
             <div id="payment-analytics" class="col-11 p-3 h-100 shadow rounded bg-white">
                 <h5 class="text-center">Payment Analytics</h5>
                 <table class="table">
@@ -212,55 +238,121 @@
             </div>
         </div>
     @endif
-</div>
+</div-->
 
 
 
 
 <!-- Reservation Analytics -->
-<div class="row my-3 justify-content-between">
-    @if(isset($reservationsByMonth))
-        <div id="reservation-analytics" class="col-12 pt-3 shadow rounded bg-white" style="height: 400px; width: 1000px;">
-            <h5 class="text-center">Reservation Analytics by Month</h5>
+<div class="row my-5 justify-content-between">
+    @if(isset($reservationsByMonth) && isset($reservationsByWeek))
+        <div id="reservation-analytics" class="col-12 pt-3 h-100 shadow rounded bg-white"
+             data-reservations-month="{{ json_encode($reservationsByMonth) }}"
+             data-reservations-week="{{ json_encode($reservationsByWeek) }}">
+            <h5 class="text-center">Reservation Analytics</h5>
             <canvas id="reservation-chart"></canvas>
         </div>
     @endif
 </div>
 
 <script>
-    // Get data from PHP and format for Chart.js
-    var months = [];
-    var counts = [];
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data from the div's data attributes
+        var reservationsMonth = JSON.parse(document.getElementById('reservation-analytics').getAttribute('data-reservations-month'));
+        var reservationsWeek = JSON.parse(document.getElementById('reservation-analytics').getAttribute('data-reservations-week'));
 
-    @foreach($reservationsByMonth as $reservation)
-        months.push("{{ date('F Y', mktime(0, 0, 0, $reservation->month, 1, $reservation->year)) }}");
-        counts.push({{ $reservation->count }});
-    @endforeach
-  
-    // Create the chart
-    var ctx = document.getElementById('reservation-chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: months,
-            datasets: [{
-                label: 'Total Reservations',
-                data: counts,
-                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Blue color with transparency
-                borderColor: 'rgba(54, 162, 235, 1)', // Blue color
-                borderWidth: 0
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        var monthLabels = [];
+        var monthCounts = [];
+        reservationsMonth.forEach(function (reservation) {
+            monthLabels.push(new Date(reservation.year, reservation.month - 1).toLocaleString('default', { month: 'long', year: 'numeric' }));
+            monthCounts.push(reservation.count);
+        });
+
+        var weekLabels = [];
+        var weekCounts = [];
+        reservationsWeek.forEach(function (reservation) {
+            weekLabels.push(`Week ${reservation.week}, ${reservation.year}`);
+            weekCounts.push(reservation.count);
+        });
+
+        // Merge the labels to create a combined x-axis
+        var combinedLabels = Array.from(new Set([...monthLabels, ...weekLabels]));
+        var monthData = combinedLabels.map(label => {
+            var index = monthLabels.indexOf(label);
+            return index !== -1 ? monthCounts[index] : 0;
+        });
+        var weekData = combinedLabels.map(label => {
+            var index = weekLabels.indexOf(label);
+            return index !== -1 ? weekCounts[index] : 0;
+        });
+
+        // Create the chart
+        var ctx = document.getElementById('reservation-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: combinedLabels,
+                datasets: [
+                    {
+                        label: 'Reservations by Month',
+                        data: monthData,
+                        backgroundColor: 'rgba(139, 0, 0, 0.5)', // Dark red color with transparency
+                        borderColor: 'rgba(139, 0, 0, 1)', // Dark red color
+                        borderWidth: 1,
+                        barThickness: 40, // Set the thickness of the bars
+                    },
+                    {
+                        label: 'Reservations by Week',
+                        data: weekData,
+                        backgroundColor: 'rgba(255, 140, 0, 0.5)', // Dark orange color with transparency
+                        borderColor: 'rgba(255, 140, 0, 1)', // Dark orange color
+                        borderWidth: 1,
+                        barThickness: 40, // Set the thickness of the bars
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10 // Smaller font size for x-axis labels
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 10 // Smaller font size for y-axis labels
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 12 // Smaller font size for legend labels
+                            }
+                        }
+                    }
+                },
+                elements: {
+                    bar: {
+                        borderWidth: 1 // Smaller border width for bars
+                    }
                 }
             }
-        }
+        });
     });
 </script>
 <!-- End Reservation Analytics -->
+
+
+
+
+
 
 </section>
 

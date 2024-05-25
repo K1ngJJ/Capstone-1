@@ -147,25 +147,84 @@ class DashboardController extends Controller
         // calculate times of discount code being used
         $discountCodeUsed = Transaction::where("discount_id", "!=", null)->count();
 
-        // calculate number of customer
+
+       // Calculate number of customers
         $numCustomer = User::where("role", "customer")->count();
 
-    $reservationsByMonth = Reservation::selectRaw('YEAR(res_date) as year, MONTH(res_date) as month, COUNT(*) as count')
-    ->groupBy('year', 'month')
-    ->orderBy('year')
-    ->orderBy('month')
-    ->get();
 
 
-         // Payment Reservation Analytics
-        $paymentsByDate = Payment::selectRaw('DATE(created_at) as date, SUM(amount) as total_amount')
-        ->groupBy('date')
-        ->orderBy('date')
+
+
+
+        //RESERVATIONS
+
+        // General variables useful for all charts / graphs
+        $rtoday = Carbon::today()->toDateString();
+        $lastMonthDate = Carbon::now()->subDays(30)->toDateString();
+
+        // Transactions within the last 30 days
+        $oneMonthPayments = Payment::where('created_at', '>=', $lastMonthDate)->get();
+
+        // Start date for the charts (last 30 days)
+        $rstartDate = $lastMonthDate;
+
+        // Calculate number of reservations by month with status 'Fulfilled' within the last 30 days
+        $reservationsByMonth = Reservation::where('status', 'Fulfilled')
+            ->where('res_date', '>=', $lastMonthDate)
+            ->selectRaw('YEAR(res_date) as year, MONTH(res_date) as month, COUNT(*) as count')
+            ->groupBy('year', 'month')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        // Calculate number of reservations by week with status 'Fulfilled' within the last 30 days
+        $reservationsByWeek = Reservation::where('status', 'Fulfilled')
+            ->where('res_date', '>=', $lastMonthDate)
+            ->selectRaw('YEAR(res_date) as year, WEEK(res_date, 1) as week, COUNT(*) as count')
+            ->groupBy('year', 'week')
+            ->orderBy('year')
+            ->orderBy('week')
+            ->get();
+
+        // Calculate number of customers who made reservations
+        $resCustomer = Reservation::distinct('user_id')->count('user_id');
+        // Calculate number of reservations by month with status 'Fulfilled'
+        $reservationsByMonth = Reservation::where('status', 'Fulfilled')
+        ->selectRaw('YEAR(res_date) as year, MONTH(res_date) as month, COUNT(*) as count')
+        ->groupBy('year', 'month')
+        ->orderBy('year')
+        ->orderBy('month')
         ->get();
+
+        // Calculate number of reservations by week with status 'Fulfilled'
+        $reservationsByWeek = Reservation::where('status', 'Fulfilled')
+            ->selectRaw('YEAR(res_date) as year, WEEK(res_date, 1) as week, COUNT(*) as count')
+            ->groupBy('year', 'week')
+            ->orderBy('year')
+            ->orderBy('week')
+            ->get();
+
+        // Calculate total number of reservations with status 'Fulfilled'
+        $totalReservations = Reservation::where('status', 'Fulfilled')->count();
+
+
+
+         // Get payments by date for reservations with status 'Fulfilled'
+        $paymentsByDate = Payment::join('reservations', 'payments.reservation_id', '=', 'reservations.id')
+            ->where('reservations.status', 'Fulfilled')
+            ->selectRaw('DATE(payments.created_at) as date, SUM(payments.amount) as total_amount')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Calculate the total amount of all payments for fulfilled reservations
+        $totalAmount = $paymentsByDate->sum('total_amount');
+
+        //END RESERVATIONS
         
         $startDate = Carbon::parse($lastMonthDate)->format('Y-m-d');
         return view('dashboard', compact("startDate", "today", "totalRevenue", "dailyRevenue", "totalCost", "grossProfit",
-                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "reservationsByMonth", "paymentsByDate", 'notifications')); 
+                "totalOrders", "dailyOrders", "discountCodeUsed", "numCustomer", "categoricalSales", "finalProductSales", "rstartDate", "rtoday", "resCustomer", "reservationsByMonth", "reservationsByWeek", "totalReservations", "totalAmount", 'notifications')); 
     }
 
 }
