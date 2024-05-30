@@ -311,9 +311,11 @@
                                 </a>
                             </th>
                             <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toDateString() }}</div></td> <!-- Display date -->
+                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toDateString() }}</div>
+                            </td> <!-- Display date -->
                             <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toTimeString() }}</div></td>
+                                <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toTimeString() }}</div>
+                            </td>
                             <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="mt-1 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-4 alert alert-success' : '' }}
                                              {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-4 alert alert-failed' : '' }}
@@ -339,9 +341,11 @@
                                     <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
                                         <i class="fas fa-eye px-3 py-1 custom-red-icon" style="font-size: 17px;"></i> 
                                     </a>
-                                    <button type="button" class="my-md-1 px-2 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $reservation->id }}">
-                                        <i class="fa fa-trash" style="font-size: 17px;"></i>
-                                    </button>
+                                    @if(!in_array($reservation->status, ['Approved', 'In Progress', 'Fulfilled']))
+                                        <button type="button" class="my-md-1 px-2 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $reservation->id }}">
+                                            <i class="fa fa-trash" style="font-size: 17px;"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </td>              
                         </tr>
@@ -397,7 +401,7 @@
                                                 @endforeach
                                             </select>
 
-                                            @if(auth()->user()->role === 'admin' || $reservation->status !== 'Fulfilled')
+                                            @if($reservation->status !== 'Fulfilled')
                                                 <button onclick="window.location.href='{{ route('reservations.edit', $reservation->id) }}'" class="btn-md btn btn-warning ml-auto">
                                                     <i class="fa fa-edit" style="font-size: 20px;"></i>
                                                 </button>

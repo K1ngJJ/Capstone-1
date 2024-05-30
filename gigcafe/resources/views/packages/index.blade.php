@@ -152,7 +152,7 @@
 
 <section class="kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
     <div class="container mt-lg-0 mt-5">
-    <h2 class="mt-5 mb-4" style="font-size: 1.0rem;font-style: italic;">Catering packages</h2>
+    <h2 class="mt-5 mb-4" style="font-size: 1.0rem;font-style: italic;">Catering Packages</h2>
     <div class="row my-5 justify-content-between">
         <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
         <div class="table-responsive">
@@ -160,17 +160,17 @@
                     <thead class="bg-gray-50 dark:bg-gray-900">
                         <tr>
                             <th scope="col">
-                            <div class="px-4">Name</div></th>
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><b>Name</b></div></th>
                             <th scope="col">
-                            <div class="px-4">Image</div></th>
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><b>Image</b></div></th>
                             <th scope="col">
-                            <div class="px-4">Guest Limit</div></th>
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><b>Guest Limit</b></div></th>
                             <th scope="col">
-                            <div class="px-4">Status</div></th>
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><b>Status</b></div></th>
                             <th scope="col">
-                            <div class="px-4">Price</div></th>
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"><b>Price</b></div></th>
                             <th scope="col">
-                            <div class="px-4">
+                            <div class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" id="pdfDownloadBtn"><i class="fa fa-download"></i></a>
                             <!-- Modal -->
                                 <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">

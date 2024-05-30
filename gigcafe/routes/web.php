@@ -86,6 +86,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservations/{id}/pdf', [PdfController::class, 'reservationPdf'])->name('reservations.pdf');
     Route::get('/transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
     Route::get('packages/{id}/pdf', [PdfController::class, 'packagePdf'])->name('packages.pdf');
+    Route::get('services/{id}/pdf', [PdfController::class, 'servicePdf'])->name('services.pdf');
+
 });
 
 

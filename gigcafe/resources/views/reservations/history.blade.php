@@ -297,7 +297,7 @@
                                     @elseif($reservation->status == 'Fulfilled' && !$reservation->rating)
                                         <button class="py-2 px-4 bg-green-500 hover:bg-green-700 rounded-lg text-white rate-btn" data-reservation-id="{{ $reservation->id }}" data-service-id="{{ $reservation->service_id }}" data-package-id="{{ $reservation->package_id }}">Rate</button>
                                     @endif
-                                </div>
+                                </div>  
                                 </td>
                                 <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div class=" d-flex ">

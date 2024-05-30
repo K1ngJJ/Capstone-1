@@ -205,9 +205,12 @@ class DashboardController extends Controller
             ->get();
 
         // Calculate total number of reservations with status 'Fulfilled'
-        $totalReservations = Reservation::where('status', 'Fulfilled')->count();
+        //$totalReservations = Reservation::where('status', 'Fulfilled')->count();
 
+        // Calculate total number of reservations with status 'Fulfilled'
+        $totalReservations = Payment::distinct('reservation_id')->count('reservation_id');
 
+    
 
          // Get payments by date for reservations with status 'Fulfilled'
         $paymentsByDate = Payment::join('reservations', 'payments.reservation_id', '=', 'reservations.id')
