@@ -1,4 +1,4 @@
-@extends('layouts.history')
+@extends('layouts.app')
 
 @section('links')
         <link href="{{ asset('css/order.css') }}" rel="stylesheet">
@@ -269,12 +269,12 @@
         }
 
         .bold-divider {
-            font-weight: bold; /* Make text bold */
-            height: 2px; /* Increase height to make the line bolder */
-            background-color: black; /* Ensure the line is visible */
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
+        font-weight: bold; /* Make text bold */
+        height: 2px; /* Increase height to make the line bolder */
+        background-color: black; /* Ensure the line is visible */
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
     </style>
 
 <section class="banner kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
@@ -346,54 +346,14 @@
                                 <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="my-md-1 px-2 py-1">{{ $reservation->res_date->toTimeString() }}</div>
                                 </td>
-                                <td class="py-3 px-3 text-sm font-medium whitespace-nowrap dark:text-white">
-                                    <div class="status-container {{ 
-                                        $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'success' : '' 
-                                    }}{{ 
-                                        $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'failed' : '' 
-                                    }}{{ 
-                                        $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'warning' : '' 
-                                    }}{{ 
-                                        $reservation->status == 'Pending' ? 'pending' : '' 
-                                    }}">
-                                        {{ $reservation->status }}
-                                    </div>
+                                <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="mt-1 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-4 alert alert-success' : '' }}
+                                                {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-4 alert alert-failed' : '' }}
+                                                {{ $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'px-3 alert alert-warning' : '' }}
+                                                {{ $reservation->status == 'Pending' ? 'px-4 alert alert-pending' : '' }}">
+                                    {{ $reservation->status }}
+                                </div>
                                 </td>
-
-                                <style>
-                                    .status-container {
-                                        padding: 5px 10px;
-                                        font-size: 12px;
-                                        font-weight: bold;
-                                        border-radius: 20px;
-                                        text-align: center;
-                                    }
-
-                                    .success {
-                                        background-color: #4CAF50;
-                                        color: white;
-                                        box-shadow: 0px 2px 4px rgba(76, 175, 80, 0.2);
-                                    }
-
-                                    .failed {
-                                        background-color: #F44336;
-                                        color: white;
-                                        box-shadow: 0px 2px 4px rgba(244, 67, 54, 0.2);
-                                    }
-
-                                    .warning {
-                                        background-color: #FFC107;
-                                        color: #333;
-                                        box-shadow: 0px 2px 4px rgba(255, 193, 7, 0.2);
-                                    }
-
-                                    .pending {
-                                        background-color: #2196F3;
-                                        color: white;
-                                        box-shadow: 0px 2px 4px rgba(33, 150, 243, 0.2);
-                                    }
-                                </style>
-
                                 <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div class="mt-1 px-2 alert 
                                     {{ $reservation->payment_status == 'Fully Payment' ? 'alert-success' : '' }} 
@@ -404,24 +364,12 @@
                                 </td> 
                 
                                 <td class="py-3 px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div class="d-flex">
-                                        <a href="#" class="view-details btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $reservation->id }}">
-                                            <i class="fas fa-money-bill-wave px-3 py-1 alert-paypal" style="font-size: 17px; animation: warning 2s infinite;"></i> 
-                                        </a>
-                                    </div>
+                                <div class=" d-flex ">
+                                    <a href="#" class="view-details btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $reservation->id }}">
+                                    <i class="fas fa-money-bill-wave px-3 py-1 alert-paypal" style="font-size: 17px;"></i> 
+                                    </a>
+                                </div>
                                 </td>
-
-                                <style>
-                                    @keyframes warning {
-                                        0%, 100% {
-                                            transform: translateX(0);
-                                        }
-                                        50% {
-                                            transform: translateX(-5px);
-                                        }
-                                    }
-                                </style>
-
                                 <td class="py-3 px-3 text-sm font-medium text-right ">
                                 <div class="flex space-x-2">
                                     @if($reservation->rating)
@@ -438,224 +386,114 @@
                                 </td>
                             </tr>
 
-                    <!-- Modal -->
+                           <!-- Modal -->
                                 <div class="modal fade" id="exampleModal{{ $reservation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content modal-body p-4 bg-light custom-modal-body">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">{{ $reservation->status }} Reservation</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span></button>
+                                                <span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <h2 class="text-center">MAKE YOUR PAYMENT</h2>
-                                                <p class="text-center text-danger" style="font-size: 10px; text-transform: uppercase; animation: pulse 1s infinite;">
-                                                <p class="text-center" style="font-size: 10px; text-transform: uppercase; color: darkred; position: relative;">
-                                                    Always! Remember your Reso ID: #{{ $reservation->id }}
-                                                </p>
-
+                                                <h2 class="text-center">MAKE YOUR PAYMENT </h2>
                                                 <hr class="my-4">
                                                 <div class="container">
                                                     <div class="bg-gray-50 rounded-lg shadow-xl p-4">
                                                         <div class="bg-white rounded-lg p-4">
-                                                            <div class="d-flex justify-content-center">
-                                                            <div class="rounded-full p-2 mt-1 status-container {{ 
-                                                                $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'success' : '' 
-                                                            }}{{ 
-                                                                $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'failed' : '' 
-                                                            }}{{ 
-                                                                $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'warning' : '' 
-                                                            }}{{ 
-                                                                $reservation->status == 'Pending' ? 'pending' : '' 
-                                                            }}">
-                                                                <div class="status-text">Your Reservation is {{ $reservation->status }}!</div>
+                                                         <div class="d-flex justify-content-center">
+                                                            <div class="rounded-full p-2 mt-1
+                                                                {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-4 alert alert-success' : '' }}
+                                                                {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-4 alert alert-failed' : '' }}
+                                                                {{ $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'px-3 alert alert-warning' : '' }}
+                                                                {{ $reservation->status == 'Pending' ? 'px-4 alert alert-pending' : '' }}">
+                                                                Your Reservation is {{ $reservation->status }}!
                                                             </div>
-
-                                                            <style>
-                                                                .status-container {
-                                                                    padding: 10px 20px;
-                                                                    font-size: 14px;
-                                                                    font-weight: bold;
-                                                                    border-radius: 20px;
-                                                                    text-align: center;
-                                                                    animation: pulse 1.5s ease infinite;
-                                                                }
-
-                                                                .status-text {
-                                                                    text-transform: uppercase;
-                                                                }
-
-                                                                .success {
-                                                                    background-color: #4CAF50;
-                                                                    color: white;
-                                                                    box-shadow: 0px 4px 8px rgba(76, 175, 80, 0.2);
-                                                                }
-
-                                                                .failed {
-                                                                    background-color: #F44336;
-                                                                    color: white;
-                                                                    box-shadow: 0px 4px 8px rgba(244, 67, 54, 0.2);
-                                                                }
-
-                                                                .warning {
-                                                                    background-color: #FFC107;
-                                                                    color: #333;
-                                                                    box-shadow: 0px 4px 8px rgba(255, 193, 7, 0.2);
-                                                                }
-
-                                                                .pending {
-                                                                    background-color: #2196F3;
-                                                                    color: white;
-                                                                    box-shadow: 0px 4px 8px rgba(33, 150, 243, 0.2);
-                                                                }
-
-                                                                @keyframes pulse {
-                                                                    0% {
-                                                                        transform: scale(1);
-                                                                        opacity: 1;
-                                                                    }
-                                                                    50% {
-                                                                        transform: scale(1.05);
-                                                                        opacity: 0.8;
-                                                                    }
-                                                                    100% {
-                                                                        transform: scale(1);
-                                                                        opacity: 1;
-                                                                    }
-                                                                }
-                                                            </style>
-
-                                                            </div>
+                                                         </div>
                                                             <br>
                                                             <form action="{{ url('charge') }}" method="post" id="paymentForm">
                                                                 @csrf
-                                                                <div class="dropdown-divider bold-divider"></div>
-                                                                <label for="amount" class="form-text text-xs font-small">Reso ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                                <label for="amount" class="form-text text-xs font-small">Your payment mode.</label>
+
+                                                                <label for="amount" class="form-text text-xs font-small">Reso ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                                <label for="amount" class="form-text text-xs font-small">Mode</label>
                                                                 <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
 
                                                                 <div class="input-group mb-3">
-                                                                    <span class="input-group-text alert-warning">&nbsp;#{{ $reservation->id }}&nbsp;</span>
-                                                                    <span class="input-group-text alert-complete">&nbsp;&nbsp;&nbsp;{{ $reservation->payment_status }}&nbsp;&nbsp;&nbsp;</span>
+                                                                    <span class="input-group-text alert-warning">#{{ $reservation->id }}</span>
+                                                                    <span class="input-group-text alert-complete">&nbsp;{{ $reservation->payment_status }}&nbsp;</span>
                                                                 </div>
+
+                                                                <div class="dropdown-divider bold-divider"></div>
+
                                                                 @if($reservation->payment_status !== 'Pay in Restaurant')
-                                                                <div class="dropdown-divider"></div>
-
-                                                                <input type="radio" id="gcash_radio" name="payment_option" value="gcash">
-                                                                <label for="gcash_radio" class="form-text text-xs font-small"> <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 18px; margin-right: 5px;"></label>
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                <input type="radio" id="paypal_radio" name="payment_option" value="paypal">
-                                                                <label for="paypal_radio" class="form-text text-xs"><img src="/images/paypal.png" alt="PayPal" style="width: 70px; height: 18px; vertical-align: middle; margin-right: 5px;"></label>
-
-                                                                <div class="dropdown-divider"></div>
-
-                                                                <div id="gcash_payment_section" class="payment-section">
-                                                                <label for="gcash_radio" class="form-text text-xs font-small">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    (Click me for QR)</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <span class="input-group-text alert-info text-xs">&nbsp;<strong>Scan for GCash Payment</strong>&nbsp;</span>
-                                                                        <button class="gcash-btn input-group-text" type="submit" name="submit" value="Pay Now">
-                                                                            <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 18px; margin-right: 5px;">
-                                                                        </button>
-                                                                    </div>
+                                                                <label for="amount" class="form-text text-xs font-small"><strong>GCASH</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Click me for QR)</label>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text alert-info text-xs">&nbsp;<strong>Scan for GCash Payment</strong>&nbsp;</span>
+                                                                    <button class="gcash-btn input-group-text" type="submit" name="submit" value="Pay Now">
+                                                                       <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 25px; margin-right: 5px;">
+                                                                    </button>
+                                                                    @endif
                                                                 </div>
 
-                                                                
+                                                                <div class="dropdown-divider bold-divider"></div>
 
-                                            
-                                                                <div id="paypal_payment_section" class="payment-section">
-                                                                <label for="paypal_radio" class="form-text text-xs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    (Enter Amount for Paypal payment)</label>
+                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
+                                                                    <label for="amount" class="form-text text-xs"><strong>PAYPAL</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Enter Amount for Paypal payment)</label>
                                                                     <div class="input-group mb-3">
-                                                                        <span class="input-group-text" style="padding: 0;">
-                                                                            &nbsp;<img src="/images/paypal.png" alt="PayPal" style="width: 70px; height: 18px; vertical-align: middle; margin-right: 5px;">
-                                                                        </span>
+                                                                    <span class="input-group-text" style="padding: 0;">
+                                                                    &nbsp;<img src="/images/paypal.png" alt="PayPal" style="width: 70px; height: 18px; vertical-align: middle; margin-right: 5px;">
+                                                                    </span>
 
                                                                         <input type="text" class="form-control" name="amount" value="₱" />
                                                                         <button class="paypal-btn input-group-text" type="submit" name="submit" value="Pay Now">
-                                                                            &nbsp;<img src="/images/paypal-logo.jpg" alt="PayPal" style="width: 30px; height: 18px; vertical-align: middle; margin-right: 5px;">
+                                                                        &nbsp;<img src="/images/paypal-logo.jpg" alt="PayPal" style="width: 30px; height: 18px; vertical-align: middle; margin-right: 5px;">
                                                                         </button>
                                                                     </div>
-                                                                </div>
+
+                                                                    <div class="dropdown-divider"></div>
+
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="alert alert-warning" style="margin-top: 5px;">
+                                                                        <strong style="text-transform: uppercase;">&nbsp;&nbsp;We accept half downpayment.&nbsp;&nbsp;</strong>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                            Please enter the half amount for PayPal.
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                            Scan the QR code for GCash payment.
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                @else
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="alert alert-info" style="margin-top: 5px;">
+                                                                        <strong style="text-transform: uppercase;">&nbsp;&nbsp;You have to pay in our restaurant.&nbsp;&nbsp;</strong>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                        <s> No need to pay online.</s>
+                                                                    </div>
+                                                                    </div>
                                                                 @endif
-                                                                <div class="dropdown-divider"></div>
+                                                            </form>
 
-                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
-                                                                <div class="d-flex justify-content-center">
-                                                                <div class="half alert-info" style="margin-top: 5px;">
-                                                                    <strong style="text-transform: uppercase;">
-                                                                        &nbsp;&nbsp; We accept half downpayment.&nbsp;&nbsp;
-                                                                    </strong>
-                                                                </div>
-                                                                <style>
-                                                                    .half {
-                                                                        animation: fadeInColorChange 5s ease-out infinite;
-                                                                    }
-
-                                                                    @keyframes fadeInColorChange {
-                                                                        0% {
-                                                                            opacity: 1;
-                                                                            background-color: rgba(255, 105, 97, 0.4);
-                                                                        }
-                                                                        50% {
-                                                                            opacity: 2;
-                                                                            background-color: rgba(255, 165, 0, 0.6);
-                                                                        }
-                                                                        100% {
-                                                                            opacity: 1;
-                                                                            background-color: rgba(144, 238, 144, 0.8);
-                                                                        }
-                                                                    }
-                                                                </style>
-                                                                </div>
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
-                                                                            Please enter the amount for PayPal.
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
-                                                                            Scan the QR code for GCash.
-                                                                        </div>
-                                                                    </div>
-                                                                    @else
-                                                                    <div class="d-flex justify-content-center">
-                                                                    <div class="half alert-info">
-                                                                        <strong style="text-transform: uppercase; font-size: 13px;">&nbsp;
-                                                                            Payment required at the Restaurant. &nbsp;
-                                                                        </strong>
-                                                                    </div>
-                                                                </div>
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
-                                                                            No need to pay online.
-                                                                        </div>
-                                                                    </div>
-                                                                    @endif
-                                                                </form>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-dark btn-md mr-auto" data-bs-dismiss="modal">Close</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark btn-md mr-auto" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <style>
-                                        .payment-section {
-                                            display: none;
-                                        }
-
-                                        #gcash_radio:checked ~ #gcash_payment_section,
-                                        #paypal_radio:checked ~ #paypal_payment_section {
-                                            display: block;
-                                        }
-                                    </style>
-
+                                </div>
 
 
                                <!-- Modal for viewing reservation details -->

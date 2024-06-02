@@ -39,19 +39,18 @@
     };
     </script>
     <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
-
-     <!--NEW SCRIPT & CSS-->
+    <!--NEW SCRIPT & CSS-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-     <!-- Fonts -->
-     <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-     
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 
     
     @yield('links')
@@ -75,7 +74,6 @@
         margin-bottom: 10px;
         /* Add more styles as needed */
     }
-    
 </style>
 </head>
 
@@ -122,9 +120,8 @@
                 </li>
                 <div style="background-color: rgba(255, 105, 97, 0.4); padding: 6px; display: flex; align-items: center; border-radius: 6px; justify-content: space-between;">
                 <li>
-                    <a href="{{ route('menu') }}">&nbsp;&nbsp;Menu&nbsp;&nbsp;</a>
+                    <a href="{{ route('menu') }}">&nbsp;&nbsp;Menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 </li>
-                </div>
 
                 @if (auth()->check())
                     @if (auth()->user()->role == 'customer')
@@ -144,6 +141,7 @@
                             </li>
                         @endif
                     @endif
+                    </div>
                 @else
                     @guest
                         <li>
@@ -180,24 +178,21 @@
                         </x-slot>
     
                         <x-slot name="content">
-                            <div>
-                                <x-dropdown-link :href="route('profile.edit')" >
-                                    {{ __('Profile') }}
+                            <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+    
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+    
+                                <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ __('Log Out') }}
                                 </x-dropdown-link>
-
-                                <!-- Authentication -->
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-
-                                    <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault();
-                                                        this.closest('form').submit();">
-                                        {{ __('Log Out') }}
-                                    </x-dropdown-link>
-                                </form>
-                            </div>
+                            </form>
                         </x-slot>
-
                     </x-dropdown>
                 </li>
                 @endif

@@ -12,8 +12,9 @@ class MenuController extends Controller
 {
  
     public function index() {
+        $layout = (Auth::check() && auth()->user()->role != 'customer') ? 'layouts.backend' : 'layouts.app';
         $menus = Menu::get();
-        return view('menu', compact('menus'));
+        return view('menu', compact('menus','layout'));
     }
 
     /**

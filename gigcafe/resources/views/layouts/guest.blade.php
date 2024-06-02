@@ -88,67 +88,77 @@
             </a>
             <ul class="nav-links">
                 <br>
-                <li><a href="/" class="logo-name">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li>      
-                <x-dropdown align="right" width="48" >
+                <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <a>
-                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 6px; display: inline-block; border-radius: 6px;">
-                                        <a href="/" onclick="return false;" class="logo-name">Catering</a>
-                                    </div>
+                                        <div style="background-color: rgba(255, 192, 77, 0.4); padding: 6px; display: inline-block; border-radius: 6px;"><a href="/" onclick="return false;">&nbsp;&nbsp;Catering&nbsp;&nbsp;</a></div>
                                     </a>
                                 </x-slot>
 
-                                <x-slot name="content">
-                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 10px; border-radius: 6px;">
-                                        <x-dropdown-link :href="route('cservices.index')">
-                                            {{ __('Services') }}
-                                        </x-dropdown-link>
+                                <x-slot name="content" >
+                                <div style="background-color: rgba(255, 192, 77, 0.4); padding: 10px; border-radius: 6px;">
+                                    <x-dropdown-link :href="route('cservices.index')">
+                                        {{ __('Services') }}
+                                    </x-dropdown-link>
 
-                                        <x-dropdown-link :href="route('gallery')">
-                                            {{ __('Gallery') }}
-                                        </x-dropdown-link>
-
-                                        @if (Auth::check() && auth()->user()->role == 'customer')
-                                            <x-dropdown-link :href="route('reservations.step.one')">
-                                                {{ __('Book Now!') }}
-                                            </x-dropdown-link>
-
-                                            <x-dropdown-link :href="route('reservations.history')">
-                                                {{ __('History') }}
-                                            </x-dropdown-link>
-                                        @endif
-                                    </div>
+                                    <x-dropdown-link :href="route('gallery')">
+                                        {{ __('Gallery') }}
+                                    </x-dropdown-link>
+                                   
+                                    @if (Auth::check() && auth()->user()->role == 'customer')
+                                    <x-dropdown-link :href="route('reservations.step.one')">
+                                        {{ __('Book Now!') }}
+                                    </x-dropdown-link>
+ 
+                                    <x-dropdown-link :href="route('reservations.history')">
+                                        {{ __('History') }}
+                                    </x-dropdown-link>
+                                    @endif
+                                </div>
                                 </x-slot>
-
                 </x-dropdown>  
                 </li>
+                <div style="background-color: rgba(255, 105, 97, 0.4); padding: 6px; display: flex; align-items: center; border-radius: 6px; justify-content: space-between;">
                 <li>
-                <div style="background-color: rgba(255, 105, 97, 0.6); padding: 6px; display: flex; align-items: center; border-radius: 6px; justify-content: space-between;">
-                <a href="{{ route('menu') }}" class="logo-name">Menu</a>
-                </div>
+                    <a href="{{ route('menu') }}">&nbsp;&nbsp;Menu&nbsp;&nbsp;</a>
                 </li>
-                @guest
-                <br>
-                    <li><a href="{{ route('register') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">{{ __('Register') }}</a></li>
-                    <li><a href="{{ route('login') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Login</a></li>
-                @else
-                    @if (auth()->user()->role == 'customer')
-                    
-                    <li><a href="{{ route('cart') }}" class="logo-name">Cart</a></li>
-                    <li><a href="{{ route('order') }}" class="logo-name">Order</a></li>
-                    
-                    
-                    @elseif (auth()->user()->role != 'staff')
-                    <li><a href="{{ route('kitchenOrder') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Order</a></li>
-                    @if (auth()->user()->role == 'admin')
-                    <li><a href="{{ route('discount') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Discount</a></li>
-                    @endif
-                    
-                    @endif
+                </div>
 
-                   
-                @endguest
+                @if (auth()->check())
+                    @if (auth()->user()->role == 'customer')
+                        <li><a href="{{ route('cart') }}">Cart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                        <li><a href="{{ route('order') }}">Order&nbsp;&nbsp;</a></li>
+                    @elseif (auth()->user()->role != 'staff')
+                        <li>
+                            <a href="{{ route('kitchenOrder') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                Order
+                            </a>
+                        </li>
+                        @if (auth()->user()->role == 'admin')
+                            <li>
+                                <a href="{{ route('discount') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                    Discount
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                @else
+                    @guest
+                        <li>
+                            <a href="{{ route('register') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                {{ __('Register') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('login') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                Login
+                            </a>
+                        </li>
+                    @endguest
+                @endif
+
             </ul>
 
             @if (Auth::check() && auth()->user()->role == 'customer')
