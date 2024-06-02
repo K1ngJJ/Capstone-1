@@ -155,6 +155,7 @@
                                                     {{ $package->name }} ({{ $package->guest_number }} Guests)
                                                 </option>
                                             @endforeach
+                                            <option value="">Other</option>
                                         </select>
                                     </div>
                                     @error('package_id')

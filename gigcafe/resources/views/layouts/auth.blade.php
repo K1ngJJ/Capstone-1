@@ -39,7 +39,19 @@
     };
     </script>
     <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
-    
+
+     <!--NEW SCRIPT & CSS-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+     <!-- Fonts -->
+     <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     
 
     
     @yield('links')
@@ -74,8 +86,132 @@
                 <img class="logo" src="@yield('logoFileName')" alt="logo">
                 <h3 class="logo-name">{{ config('app.name') }}</h3>
             </a>
+            <ul class="nav-links">
+                <br>
+                <li><a href="/" class="logo-name">Home</a></li>
+                <li>      
+                <x-dropdown align="right" width="48" >
+                                <x-slot name="trigger">
+                                    <a>
+                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 6px; display: inline-block; border-radius: 6px;">
+                                        <a href="/" onclick="return false;" class="logo-name">Catering</a>
+                                    </div>
+                                    </a>
+                                </x-slot>
+
+                                <x-slot name="content">
+                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 10px; border-radius: 6px;">
+                                        <x-dropdown-link :href="route('cservices.index')">
+                                            {{ __('Services') }}
+                                        </x-dropdown-link>
+
+                                        <x-dropdown-link :href="route('gallery')">
+                                            {{ __('Gallery') }}
+                                        </x-dropdown-link>
+
+                                        @if (Auth::check() && auth()->user()->role == 'customer')
+                                            <x-dropdown-link :href="route('reservations.step.one')">
+                                                {{ __('Book Now!') }}
+                                            </x-dropdown-link>
+
+                                            <x-dropdown-link :href="route('reservations.history')">
+                                                {{ __('History') }}
+                                            </x-dropdown-link>
+                                        @endif
+                                    </div>
+                                </x-slot>
+
+                </x-dropdown>  
+                </li>
+                <li>
+                <div style="background-color: rgba(255, 105, 97, 0.6); padding: 6px; display: flex; align-items: center; border-radius: 6px; justify-content: space-between;">
+                <a href="{{ route('menu') }}" class="logo-name">Menu</a>
+                </div>
+                </li>
+                @guest
+                <br>
+                    <li><a href="{{ route('register') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">{{ __('Register') }}</a></li>
+                    <li><a href="{{ route('login') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Login</a></li>
+                @else
+                    @if (auth()->user()->role == 'customer')
+                    
+                    <li><a href="{{ route('cart') }}" class="logo-name">Cart</a></li>
+                    <li><a href="{{ route('order') }}" class="logo-name">Order</a></li>
+                    
+                    
+                    @elseif (auth()->user()->role != 'staff')
+                    <li><a href="{{ route('kitchenOrder') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Order</a></li>
+                    @if (auth()->user()->role == 'admin')
+                    <li><a href="{{ route('discount') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Discount</a></li>
+                    @endif
+                    
+                    @endif
+
+                   
+                @endguest
+            </ul>
+
+            @if (Auth::check() && auth()->user()->role == 'customer')
+            <div style="position: fixed; top: 10px; right: 30px;">
+                <x-notify::notify />
+            </div>
+            <li>            
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <div>{{ Auth::user()->username}}</div>
+    
+                                <div class="ms-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+    
+                        <x-slot name="content">
+                            <div>
+                                <x-dropdown-link :href="route('profile.edit')" >
+                                    {{ __('Profile') }}
+                                </x-dropdown-link>
+
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </div>
+                        </x-slot>
+
+                    </x-dropdown>
+                </li>
+                @endif
+                
+
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
         </nav>
     </header>
+
+    <!-- Chatify container -->
+
+ <!-- Positioned Floating Icons -->
+<div class="floating-icons" style="position: fixed; bottom: 90px; right: 30px;">
+    <!-- Sublime Icon Placement -->
+    <a href="/chatify" class="icon">
+        <!-- Iconic Presence -->
+        <img src="{{ asset('images/Black Logo.png') }}" alt="Chat Icon">
+    </a>
+</div>
+
 
     <main>
         @yield('content')

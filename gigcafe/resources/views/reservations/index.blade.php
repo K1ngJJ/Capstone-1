@@ -278,28 +278,75 @@
                             <th scope="col">Supply</th>
                             <th scope="col">Guests</th-->       
                             <th scope="col">
-                                <div class="px-4">
-                            <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" id="pdfDownloadBtn"><i class="fa fa-download"></i></a>
-                           <!-- Modal -->
+                            <div class="px-4">
+                                <!-- Download button triggering the modal and the PDF download -->
+                                <a href="{{ route('ReservationsTxn.Pdf') }}" class="btn btn-dark btn-sm" id="pdfDownloadBtn" data-toggle="modal" data-target="#loadingModal"><i class="fa fa-download"></i></a>
+                                
+                                <!-- Modal -->
                                 <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="loadingModalLabel">Preparing PDF</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Please wait while the PDF is being prepared for download...
-                                    </div>
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="loadingModalLabel">Preparing PDF</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Please wait while the PDF is being prepared for download...
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
+                                
+                                <!-- Button for creating new reservations -->
+                                <a href="{{ route('reservations.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </th>
+                        <script>
+                            document.getElementById('pdfDownloadBtn').addEventListener('click', function(event) {
+                                event.preventDefault(); // Prevent the default action
 
-                            <a href="{{ route('reservations.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
-                                </div>
-                            </th>
+                                // Show the modal
+                                var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+                                loadingModal.show();
+
+                                // Start the PDF download
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('GET', '{{ route('ReservationsTxn.Pdf') }}', true);
+                                xhr.responseType = 'blob';
+
+                                xhr.onload = function() {
+                                    if (xhr.status === 200) {
+                                        var blob = new Blob([xhr.response], { type: 'application/pdf' });
+                                        var link = document.createElement('a');
+                                        link.href = window.URL.createObjectURL(blob);
+                                        link.download = 'ReservationsTxn.pdf';
+                                        link.click();
+
+                                        // Hide the modal after download starts
+                                        loadingModal.hide();
+
+                                        // Reload the page after a delay (e.g., 2 seconds)
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000); // Adjust the delay (in milliseconds) as needed
+                                    } else {
+                                        console.error('Failed to download PDF');
+                                        // Hide the modal if an error occurs
+                                        loadingModal.hide();
+                                    }
+                                };
+
+                                xhr.onerror = function() {
+                                    console.error('Network error occurred');
+                                    // Hide the modal if a network error occurs
+                                    loadingModal.hide();
+                                };
+
+                                xhr.send();
+                            });
+                        </script>
                         </tr>
                     </thead>
                     <tbody>
@@ -525,9 +572,6 @@ document.getElementById('pdfDownloadBtn').addEventListener('click', function() {
     // return false;
 });
 </script>
-
-
-
-    @endsection
+@endsection
 
     

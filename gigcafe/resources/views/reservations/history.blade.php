@@ -12,99 +12,99 @@
 
 @section('content')
 <style>
-    .btn-dark {
-        background-color: black;
-        color: white;
-    } 
+        .btn-dark {
+            background-color: black;
+            color: white;
+        } 
 
-    .btn-dark:hover {
-        background-color: white;
-        color: black;
-    } 
+        .btn-dark:hover {
+            background-color: white;
+            color: black;
+        } 
 
-    .btn-danger {
-        background-color: black; 
-        color: white;
-        border: gray;
-    }
+        .btn-danger {
+            background-color: black; 
+            color: white;
+            border: gray;
+        }
 
-    .btn-complete {
-        background-color: red; 
-        color: white;
-        border: gray;
-    } 
+        .btn-complete {
+            background-color: red; 
+            color: white;
+            border: gray;
+        } 
 
-    .btn-warning {
-        background-color: darkorange; 
-        color: white;
-    } 
+        .btn-warning {
+            background-color: darkorange; 
+            color: white;
+        } 
 
-    .btn-warning:hover {
-        background-color: white; /* Changing background color on hover */
-        color: black; /* Changing text color on hover */
-    }
+        .btn-warning:hover {
+            background-color: white; /* Changing background color on hover */
+            color: black; /* Changing text color on hover */
+        }
 
-    .btn-success {
-        color: green;
-        background-color: transparent; /* Setting the background-color to transparent */
-        border-color: green; /* Adding border color for better visibility */
-    }
+        .btn-success {
+            color: green;
+            background-color: transparent; /* Setting the background-color to transparent */
+            border-color: green; /* Adding border color for better visibility */
+        }
 
-    .btn-success:hover {
-        background-color: white; /* Changing background color on hover */
-        color: white; /* Changing text color on hover */
-    }
+        .btn-success:hover {
+            background-color: white; /* Changing background color on hover */
+            color: white; /* Changing text color on hover */
+        }
 
-    .bold-divider {
-        font-weight: bold; /* Make text bold */
-        height: 2px; /* Increase height to make the line bolder */
-        background-color: black; /* Ensure the line is visible */
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
+        .bold-divider {
+            font-weight: bold; /* Make text bold */
+            height: 2px; /* Increase height to make the line bolder */
+            background-color: black; /* Ensure the line is visible */
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .custom-status-span {
-        background-color: maroon; /* Red background */
-        color: white; /* White text */
-        padding: 0.25rem 0.5rem; /* Padding for some spacing */
-        font-size: 0.75rem; /* Small font size */
-        font-weight: bold; /* Bold text */
-        text-transform: uppercase; /* Uppercase text */
-        letter-spacing: 0.05em; /* Tracking wider */
-        border-color: white;
-    }
+        .custom-status-span {
+            background-color: maroon; /* Red background */
+            color: white; /* White text */
+            padding: 0.25rem 0.5rem; /* Padding for some spacing */
+            font-size: 0.75rem; /* Small font size */
+            font-weight: bold; /* Bold text */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 0.05em; /* Tracking wider */
+            border-color: white;
+        }
 
-    .custom-red-icon {
-        color: black; /* Red color */
-        border: 2px solid darkred; /* Red border */
-        padding: 4px; /* Padding for spacing between border and icon */
-        border-radius: 5px; /* Rounded corners */
-        transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
-    }
+        .custom-red-icon {
+            color: black; /* Red color */
+            border: 2px solid darkred; /* Red border */
+            padding: 4px; /* Padding for spacing between border and icon */
+            border-radius: 5px; /* Rounded corners */
+            transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+        }
 
-    .custom-red-icon:hover {
-        color: white; /* Change icon color on hover */
-        border-color: white; /* Change border color on hover */
-        background-color: darkred; /* Add background color on hover */
-    }
+        .custom-red-icon:hover {
+            color: white; /* Change icon color on hover */
+            border-color: white; /* Change border color on hover */
+            background-color: darkred; /* Add background color on hover */
+        }
 
-    .alert-failed{
-        color: #400200; 
-        border: 1px solid #C54644;
-        padding: 4px;
-        border-radius: 5px;
-        background-color: #f3d3d9;
-    }
+        .alert-failed{
+            color: #400200; 
+            border: 1px solid #C54644;
+            padding: 4px;
+            border-radius: 5px;
+            background-color: #f3d3d9;
+        }
 
-    .alert-pending{
-        color: solid lightgray; 
-        border: 1px solid gray;
-        padding: 4px;
-        border-radius: 5px;
-        background-color: lightgray;
-    }
+        .alert-pending{
+            color: solid lightgray; 
+            border: 1px solid gray;
+            padding: 4px;
+            border-radius: 5px;
+            background-color: lightgray;
+        }
 
-    .modal-body {
+        .modal-body {
             border-radius: 10px;
             background-color: #f9f9f9;
         }
@@ -208,11 +208,44 @@
             color: gold; 
         }
         
+        .alert-complete {
+            background-color: darkred;
+            color: white; /* Red color */
+            border: 2px solid black; /* Red border */
+            padding: 4px; /* Padding for spacing between border and icon */
+            border-radius: 5px; /* Rounded corners */
+            transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+        } 
+
+        .alert-complete:hover {
+            background-color: white; /* Changing background color on hover */
+            color: black; /* Changing text color on hover */
+            border: 2px solid darkorange; /* Red border */
+        }
+
+        .alert-paypal {
+            background-color: #436b95;
+            color: white; /* Red color */
+            border: 2px solid #1c2841; /* Red border */
+            padding: 4px; /* Padding for spacing between border and icon */
+            border-radius: 5px; /* Rounded corners */
+            transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+        } 
+
+        .alert-paypal:hover {
+            background-color: white; /* Changing background color on hover */
+            color: black; /* Changing text color on hover */
+            border: 2px solid #73a9c2; /* Red border */
+        }
     </style>
 
 <section class="banner kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
     <div class="container">
-        
+    @if (session('success'))
+    <div class="alert alert-success fixed-bottom" role="alert" style="width:500px;left:30px;bottom:20px">
+        {{ session('success') }}
+    </div>
+    @endif
         <br>
         <br>
         <br>
@@ -229,6 +262,9 @@
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
                                 <th scope="col" class="px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Details
+                                </th>
+                                <th scope="col" class="px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                     <strong>Reso_ID</strong>
                                 </th>
                                 <th scope="col" class="px-4 px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -244,19 +280,23 @@
                                     Payment Mode
                                 </th>
                                 <th scope="col" class="px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    
+                                    ₱ay Now
                                 </th>
                                 <th scope="col" class="px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    Details
-                                </th>
-                                <th scope="col" class="px-4 relative py-3 px-6 flex justify-end items-center">
-                                    <span class="sr-only">Edit</span>
+                                    
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($reservations as $reservation)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class=" d-flex ">
+                                    <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
+                                        <i class="fas fa-eye px-3 py-1 custom-red-icon" style="font-size: 17px;"></i> 
+                                    </a>
+                                </div>
+                                </td>
                                 <td class="py-3 px-3 text-sm font-medium text-gray-900  dark:text-white">
                                 <a href="#" class="view-details my-md-1 px-2 py-1 btn-sm primary-btn" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
                                 #{{ $reservation->id }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-eye my-md-1 px-2 py-1 " style="font-size: 15px;"></i>&nbsp; 
@@ -284,7 +324,14 @@
                                     &nbsp;&nbsp;{{ $reservation->payment_status }}&nbsp;&nbsp;
                                 </div>
                                 </td> 
-                               
+                
+                                <td class="py-3 px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class=" d-flex ">
+                                    <a href="#" class="view-details btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $reservation->id }}">
+                                    <i class="fas fa-money-bill-wave px-3 py-1 alert-paypal" style="font-size: 17px;"></i> 
+                                    </a>
+                                </div>
+                                </td>
                                 <td class="py-3 px-3 text-sm font-medium text-right ">
                                 <div class="flex space-x-2">
                                     @if($reservation->rating)
@@ -297,17 +344,71 @@
                                     @elseif($reservation->status == 'Fulfilled' && !$reservation->rating)
                                         <button class="py-2 px-4 bg-green-500 hover:bg-green-700 rounded-lg text-white rate-btn" data-reservation-id="{{ $reservation->id }}" data-service-id="{{ $reservation->service_id }}" data-package-id="{{ $reservation->package_id }}">Rate</button>
                                     @endif
-                                </div>  
-                                </td>
-                                <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class=" d-flex ">
-                                    <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $reservation->id }}">
-                                        <i class="fas fa-eye px-3 py-1 custom-red-icon" style="font-size: 17px;"></i> 
-                                    </a>
-                                </div>
+                                </div> 
                                 </td>
                             </tr>
 
+                           <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{ $reservation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content modal-body p-4 bg-light custom-modal-body">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{ $reservation->status }} Reservation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h2 class="text-center">MAKE YOUR PAYMENT </h2>
+                                                <hr class="my-4">
+                                                <div class="container">
+                                                    <div class="bg-gray-50 rounded-lg shadow-xl p-4">
+                                                        <div class="bg-white rounded-lg p-4">
+                                                         <div class="d-flex justify-content-center">
+                                                            <div class="rounded-full p-2 mt-1
+                                                                {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-4 alert alert-success' : '' }}
+                                                                {{ $reservation->status == 'Declined' || $reservation->status == 'Cancelled' ? 'px-4 alert alert-failed' : '' }}
+                                                                {{ $reservation->status == 'In Progress' || $reservation->status == 'Not fulfilled' ? 'px-3 alert alert-warning' : '' }}
+                                                                {{ $reservation->status == 'Pending' ? 'px-4 alert alert-pending' : '' }}">
+                                                                Your Reservation is {{ $reservation->status }}!
+                                                            </div>
+                                                         </div>
+                                                            <br>
+                                                            <form action="{{ url('charge') }}" method="post" id="paymentForm">
+                                                                @csrf       
+                                                                    <label for="amount" class="form-label text-xs font-small">Reso ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                                    <label for="amount" class="form-label text-xs font-small">Mode</label>
+                                                                <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text alert-warning">#{{ $reservation->id }}</span>
+                                                                    <span class="input-group-text alert-complete">{{ $reservation->payment_status }}</span>
+                                                                </div>
+                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
+                                                                <label for="amount" class="form-label text-xs">Enter Amount</label>
+                                                                @endif
+                                                                <div class="input-group mb-3">
+                                                                    @if($reservation->payment_status !== 'Pay in Restaurant')
+                                                                    <span class="input-group-text alert-success">₱</span>
+                                                                    <input type="text" class="form-control" name="amount" value="0" />
+                                                                    <button class="primary-btn input-group-text" type="submit" name="submit" value=" Pay Now">
+                                                                        &nbsp;&nbsp;<i class='fa fa-credit-card'></i>&nbsp;&nbsp;
+                                                                    </button>
+                                                                   <div class="form-text text-center">We accept half downpayment. Please input the half amount.</div>
+                                                                    @else
+                                                                    <div class="form-text text-center">You have to pay in our restaurant. No need to pay online.</div>
+                                                                    @endif
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark btn-md mr-auto" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                <!-- Modal for viewing reservation details -->
@@ -331,7 +432,7 @@
 
                                                 <div class="reservation-info">
                                                     <div class="info-item">
-                                                        <span class="info-label">Reso ID:</span> <span class="info-value"><strong>{{ $reservation->id }}</strong></span>
+                                                        <span class="info-label">Reso ID:</span> <span class="info-value"><strong>#{{ $reservation->id }}</strong></span>
                                                     </div>
                                                     <div class="info-item">
                                                         <span class="info-label">Name:</span> <span class="info-value">{{ $reservation->first_name }} {{ $reservation->last_name }}</span>
@@ -381,7 +482,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer d-flex justify-content-between">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-dark btn-md mr-auto" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>

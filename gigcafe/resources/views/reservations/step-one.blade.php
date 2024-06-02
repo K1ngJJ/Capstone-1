@@ -53,6 +53,25 @@
     transition-duration: 0.8s;
 }
 
+.btn-custom-color {
+    color: white;
+    background-color: #CE3232;
+}
+
+.btn-custom-color:hover {
+    background-color: #dfe1e2;
+    transition-duration: 0.8s;
+}
+
+.text-custom {
+    color: white;
+}
+
+.text-custom:hover {
+    color: black;
+    transition-duration: 0.8s;
+}
+                                    
 </style>
 
 <section class="banner">
@@ -170,27 +189,7 @@
                                     <a href="{{ route('cservices.index') }}" class="px-4 py-2 btn btn-custom-color">Events</a>
                                     <button type="submit" class="px-4 py-2 btn btn-custom-color" id="btnNext">Next</button>
                                 </div>
-                                <style>
-                                    .btn-custom-color {
-                                        color: white;
-                                        background-color: #CE3232;
-                                    }
-
-                                    .btn-custom-color:hover {
-                                        background-color: #dfe1e2;
-                                        transition-duration: 0.8s;
-                                    }
-
-                                    .text-custom {
-                                        color: white;
-                                    }
-
-                                    .text-custom:hover {
-                                        color: black;
-                                        transition-duration: 0.8s;
-                                    }
-
-                                </style>
+                                
                             </form>
                         </div>
                     </div>

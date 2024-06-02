@@ -71,11 +71,11 @@
             </tr>
             <tr>
                 <th>Package</th>
-                <td>{{ $reservation->package->name }}</td>
+                <td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
             </tr>
             <tr>
                 <th>Service</th>
-                <td>{{ $reservation->service->name }}</td>
+                <td>{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</td>
             </tr>
             <tr>
                 <th>Supplies</th>

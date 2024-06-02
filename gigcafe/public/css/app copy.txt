@@ -369,13 +369,11 @@ select:disabled {
 }
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  -webkit-appearance: button; /* For Safari and Chrome */
-  appearance: button; /* Standard */
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
 }
-
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
@@ -430,12 +428,10 @@ legend + * {
   height: auto;
 }
 
-[type='search'] {
+[type=search] {
   outline-offset: -2px;
-  -webkit-appearance: textfield; /* For Safari and Chrome */
-  appearance: textfield; /* Standard */
+  -webkit-appearance: textfield;
 }
-
 
 /* rtl:raw:
 [type="tel"],
@@ -2435,13 +2431,12 @@ textarea.form-control-lg {
   background-position: center;
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none;   /* For Safari and Chrome */
-  -moz-appearance: none;      /* For Firefox */
-  appearance: none;           /* Standard */
-  -webkit-print-color-adjust: exact; /* For Safari and Chrome */
-  print-color-adjust: exact;         /* Standard */
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  -webkit-print-color-adjust: exact;
+          color-adjust: exact;
 }
-
 .form-check-input[type=checkbox] {
   border-radius: 0.25em;
 }
@@ -11391,13 +11386,10 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-  -webkit-appearance: button; /* For Safari and Chrome */
-  -moz-appearance: button;    /* For Firefox */
-  appearance: button;         /* Standard */
-  background-color: transparent; /* Ensure the background is transparent */
-  background-image: none;        /* Ensure no background image */
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
 }
-
 
 /*
 Use the modern Firefox focus style for all focusable elements.
@@ -11438,11 +11430,9 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type='search'] {
-  -webkit-appearance: textfield; /* For Safari and Chrome */
-  appearance: textfield; /* Standard */
-  outline-offset: -2px; /* Adjust as needed */
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
 }
-
 
 /*
 Remove the inner padding in Chrome and Safari on macOS.
@@ -11571,8 +11561,8 @@ iframe,
 embed,
 object {
   display: block; /* 1 */
+  vertical-align: middle; /* 2 */
 }
-
 
 /*
 Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
@@ -11649,10 +11639,9 @@ select {
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
   padding-right: 2.5rem;
-  -webkit-print-color-adjust: exact; /* For Safari and Chrome */
-  print-color-adjust: exact; /* Standard */
+  -webkit-print-color-adjust: exact;
+          color-adjust: exact;
 }
-
 
 [multiple] {
   background-image: initial;
@@ -11660,19 +11649,17 @@ select {
   background-repeat: unset;
   background-size: initial;
   padding-right: 0.75rem;
-  -webkit-print-color-adjust: unset; /* For Safari and Chrome */
-  print-color-adjust: unset; /* Standard */
+  -webkit-print-color-adjust: unset;
+          color-adjust: unset;
 }
 
-
-[type='checkbox'],
-[type='radio'] {
+[type='checkbox'],[type='radio'] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   padding: 0;
-  -webkit-print-color-adjust: exact; /* For Safari and Chrome */
-  print-color-adjust: exact; /* Standard */
+  -webkit-print-color-adjust: exact;
+          color-adjust: exact;
   display: inline-block;
   vertical-align: middle;
   background-origin: border-box;
@@ -11688,8 +11675,6 @@ select {
   border-width: 1px;
   --tw-shadow: 0 0 #0000;
 }
-
-
 
 [type='checkbox'] {
   border-radius: 0px;

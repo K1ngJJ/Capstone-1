@@ -30,7 +30,8 @@ class Reservation extends Model
     ];
 
     protected $dates = [
-        'res_date'
+        'res_date',
+        'deleted_at',
     ];
 
     public function package()

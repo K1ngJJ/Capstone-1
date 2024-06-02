@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('links')
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">

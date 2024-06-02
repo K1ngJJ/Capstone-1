@@ -19,7 +19,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/a94b89670e.js"></script>
-
     <!-- Fonts -->
     <!-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +27,7 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    @notifyCss 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
      <!-- Chatbot  -->
@@ -39,6 +39,19 @@
     };
     </script>
     <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+
+     <!--NEW SCRIPT & CSS-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+     <!-- Fonts -->
+     <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     
 
     
     @yield('links')
@@ -62,8 +75,8 @@
         margin-bottom: 10px;
         /* Add more styles as needed */
     }
+    
 </style>
-@notifyCss 
 </head>
 
 <body id="@yield('bodyID')">
@@ -75,38 +88,46 @@
             </a>
             <ul class="nav-links">
                 <br>
-                <li><a href="/">Home</a></li>
+                <li><a href="/" class="logo-name">Home</a></li>
                 <li>      
-                <x-dropdown align="right" width="48">
+                <x-dropdown align="right" width="48" >
                                 <x-slot name="trigger">
                                     <a>
-                                        <div><a href="/" onclick="return false;">Catering</a></div>
+                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 6px; display: inline-block; border-radius: 6px;">
+                                        <a href="/" onclick="return false;" class="logo-name">Catering</a>
+                                    </div>
                                     </a>
                                 </x-slot>
 
-                                <x-slot name="content" >
-                                    <x-dropdown-link :href="route('cservices.index')">
-                                        {{ __('Services') }}
-                                    </x-dropdown-link>
+                                <x-slot name="content">
+                                    <div style="background-color: rgba(255, 192, 77, 0.6); padding: 10px; border-radius: 6px;">
+                                        <x-dropdown-link :href="route('cservices.index')">
+                                            {{ __('Services') }}
+                                        </x-dropdown-link>
 
-                                    <x-dropdown-link :href="route('gallery')">
-                                        {{ __('Gallery') }}
-                                    </x-dropdown-link>
-                                   
-                                    @if (Auth::check() && auth()->user()->role == 'customer')
-                                    <x-dropdown-link :href="route('reservations.step.one')">
-                                        {{ __('Book Now!') }}
-                                    </x-dropdown-link>
- 
-                                    <x-dropdown-link :href="route('reservations.history')">
-                                        {{ __('History') }}
-                                    </x-dropdown-link>
-                                    @endif
+                                        <x-dropdown-link :href="route('gallery')">
+                                            {{ __('Gallery') }}
+                                        </x-dropdown-link>
 
+                                        @if (Auth::check() && auth()->user()->role == 'customer')
+                                            <x-dropdown-link :href="route('reservations.step.one')">
+                                                {{ __('Book Now!') }}
+                                            </x-dropdown-link>
+
+                                            <x-dropdown-link :href="route('reservations.history')">
+                                                {{ __('History') }}
+                                            </x-dropdown-link>
+                                        @endif
+                                    </div>
                                 </x-slot>
+
                 </x-dropdown>  
                 </li>
-                <li><a href="{{ route('menu') }}">Menu</a></li>
+                <li>
+                <div style="background-color: rgba(255, 105, 97, 0.6); padding: 6px; display: flex; align-items: center; border-radius: 6px; justify-content: space-between;">
+                <a href="{{ route('menu') }}" class="logo-name">Menu</a>
+                </div>
+                </li>
                 @guest
                 <br>
                     <li><a href="{{ route('register') }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">{{ __('Register') }}</a></li>
@@ -114,8 +135,8 @@
                 @else
                     @if (auth()->user()->role == 'customer')
                     
-                    <li><a href="{{ route('cart') }}">Cart</a></li>
-                    <li><a href="{{ route('order') }}">Order</a></li>
+                    <li><a href="{{ route('cart') }}" class="logo-name">Cart</a></li>
+                    <li><a href="{{ route('order') }}" class="logo-name">Order</a></li>
                     
                     
                     @elseif (auth()->user()->role != 'staff')
@@ -131,6 +152,9 @@
             </ul>
 
             @if (Auth::check() && auth()->user()->role == 'customer')
+            <div style="position: fixed; top: 10px; right: 30px;">
+                <x-notify::notify />
+            </div>
             <li>            
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -146,21 +170,24 @@
                         </x-slot>
     
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
-    
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-    
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                            <div>
+                                <x-dropdown-link :href="route('profile.edit')" >
+                                    {{ __('Profile') }}
                                 </x-dropdown-link>
-                            </form>
+
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
+                                </form>
+                            </div>
                         </x-slot>
+
                     </x-dropdown>
                 </li>
                 @endif
