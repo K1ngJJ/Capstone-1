@@ -234,9 +234,47 @@
 
         .alert-paypal:hover {
             background-color: white; /* Changing background color on hover */
+            color: darkblue; /* Changing text color on hover */
+            border: 2px solid #73a9c2; /* Red border */
+        }
+
+        .gcash-btn {
+            background-color: white;
+            color: white; /* Red color */
+            border: 2px solid #3a7ebf; /* Red border */
+            padding: 4px; /* Padding for spacing between border and icon */
+            border-radius: 5px; /* Rounded corners */
+            transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+        } 
+
+        .gcash-btn:hover {
+            background-color: #e7f0f8; /* Changing background color on hover */
             color: black; /* Changing text color on hover */
             border: 2px solid #73a9c2; /* Red border */
         }
+
+        .paypal-btn {
+            background-color: white;
+            color: white; /* Red color */
+            border: 2px solid blue; /* Red border */
+            padding: 4px; /* Padding for spacing between border and icon */
+            border-radius: 5px; /* Rounded corners */
+            transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+        } 
+
+        .paypal-btn:hover {
+            background-color: #e7f0f8; /* Changing background color on hover */
+            color: black; /* Changing text color on hover */
+            border: 2px solid #73a9c2; /* Red border */
+        }
+
+        .bold-divider {
+        font-weight: bold; /* Make text bold */
+        height: 2px; /* Increase height to make the line bolder */
+        background-color: black; /* Ensure the line is visible */
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
     </style>
 
 <section class="banner kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
@@ -374,31 +412,78 @@
                                                          </div>
                                                             <br>
                                                             <form action="{{ url('charge') }}" method="post" id="paymentForm">
-                                                                @csrf       
-                                                                    <label for="amount" class="form-label text-xs font-small">Reso ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                                    <label for="amount" class="form-label text-xs font-small">Mode</label>
+                                                                @csrf
+
+                                                                <label for="amount" class="form-text text-xs font-small">Reso ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                                <label for="amount" class="form-text text-xs font-small">Mode</label>
                                                                 <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+
                                                                 <div class="input-group mb-3">
                                                                     <span class="input-group-text alert-warning">#{{ $reservation->id }}</span>
-                                                                    <span class="input-group-text alert-complete">{{ $reservation->payment_status }}</span>
+                                                                    <span class="input-group-text alert-complete">&nbsp;{{ $reservation->payment_status }}&nbsp;</span>
                                                                 </div>
-                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
-                                                                <label for="amount" class="form-label text-xs">Enter Amount</label>
-                                                                @endif
-                                                                <div class="input-group mb-3">
-                                                                    @if($reservation->payment_status !== 'Pay in Restaurant')
-                                                                    <span class="input-group-text alert-success">₱</span>
-                                                                    <input type="text" class="form-control" name="amount" value="0" />
-                                                                    <button class="primary-btn input-group-text" type="submit" name="submit" value=" Pay Now">
-                                                                        &nbsp;&nbsp;<i class='fa fa-credit-card'></i>&nbsp;&nbsp;
-                                                                    </button>
-                                                                   <div class="form-text text-center">We accept half downpayment. Please input the half amount.</div>
-                                                                    @else
-                                                                    <div class="form-text text-center">You have to pay in our restaurant. No need to pay online.</div>
-                                                                    @endif
 
+                                                                <div class="dropdown-divider bold-divider"></div>
+
+                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
+                                                                <label for="amount" class="form-text text-xs font-small"><strong>GCASH</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Click me for QR)</label>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text alert-info text-xs">&nbsp;<strong>Scan for GCash Payment</strong>&nbsp;</span>
+                                                                    <button class="gcash-btn input-group-text" type="submit" name="submit" value="Pay Now">
+                                                                       <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 25px; margin-right: 5px;">
+                                                                    </button>
+                                                                    @endif
                                                                 </div>
+
+                                                                <div class="dropdown-divider bold-divider"></div>
+
+                                                                @if($reservation->payment_status !== 'Pay in Restaurant')
+                                                                    <label for="amount" class="form-text text-xs"><strong>PAYPAL</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Enter Amount for Paypal payment)</label>
+                                                                    <div class="input-group mb-3">
+                                                                    <span class="input-group-text" style="padding: 0;">
+                                                                    &nbsp;<img src="/images/paypal.png" alt="PayPal" style="width: 70px; height: 18px; vertical-align: middle; margin-right: 5px;">
+                                                                    </span>
+
+                                                                        <input type="text" class="form-control" name="amount" value="₱" />
+                                                                        <button class="paypal-btn input-group-text" type="submit" name="submit" value="Pay Now">
+                                                                        &nbsp;<img src="/images/paypal-logo.jpg" alt="PayPal" style="width: 30px; height: 18px; vertical-align: middle; margin-right: 5px;">
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div class="dropdown-divider"></div>
+
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="alert alert-warning" style="margin-top: 5px;">
+                                                                        <strong style="text-transform: uppercase;">&nbsp;&nbsp;We accept half downpayment.&nbsp;&nbsp;</strong>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                            Please enter the half amount for PayPal.
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="d-flex justify-content-center">
+                                                                        <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                            Scan the QR code for GCash payment.
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                @else
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="alert alert-info" style="margin-top: 5px;">
+                                                                        <strong style="text-transform: uppercase;">&nbsp;&nbsp;You have to pay in our restaurant.&nbsp;&nbsp;</strong>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-center">
+                                                                    <div class="form-text text-xs" style="margin-top: 0px;">
+                                                                        <s> No need to pay online.</s>
+                                                                    </div>
+                                                                    </div>
+                                                                @endif
                                                             </form>
+
                                                         </div>
                                                     </div>
                                                 </div>
