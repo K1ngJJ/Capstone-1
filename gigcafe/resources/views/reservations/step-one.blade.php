@@ -152,17 +152,17 @@
                                                 @enderror
                                             </div>
                                             <div class="button-container mt-2 p-4 flex justify-between">
-                                                <a href="{{ route('cservices.index') }}" class="px-4 py-2 btn btn-custom-color">Events</a>
-                                                <button type="submit" class="px-4 py-2 btn btn-custom-color" id="btnNext">Next</button>
+                                                <a href="{{ route('cservices.index') }}" class="px-4 py-2 btn btn-custom-color primary-btn">Events</a>
+                                                <button type="submit" class="px-4 py-2 btn btn-custom-color primary-btn" id="btnNext">Next</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="calendar-container flex-1">
+                        <!--div class="calendar-container flex-1">
                             <div id="calendar"></div>
-                        </div>
+                        </div-->
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
         @endif
     </div>
 </section>
-<script>
+<!--script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -178,6 +178,6 @@
         });
         calendar.render();
     });
-</script>
+</script-->
 @endsection
 </html>
