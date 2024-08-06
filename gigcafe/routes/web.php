@@ -49,7 +49,7 @@ Route::get('/', [HomeController::class, 'guest'])
     ->name('guest');
 
 Route::middleware(['verified','PreventBackHistory'])->group(function () {
-    emotify('success', 'Welcome');
+    //emotify('success', 'Welcome');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
