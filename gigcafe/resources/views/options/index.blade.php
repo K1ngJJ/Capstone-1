@@ -89,6 +89,8 @@
 .modal-content {
     transition: transform 0.3s ease-in-out;
     background-color: #fff; /* White background for the content */
+    max-height: 80vh; /* Maximum height of the modal */
+    overflow-y: auto; /* Scroll when content exceeds max height */
 }
 
 /* Modal header close button */
@@ -124,6 +126,20 @@
 
 .modal-content.scale-100 {
     transform: scale(1);
+}
+
+/* Scrollbar styling (optional) */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 </style>
