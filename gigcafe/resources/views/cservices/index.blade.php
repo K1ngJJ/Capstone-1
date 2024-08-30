@@ -66,7 +66,7 @@
 
 
     <div class="container w-full px-5 py-6 mx-auto">
-            <h6 class="d-flex justify-content-center menu-title">CATERING SERVICES</h2>
+            <h6 class="d-flex justify-content-center menu-title">CATERING SERVICES / EVENTS</h2>
             <hr class="my-4">
         <div class="grid lg:grid-cols-4 gap-y-6">
             @foreach ($services as $service)

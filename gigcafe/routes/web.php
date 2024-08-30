@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\CateringOptionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\BotManController;
@@ -60,13 +61,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mark-as-read', [NotificationController::class, 'markNotification'])->name('markNotification');
     //Reservation Items
     Route::resource('/services', ServiceController::class);
+    Route::resource('/cateringoptions', CateringOptionsController::class);
     Route::resource('/reservations', ReservationController::class);
     Route::resource('/packages', PackageController::class);
     Route::patch('/reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
     Route::get('/filter-reservation', [ReservationController::class, 'filterReservation'])->name('filterReservation');
 });
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
-
 
 
 
@@ -87,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions/{id}/pdf', [PdfController::class, 'transactionPdf'])->name('transactions.pdf');
     Route::get('packages/{id}/pdf', [PdfController::class, 'packagePdf'])->name('packages.pdf');
     Route::get('services/{id}/pdf', [PdfController::class, 'servicePdf'])->name('services.pdf');
+    Route::get('cateringoptions/{id}/pdf', [PdfController::class, 'cateringoptionPdf'])->name('cateringoptions.pdf');
 
 });
 

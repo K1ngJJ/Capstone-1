@@ -151,10 +151,21 @@
                                                 <div class="text-sm text-red-400">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                             <!-- Add your note here -->
+                                            <div class="mt-4 p-4 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
+                                                <!-- Icon for visual emphasis -->
+                                                <svg class="w-6 h-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                                </svg>
+                                                <!-- Text message -->
+                                                <span>Please ensure all your details are accurate. We will reach out to you promptly once your reservation is confirmed.</span>
+                                            </div>
+
                                             <div class="button-container mt-2 p-4 flex justify-between">
                                                 <a href="{{ route('cservices.index') }}" class="px-4 py-2 btn btn-custom-color primary-btn">Events</a>
                                                 <button type="submit" class="px-4 py-2 btn btn-custom-color primary-btn" id="btnNext">Next</button>
                                             </div>
+                                            
                                         </form>
                                     </div>
                                 </div>

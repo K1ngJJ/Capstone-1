@@ -152,20 +152,21 @@
 
 <section class="kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
     <div class="container mt-lg-0 mt-5">
-    <h2 class="mt-5 mb-4" style="font-size: 1.0rem;font-style: italic;">Catering Services / Events</h2>
+    <h2 class="mt-3 mb-2" style="font-size: 1.0rem;font-style: italic;">Catering Options</h2>
     <div class="row my-5 justify-content-between">
         <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
         <div class="table-responsive">
         <div class="d-flex">
-            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between me-2" href="{{ route('cateringoptions.index') }}">
-                <i class="fas fa-cogs" style="font-size: 17px;"></i>
-                <span>Catering Options</span>
-            </a>
-            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between" href="{{ route('packages.index') }}">
+            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between me-2" href="{{ route('packages.index') }}">
                 <i class="fa fa-th-large" style="font-size: 17px;"></i>
                 <span>Catering Packages</span>
             </a>
+            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between" href="{{ route('services.index') }}">
+                <i class="fas fa-concierge-bell" style="font-size: 17px;"></i>
+                <span>Catering Services</span>
+            </a>
         </div>
+
                 <table class="table table-hover">
                     <thead class="bg-gray-50 dark:bg-gray-900">
                         <tr>
@@ -195,32 +196,33 @@
                                 </div>
                                 </div>
 
-                            <a href="{{ route('services.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
+                            <a href="{{ route('cateringoptions.create') }}" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
                             </div>
                             </th>       
                         </tr>
                     </thead>
                 <tbody>
-                                    @foreach ($services as $service)
+               
+                                    @foreach ($cateringoptions as $cateringoption)
                                         <tr>
                                             <td
                                             class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div class="my-md-1 px-2 py-1">{{ $service->name }}</div>
+                                                <div class="my-md-1 px-2 py-1">{{ $cateringoption->name }}</div>
                                             </td>
                                             <td
                                             class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div class="my-md-1 px-2 py-1"><img src="{{ Storage::url($service->image) }}" class="w-16 h-16 rounded"></div>
+                                                <div class="my-md-1 px-2 py-1"><img src="{{ Storage::url($cateringoption->image) }}" class="w-16 h-16 rounded"></div>
                                             </td>
                                             <td
                                             class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div class="my-md-1 px-2 py-1">{{ $service->description }}</div>
+                                                <div class="my-md-1 px-2 py-1">{{ $cateringoption->description }}</div>
                                             </td>
                                             <td class="py-3 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class=" d-flex ">
-                                                    <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $service->id }}">
+                                                    <a href="#" class="view-details btn-sm" data-toggle="modal" data-target="#viewReservation{{ $cateringoption->id }}">
                                                         <i class="fas fa-eye px-3 py-1 custom-red-icon" style="font-size: 17px;"></i> 
                                                     </a>
-                                                    <button type="button" class="my-md-1 px-2 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $service->id }}">
+                                                    <button type="button" class="my-md-1 px-2 py-1 bg-red-500 btn-sm primary-btn d-flex flex-md-row flex-column justify-content-md-between" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $cateringoption->id }}">
                                                         <i class="fa fa-trash" style="font-size: 17px;"></i>
                                                     </button>
                                                 </div>
@@ -228,19 +230,19 @@
                                         </tr>
 
                                         <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $service->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $service->id }}" aria-hidden="true">
+                                        <div class="modal fade" id="deleteModal{{ $cateringoption->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $cateringoption->id }}" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalLabel{{ $service->id }}">Delete service</h5>
+                                                        <h5 class="modal-title" id="deleteModalLabel{{ $cateringoption->id }}">Delete option</h5>
                                                     
                                                     </div>
                                                     <div class="modal-body">
-                                                        Are you sure you want to delete this <strong>service #{{ $service->id }}</strong>?
+                                                        Are you sure you want to delete this <strong>option #{{ $cateringoption->id }}</strong>?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-                                                        <form action="{{ route( 'services.destroy', $service->id) }}" method="POST">
+                                                        <form action="{{ route( 'cateringoptions.destroy', $cateringoption->id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger"><i class="fa fa-trash" style="font-size: 20px;"></i></button>
@@ -254,24 +256,24 @@
                                         <!-- End Delete Modal -->
 
                                           <!-- Modal for viewing reservation details -->
-                        <div class="modal fade" id="viewReservation{{ $service->id }}" tabindex="-1" role="dialog" aria-labelledby="viewReservation{{ $service->id }}Label" aria-hidden="true">
+                        <div class="modal fade" id="viewReservation{{ $cateringoption->id }}" tabindex="-1" role="dialog" aria-labelledby="viewReservation{{ $cateringoption->id }}Label" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="viewReservation{{ $service->id }}Label">Package Details</h5>
+                                        <h5 class="modal-title" id="viewReservation{{ $cateringoption->id }}Label">Option Details</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body p-4 bg-light custom-modal-body">
                                         <div class="d-flex justify-content-between">
-                                            <a href="{{ route('services.pdf', $service->id) }}" class="btn btn-dark btn-md mr-auto">
+                                            <a href="{{ route('cateringoptions.pdf', $cateringoption->id) }}" class="btn btn-dark btn-md mr-auto">
                                                 <i class="fa fa-download" style="font-size: 15px;"></i>
                                             </a>
 
 
                                       
-                                                <button onclick="window.location.href='{{ route('services.edit', $service->id) }}'" class="btn-md btn btn-warning ml-auto">
+                                                <button onclick="window.location.href='{{ route('cateringoptions.edit', $cateringoption->id) }}'" class="btn-md btn btn-warning ml-auto">
                                                     <i class="fa fa-edit" style="font-size: 20px;"></i>
                                                 </button>
                                           
@@ -281,13 +283,13 @@
 
                                         <div class="reservation-info">
                                             <div class="info-item">
-                                                <span class="info-label">Name:</span> <span class="info-value"><strong>{{ $service->name }}</strong></span>
+                                                <span class="info-label">Name:</span> <span class="info-value"><strong>{{ $cateringoption->name }}</strong></span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Image:</span> <span class="info-value"><img src="{{ Storage::url($service->image) }}" class="w-16 h-16 rounded"></span>
+                                                <span class="info-label">Image:</span> <span class="info-value"><img src="{{ Storage::url($cateringoption->image) }}" class="w-16 h-16 rounded"></span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Name:</span> <span class="info-value"><strong>{{ $service->description }}</strong></span>
+                                                <span class="info-label">Name:</span> <span class="info-value"><strong>{{ $cateringoption->description }}</strong></span>
                                             </div>
                                         </div>
                                     </div>
@@ -314,12 +316,12 @@
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('[id^="serviceStatus"]').forEach(function (selectElement) {
+        document.querySelectorAll('[id^="cateringoptionStatus"]').forEach(function (selectElement) {
             selectElement.addEventListener('change', function () {
-                const packageId = selectElement.id.replace('serviceStatus', '');
+                const packageId = selectElement.id.replace('cateringoptionStatus', '');
                 const newStatus = selectElement.value;
 
-                fetch(`/service/${packageId}/status`, {
+                fetch(`/cateringoption/${packageId}/status`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

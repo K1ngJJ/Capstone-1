@@ -162,8 +162,14 @@
                                         <div class="text-sm text-red-400">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <span class="text-xs">If there are no packages it may mean that there are no packages that can fit your guest count.</span>
 
+                                <div class="mt-2 p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
+                                <svg class="w-6 h-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                                </svg>
+                                <span class="text-xs">If there are no packages it may mean that there are no packages that can fit your guest count.</span>
+                                </div>
+                                
                                 <div class="dropdown-divider bold-divider"></div>
 
                                 <div class="col-12 mb-3">
@@ -181,7 +187,7 @@
                                         <div class="text-sm text-red-400">{{ $message }}</div>
                                     @enderror
 
-                                <div class="dropdown-divider bold-divider"></div>
+                                <!--div class="dropdown-divider bold-divider"></div>
                                 <div class="row my-5 justify-content-between">
         <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
                                 <div class="sm:col-span-6">
@@ -193,11 +199,11 @@
                                         <input type="radio" id="borrow_supplies" name="supply_choice" value="borrow_supplies" class="ml-4 mr-2">
                                         <label for="borrow_supplies">Borrow Our Supplies</label>
                                     </div>
-                                </div>
+                                </div-->
                                 <br>
 
                                 <!-- Additional input fields for inventory supplies -->
-                                <div id="inventoryFields" style="display: none;">
+                                <!--div id="inventoryFields" style="display: none;">
                                 <div class="sm:col-span-6">
                                     <label for="inventory_supplies" class="block text-sm font-medium text-gray-700">Inventory Supplies</label>
                                     @foreach ($inventories as $inventory)
@@ -208,7 +214,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                </div>
+                                </div-->
 </div>
 </div>
                                 <div class="button-container mt-2 p-4 flex justify-between">

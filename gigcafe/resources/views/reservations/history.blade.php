@@ -550,15 +550,19 @@
                                                                 <div class="dropdown-divider"></div>
 
                                                                 <div id="gcash_payment_section" class="payment-section">
-                                                                <label for="gcash_radio" class="form-text text-xs font-small">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    (Click me for QR)</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <span class="input-group-text alert-info text-xs">&nbsp;<strong>Scan for GCash Payment</strong>&nbsp;</span>
-                                                                        <button class="gcash-btn input-group-text" type="submit" name="submit" value="Pay Now">
-                                                                            <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 18px; margin-right: 5px;">
-                                                                        </button>
-                                                                    </div>
+                                                                <label for="gcash_radio" class="form-text text-xs font-small">
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    (Click me for QR)
+                                                                </label>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text alert-info text-xs">
+                                                                        <strong>Scan for GCash Payment</strong>
+                                                                    </span>
+                                                                    <button class="gcash-btn input-group-text" type="button" data-bs-toggle="modal" data-bs-target="#gcashModal">
+                                                                        <img src="/images/gcash.png" alt="GCash" style="width: 70px; height: 18px; margin-right: 5px;">
+                                                                    </button>
                                                                 </div>
+                                                            </div>
 
                                                                 
 
@@ -656,8 +660,6 @@
                                         }
                                     </style>
 
-
-
                                <!-- Modal for viewing reservation details -->
                                 <div class="modal fade" id="viewReservation{{ $reservation->id }}" tabindex="-1" role="dialog" aria-labelledby="viewReservation{{ $reservation->id }}Label" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -706,7 +708,7 @@
                                                         <span class="info-label">Guests:</span> <span class="info-value">{{ $reservation->guest_number }}</span>
                                                     </div>
                                                     <div class="info-item">
-                                                        <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies }}</span>
+                                                        <span class="info-label">Supply:</span> <span class="info-value">{{ $reservation->inventory_supplies ? $reservation->inventory_supplies : 'No supplies associated' }}</span>
                                                     </div>
                                                     <div class="info-item">
                                                         <span class="info-label">Status:</span> <span class="info-value mt-2 {{ $reservation->status == 'Fulfilled' || $reservation->status == 'Approved' ? 'px-2 alert alert-success' : 'px-2 alert alert-warning' }}
@@ -740,61 +742,98 @@
                 </div>
             </div>
         </div>
+<!-- GCash Modal -->
+<div class="modal fade" id="gcashModal" tabindex="-1" aria-labelledby="gcashModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="gcashModalLabel">GCash Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Please scan the QR code or follow the instructions to complete your GCash payment.</p>
+                <img src="/images/gcash.png" alt="GCash QR Code" style="width: 100%; max-width: 200px;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" odata-bs-dismiss="modal" onclick="refreshPage()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End GCash Modal -->
 
-                      <!-- Rating Modal -->
-                      <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="RateModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title" id="editModalLabel">Rate Reservation</h2>
-                                </div>
 
-                                <input type="hidden" id="reserv_id" name="reserv_id">
-                                <input type="hidden" id="serviceId" name="service_id">
-                                <input type="hidden" id="packageId" name="package_id">
-                                <div class="modal-body">
-                                    <label>Service</label><br>
-                                    <div class="stars" id="stars">
-                                        <span class="star" data-value="1">&#9733;</span>
-                                        <span class="star" data-value="2">&#9733;</span>
-                                        <span class="star" data-value="3">&#9733;</span>
-                                        <span class="star" data-value="4">&#9733;</span>
-                                        <span class="star" data-value="5">&#9733;</span>
-                                    </div>
-                                    <input type="hidden" name="rating" id="rating" value="0"> 
-                                    <br><label>Food </label><br>
-                                    <div class="stars" id="qualityStars">
-                                        <span class="star" data-value="1">&#9733;</span>
-                                        <span class="star" data-value="2">&#9733;</span>
-                                        <span class="star" data-value="3">&#9733;</span>
-                                        <span class="star" data-value="4">&#9733;</span>
-                                        <span class="star" data-value="5">&#9733;</span>
-                                    </div>
-                                    <input type="hidden" name="qualityRating" id="qualityRating" value="0"> 
-                                    <hr>
-                                    <div>
-                                        <br>
-                                        <label>Overall Rating:</label>
-                                        <span id="averageRating"></span>
-                                    </div>
-                                    <div id="overallRatingStars" class="stars"></div>
-                                    <br><label>Comments:</label>
-                                    <textarea id="comment" class="form-control" rows="3" required></textarea>
-                                    <small id="commentError" class="text-danger" style="display: none;">Please enter a comment.</small>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger" id="submitRating">Submit</button>
-                                </div>
-                            </div>
-                        </div>
+<!-- Rating Modal -->
+<div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="RateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editModalLabel">Rate Reservation</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Hidden fields to store reservation and rating data -->
+                <input type="hidden" id="reserv_id" name="reserv_id">
+                <input type="hidden" id="serviceId" name="service_id">
+                <input type="hidden" id="packageId" name="package_id">
+
+                <!-- Service Rating -->
+                <div class="form-group">
+                    <label>Service</label><br>
+                    <div class="stars" id="stars">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
                     </div>
-                    
+                    <input type="hidden" name="rating" id="rating" value="0"> 
+                </div>
+
+                <!-- Food Rating -->
+                <div class="form-group">
+                    <label>Food</label><br>
+                    <div class="stars" id="qualityStars">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <input type="hidden" name="qualityRating" id="qualityRating" value="0"> 
+                </div>
+
+                <!-- Overall Rating Display -->
+                <hr>
+                <div class="form-group">
+                    <label>Overall Rating:</label>
+                    <span id="averageRating"></span>
+                    <div id="overallRatingStars" class="stars"></div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="form-group">
+                    <label>Comments:</label>
+                    <textarea id="comment" class="form-control" rows="3" required></textarea>
+                    <small id="commentError" class="text-danger" style="display: none;">Please enter a comment.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="submitRating">Submit</button>
+            </div>
         </div>
     </div>
 </div>
 
-    <script>
+
+
+<script>
+function refreshPage() {
+    // Reload the page
+    window.location.reload();
+}
+    // Reset modal fields
     function resetModalFields() {
         $('#stars .star').removeClass('selected');
         $('#qualityStars .star').removeClass('selected');
@@ -807,6 +846,7 @@
     }
 
     $(document).ready(function () {
+        // Show rating modal and populate hidden fields
         $('.rate-btn').click(function () {
             var reservationId = $(this).data('reservation-id');
             var serviceId = $(this).data('service-id');
@@ -816,25 +856,29 @@
             $('#serviceId').val(serviceId);
             $('#packageId').val(packageId);
 
+            resetModalFields(); // Reset modal fields before showing
             $('#rateModal').modal('show');
         });
 
+        // Service rating click event
         $('#stars .star').click(function () {
-            var rating = $(this).attr('data-value');
+            var rating = $(this).data('value');
             $('#rating').val(rating);
             $('#stars .star').removeClass('selected');
             $(this).prevAll().addBack().addClass('selected');
             updateOverallRating();
         });
 
+        // Food quality rating click event
         $('#qualityStars .star').click(function () {
-            var qualityRating = $(this).attr('data-value');
+            var qualityRating = $(this).data('value');
             $('#qualityRating').val(qualityRating);
             $('#qualityStars .star').removeClass('selected');
             $(this).prevAll().addBack().addClass('selected');
             updateOverallRating();
         });
 
+        // Calculate and update overall rating
         function updateOverallRating() {
             var serviceRating = parseInt($('#rating').val());
             var qualityRating = parseInt($('#qualityRating').val());
@@ -848,12 +892,14 @@
             $('#averageRating').text(averageRating.toFixed(1));
         }
 
+        // Ajax setup with CSRF token
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
+        // Submit rating via AJAX
         $('#submitRating').click(function () {
             var reservationId = $('#reserv_id').val();
             var serviceId = $('#serviceId').val();
@@ -862,11 +908,16 @@
             var packageRating = $('#qualityRating').val();
             var comment = $('#comment').val();
 
-            if (comment === '') {
+            if (comment.trim() === '') {  // Use trim to check for only whitespace
                 $('#commentError').show();
                 return;
             } else {
                 $('#commentError').hide();
+            }
+
+            if (serviceRating === '0' || packageRating === '0') {  // Ensure a rating has been selected
+                alert('Please rate both Service and Food.');
+                return;
             }
 
             $.ajax({
@@ -883,15 +934,16 @@
                 success: function (response) {
                     $('#rateModal').modal('hide');
                     resetModalFields();
-                    // Optionally reload the page or update the specific row to reflect the rating
-                    location.reload();
+                    location.reload();  // Reload page to reflect changes
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);
+                    alert('An error occurred while submitting your rating. Please try again.');
                 }
             });
         });
     });
 </script>
+
 </section>
 @endsection

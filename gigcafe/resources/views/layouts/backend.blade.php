@@ -130,6 +130,9 @@
                                 <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                                     <i class="fas fa-concierge-bell" aria-hidden="true"></i> {{ __('Services') }}
                                 </x-responsive-nav-link>
+                                <x-responsive-nav-link :href="route('cateringoptions.index')" :active="request()->routeIs('services.index')">
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Options') }}
+                                </x-responsive-nav-link>
                                 <x-responsive-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.index')">
                                     <i class="fas fa-utensils" aria-hidden="true"></i> {{ __('Inventory') }}
                                 </x-responsive-nav-link>
@@ -155,7 +158,7 @@
                                     <i class="fa fa-user" aria-hidden="true"></i> {{ __('Create') }}
                                 </x-responsive-nav-link>
                                 <x-responsive-nav-link :href="route('manageAccount')" :active="request()->routeIs('manageAccount')">
-                                    <i class="fas fa-cogs" aria-hidden="true"></i> {{ __('Manage') }}
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Manage') }}
                                 </x-responsive-nav-link>
                             </form>
                         </div>
@@ -231,6 +234,9 @@
                              <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                                  <i class="fa fa-th-large" aria-hidden="true"></i> {{ __('Services') }}
                              </x-responsive-nav-link>
+                             <x-responsive-nav-link :href="route('cateringoptions.index')" :active="request()->routeIs('services.index')">
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Options') }}
+                             </x-responsive-nav-link>
                              <x-responsive-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.index')">
                                     <i class="fas fa-utensils" aria-hidden="true"></i> {{ __('Inventory') }}
                              </x-responsive-nav-link>
@@ -256,7 +262,7 @@
                                  <i class="fa fa-user" aria-hidden="true"></i> {{ __('Create') }}
                              </x-responsive-nav-link>-->
                              <x-responsive-nav-link :href="route('manageAccount')" :active="request()->routeIs('manageAccount')">
-                                 <i class="fa fa-th-large" aria-hidden="true"></i> {{ __('Manage') }}
+                                 <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Manage') }}
                              </x-responsive-nav-link>
                          </form>
                      </div>
@@ -472,6 +478,9 @@
                             <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                                 <i class="fas fa-concierge-bell" aria-hidden="true"></i> {{ __('Services') }}
                             </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('cateringoptions.index')" :active="request()->routeIs('services.index')">
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Options') }}
+                                </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.index')">
                                 <i class="fas fa-utensils" aria-hidden="true"></i> {{ __('Inventory') }}
                             </x-responsive-nav-link>
@@ -497,7 +506,7 @@
                                     <i class="fa fa-user" aria-hidden="true"></i> {{ __('Create') }}
                             </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('manageAccount')" :active="request()->routeIs('manageAccount')">
-                                    <i class="fas fa-cogs" aria-hidden="true"></i> {{ __('Manage') }}
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Manage') }}
                             </x-responsive-nav-link>
                         </form>
                     </div>
@@ -601,6 +610,9 @@
                             <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                                 <i class="fas fa-concierge-bell" aria-hidden="true"></i> {{ __('Services') }}
                             </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('cateringoptions.index')" :active="request()->routeIs('services.index')">
+                                    <i class="fas fa-cogs" aria-hidden="true"></i> {{ __('Options') }}
+                                </x-responsive-nav-link>
                             <x-responsive-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.index')">
                                 <i class="fas fa-utensils" aria-hidden="true"></i> {{ __('Inventory') }}
                             </x-responsive-nav-link>
@@ -626,7 +638,7 @@
                                     <i class="fa fa-user" aria-hidden="true"></i> {{ __('Create') }}
                             </x-responsive-nav-link>-->
                             <x-responsive-nav-link :href="route('manageAccount')" :active="request()->routeIs('manageAccount')">
-                                    <i class="fas fa-cogs" aria-hidden="true"></i> {{ __('Manage') }}
+                                    <i class="fas fa-tasks" aria-hidden="true"></i> {{ __('Manage') }}
                             </x-responsive-nav-link>
                         </form>
                     </div>

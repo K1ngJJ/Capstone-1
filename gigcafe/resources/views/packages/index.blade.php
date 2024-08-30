@@ -156,6 +156,16 @@
     <div class="row my-5 justify-content-between">
         <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
         <div class="table-responsive">
+        <div class="d-flex">
+            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between me-2" href="{{ route('services.index') }}">
+                <i class="fas fa-concierge-bell" style="font-size: 17px;"></i>
+                <span>Catering Services</span>
+            </a>
+            <a class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between" href="{{ route('cateringoptions.index') }}">
+                <i class="fas fa-cogs" style="font-size: 17px;"></i>
+                <span>Catering Options</span>
+            </a>
+        </div>
                 <table class="table table-hover">
                     <thead class="bg-gray-50 dark:bg-gray-900">
                         <tr>
