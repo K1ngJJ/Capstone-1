@@ -53,6 +53,12 @@
     margin-right: 5px;
 }
 
+.gradient-hr {
+    border: none; /* Remove default border */
+    height: 4px; /* Adjust height as needed */
+    background: linear-gradient(to right, #000000, #FF8C00, #dc3545); /* Black to dark orange to danger red */
+    border-radius: 8px;
+}
 
 </style>
 
@@ -81,15 +87,19 @@ function previewImage(input) {
 <section class="menu" style="margin-top: 20vh;">
 @endif
     <div class="container">
-        <a class="menu-title">
-            <h2 class="d-flex justify-content-center menu-title">Gallery</h2>
-        </a>
+    <table class="table table-hover">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
+        <h6 class="d-flex justify-content-center menu-title">GALLERY</h2>
+            <br>
+        </div>
+        </table>
         @if (session('success'))
         <div class="alert alert-success fixed-bottom" role="alert" style="width:500px;left:30px;bottom:20px">
             {{ session('success') }}
         </div>
         @endif
-
+        <table class="table table-hover">
+        <div class="col-12 pt-3">
         <div class="row menu-bar">
         @if (Auth::check() && auth()->user()->role != 'customer')
         <div class="d-flex">    
@@ -174,7 +184,8 @@ function previewImage(input) {
             </div>
         </div>
 </div>
-        
+</div>
+</table>
 
 
         <div class="d-flex flex-wrap mt-4 mb-5">
@@ -212,7 +223,6 @@ function previewImage(input) {
         </div>
     </div>
 @endforelse
-
         </div>
     </div>
 </section>

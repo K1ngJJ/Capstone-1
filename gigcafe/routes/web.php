@@ -26,6 +26,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\PackageController as FrontendPackageController;
+use App\Http\Controllers\Frontend\CateringOptionsController as FrontendCateringOptionsController;
 
 require __DIR__.'/auth.php';
 /*
@@ -212,6 +213,7 @@ Route::middleware('auth')->group(function () {
 });
     Route::get('/cservices', [FrontendServiceController::class, 'index'])->name('cservices.index');
     Route::get('/cservices/{service}', [FrontendServiceController::class, 'show'])->name('cservices.show');
+    Route::get('/options', [FrontendCateringOptionsController::class, 'index'])->name('options.index');
 
     
 

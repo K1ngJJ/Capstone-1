@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
+    public function __construct() {
+        return $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $services = Service::all();
         return view('services.index', compact('services'));
     }
@@ -25,6 +30,8 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         return view('services.create');
     }
 
@@ -33,6 +40,8 @@ class ServiceController extends Controller
      */
     public function store(ServiceStoreRequest $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $image = $request->file('image')->store('public/services');
 
         Service::create([
@@ -57,6 +66,8 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         return view('services.edit', compact('service'));
     }
 
@@ -65,6 +76,8 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $request->validate([
             'name' => 'required',
             'description' => 'required'
@@ -88,6 +101,8 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         Storage::delete($service->image);
         $service->packages()->detach();
         $service->delete();

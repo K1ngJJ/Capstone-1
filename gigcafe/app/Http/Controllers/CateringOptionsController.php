@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class CateringOptionsController extends Controller
 {
+    public function __construct() {
+        return $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $cateringoptions = CateringOptions::all();
         return view('cateringoptions.index', compact('cateringoptions'));
     }
@@ -25,6 +30,8 @@ class CateringOptionsController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         return view('cateringoptions.create');
     }
 
@@ -33,6 +40,8 @@ class CateringOptionsController extends Controller
      */
     public function store(CateringOptionsStoreRequest $request)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $image = $request->file('image')->store('public/cateringoptions');
 
         CateringOptions::create([
@@ -57,6 +66,8 @@ class CateringOptionsController extends Controller
      */
     public function edit(CateringOptions $cateringoption)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         return view('cateringoptions.edit', compact('cateringoption'));
     }
 
@@ -65,6 +76,8 @@ class CateringOptionsController extends Controller
      */
     public function update(Request $request, CateringOptions $cateringoption)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         $request->validate([
             'name' => 'required',
             'description' => 'required'
@@ -88,6 +101,8 @@ class CateringOptionsController extends Controller
      */
     public function destroy(CateringOptions $cateringoption)
     {
+        if (auth()->user()->role == 'customer')
+        abort(403, 'This route is only meant for restaurant staffs.');
         Storage::delete($cateringoption->image);
         //$cateringoption->packages()->detach();
         $cateringoption->delete();

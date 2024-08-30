@@ -275,6 +275,14 @@
             margin-top: 0.5rem;
             margin-bottom: 0.5rem;
         }
+
+        .gradient-hr {
+            border: none; /* Remove default border */
+            height: 4px; /* Adjust height as needed */
+            background: linear-gradient(to right, #000000, #FF8C00, #dc3545); /* Black to dark orange to danger red */
+            border-radius: 8px;
+        }
+
     </style>
 
 <section class="banner kitchen-previous-orders min-vh-100 d-flex align-items-center mt-lg-0 mt-3">
@@ -290,14 +298,23 @@
         <br>
         <br>
         <div class="container w-full px-5 py-6 mx-auto">
-            <h6 class="d-flex justify-content-center menu-title">CATERING RESERVATION HISTORY</h2>
-        <hr class="my-4">
+        <table class="table table-hover">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
+        <h6 class="d-flex justify-content-center menu-title">
+            YOUR RESERVATION HISTORY
+            <!--span style="color: #FF8C00; margin-left: 5px;">RESERVATION</span-->
+            <!--span style="color: #dc3545; margin-left: 5px;">HISTORY</span-->
+        </h6>
+            <br>
+        </div>
+        </table>
+        <hr class="my-4 gradient-hr">
         <div class="row my-5 justify-content-between">
         <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
         <div class="table-responsive">
-                <div class="table table-hover table-container">
+                <div class="table table-hover table-container ">
                     <table class="min-w-full">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700 ">
                             <tr>
                                 <th scope="col" class="px-4 py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                     Details

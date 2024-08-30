@@ -93,6 +93,17 @@
     transition-duration: 0.8s;
 }
 
+.gradient-hr {
+    border: none; /* Remove default border */
+    height: 4px; /* Adjust height as needed */
+    background: linear-gradient(to right, #000000, #FF8C00, #dc3545); /* Black to dark orange to danger red */
+    border-radius: 8px;
+}
+
+.border-gradient {
+    border-image: linear-gradient(to right, black, #FF8C00, #dc3545)1;
+}
+
 </style>
 
 <section class="banner">
@@ -106,8 +117,13 @@
 
 
     <div class="container w-full px-5 py-6 mx-auto">
-        <h6 class="d-flex justify-content-center menu-title">MAKE RESERVATION</h2>
-            <hr class="my-4">
+    <table class="table table-hover">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
+            <h2 class="d-flex justify-content-center menu-title">MAKE RESERVATION</h2>
+            <br>
+        </div>
+    </table>
+    <hr class="my-4 gradient-hr">
         <div class="flex items-center bg-gray-50">
             <div class="flex-1 h-full max-w-4xl mx-auto bg-white rounded-lg shadow-xl">
                 <div class="flex flex-col md:flex-row">
@@ -116,9 +132,9 @@
                     <div class="container mx-auto max-w-screen-xl">
                     <div class="flex items-center justify-center p-6">
                         <div class="w-full">
-                            <div class="w-full bg-gray-200 rounded-full">
+                        <div class="w-full bg-gray-100 rounded-full border-2 border-transparent border-gradient">
                                 <div class="w-40 p-1 text-xs font-medium leading-none text-center rounded-full">
-                                    Step2
+                                    Step 2
                                 </div>
                             </div>
                             <br>
@@ -215,12 +231,32 @@
                                     @endforeach
                                 </div>
                                 </div-->
-</div>
-</div>
-                                <div class="button-container mt-2 p-4 flex justify-between">
+                                <div class="d-flex flex-wrap align-items-center gap-4">
+                                    <!-- Previous Button -->
+                                    <a href="{{ route('reservations.step.one') }}" class="px-4 py-2 btn btn-custom-color primary-btn flex-shrink-0">Previous</a>
+                                    
+                                    <!-- Note Message -->
+                                    <div class="flex items-center p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex-grow min-w-0">
+                                        <!-- Icon for visual emphasis -->
+                                        <svg class="w-6 h-6 text-yellow-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <!-- Text message -->
+                                        <span class="text-xs sm:text-sm md:text-base">
+                                            For more information about our catering options, please check our 
+                                            <a href="{{ route('options.index') }}" class="text-blue-500 underline">service types</a>.
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Next Button -->
+                                    <button type="submit" class="px-4 py-2 btn btn-custom-color primary-btn flex-shrink-0">Make Reservation</button>
+                                </div>
+                                </div>
+                                </div>
+                                <!--div class="button-container mt-2 p-4 flex justify-between">
                                     <a href="{{ route('reservations.step.one') }}" class="px-4 py-2 btn btn-custom-color">Previous</a>
                                     <button type="submit" class="px-4 py-2 btn btn-custom-color">Make Reservation</button>
-                                </div>
+                                </div-->
                             </form>
                         </div>
                     </div>

@@ -238,12 +238,11 @@
                     </svg>
                 </div>
                 <div class="footer-detail">
-                    <p>St. Aboboto, Brgy. San Vicente East,</p>
+                    <p> Cor. Leuterio st. San Vicente East,</p>
                     <p>5200, Calapan City</p>
                     <p>Oriental Mindoro.</p>
                 </div>
             </div>
-
             <div class="col-sm-12 col-lg-4 social">
                 <div class="title-wrapper">
                     <h3>Social Media</h3>

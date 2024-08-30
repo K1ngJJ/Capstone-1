@@ -43,9 +43,12 @@
 <section class="menu" style="margin-top: 20vh;">
 @endif
     <div class="container">
-        <a class="menu-title">
-            <h2 class="d-flex justify-content-center menu-title">MENU</h2>
-        </a>
+    <table class="table table-hover">
+        <div class="col-12 pt-3 h-100 shadow rounded bg-white ">
+            <h6 class="d-flex justify-content-center menu-title ">OUR MENU</h2>
+            <br>
+        </div>
+    </table>
         @if (session('success'))
         <div class="alert alert-success fixed-bottom" role="alert" style="width:500px;left:30px;bottom:20px">
             {{ session('success') }}
