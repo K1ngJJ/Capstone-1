@@ -60,6 +60,72 @@
     border-radius: 8px;
 }
 
+.modal {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+    transition: transform 0.3s ease-in-out;
+}
+
+.modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-footer {
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Modal background with transparency */
+.modal {
+    transition: opacity 0.3s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* Modal content transition */
+.modal-content {
+    transition: transform 0.3s ease-in-out;
+    background-color: #fff; /* White background for the content */
+}
+
+/* Modal header close button */
+.modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Modal footer */
+.modal-footer {
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Hidden class to hide the modal */
+.hidden {
+    display: none;
+}
+
+/* Modal opacity and scaling transitions */
+.modal.fade.opacity-0 {
+    opacity: 0;
+}
+
+.modal.fade.opacity-100 {
+    opacity: 1;
+}
+
+.modal-content.scale-95 {
+    transform: scale(0.95);
+}
+
+.modal-content.scale-100 {
+    transform: scale(1);
+}
+
 </style>
 
 <section class="banner">
@@ -92,35 +158,101 @@
             </div>
             <hr class="my-4 gradient-hr">
         <div class="grid lg:grid-cols-4 gap-y-6">
-            @foreach ($cateringoptions as $cateringoption)
-            <div class="max-w-xs mx-4 mb-2 rounded-lg shadow-lg">
-            <a href="{{ route('cservices.show', $cateringoption->id) }}">
-                <img class="w-full h-48" src="{{ Storage::url($cateringoption->image) }}" alt="Image" />
-            </a>
-                <div class="px-6 py-4">
-                    <a href="{{ route('cservices.show', $cateringoption->id) }}" class="flex items-center justify-between">
-                    <div class="flex flex-col items-center justify-center w-full">
-                        <h4 class="mb-3 text-xl font-semibold tracking-tight text-black-600 hover:text-black-400 uppercase">
-                            {{ $cateringoption->name }}
-                        </h4>
-                        <div class="flex items-center justify-between w-full px-4">
-                            <a href="{{ route('reservations.step.one') }}" class="bg-custom-color hover:bg-black-600 text-custom font-bold py-2 px-2 rounded">
-                               More Details
-                            </a>
-                            <div class="flex-grow"></div>
-                           
-                        </div>
-                    </div>
-
-                    </a>
-                </div>
+        @foreach ($cateringoptions as $cateringoption)
+<div class="max-w-xs mx-4 mb-2 rounded-lg shadow-lg">
+    <img class="w-full h-48" src="{{ Storage::url($cateringoption->image) }}" alt="Image" />
+    <div class="px-6 py-4">
+        <div class="flex flex-col items-center justify-center w-full">
+            <h4 class="mb-3 text-xl font-semibold tracking-tight text-black-600 hover:text-black-400 uppercase">
+                {{ $cateringoption->name }}
+            </h4>
+            <div class="flex items-center justify-between w-full px-4">
+                <button data-modal-target="modal-{{ $loop->index }}" class="bg-custom-color hover:bg-black-600 text-custom font-bold py-2 px-2 rounded">
+                    More Details
+                </button>
+                <div class="flex-grow"></div>
             </div>
-            @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal-{{ $loop->index }}" class="modal fade fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-75 flex items-center justify-center transition-opacity duration-300 ease-in-out opacity-0" tabindex="-1" role="dialog" aria-labelledby="modal-{{ $loop->index }}Label" aria-hidden="true">
+    <div class="modal-dialog relative max-w-lg mx-auto" role="document">
+        <div class="modal-content bg-white rounded-lg shadow-lg transition-transform transform scale-95 duration-300 ease-in-out">
+            <div class="modal-header flex items-center justify-between p-4 border-b">
+                <h5 class="modal-title text-xl font-semibold" id="modal-{{ $loop->index }}Label">{{ $cateringoption->name }}</h5>
+                <button class="close" data-modal-close="modal-{{ $loop->index }}" aria-label="Close">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <img class="w-full h-48 mb-4" src="{{ Storage::url($cateringoption->image) }}" alt="Image" />
+                <p class="text-gray-700">{{ $cateringoption->description }}</p>
+            </div>
+            <div class="modal-footer p-4 border-t text-right">
+                <button class="bg-red-600 text-white py-2 px-4 rounded" data-modal-close="modal-{{ $loop->index }}">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 
         </div>
     </div>
 </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const openButtons = document.querySelectorAll('[data-modal-target]');
+    const closeButtons = document.querySelectorAll('[data-modal-close]');
+
+    openButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modalId = button.getAttribute('data-modal-target');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+                modal.querySelector('.modal-content').classList.remove('scale-95');
+                modal.querySelector('.modal-content').classList.add('scale-100');
+            }, 10);
+        });
+    });
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modalId = button.getAttribute('data-modal-close');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            modal.querySelector('.modal-content').classList.remove('scale-100');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        });
+    });
+
+    // Optional: Close modal when clicking outside of it
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modal') && !event.target.classList.contains('modal-dialog')) {
+            event.target.classList.remove('opacity-100');
+            event.target.classList.add('opacity-0');
+            event.target.querySelector('.modal-content').classList.remove('scale-100');
+            event.target.querySelector('.modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                event.target.classList.add('hidden');
+            }, 300);
+        }
+    });
+});
+</script>
+
 </section>
 </html>
 @endsection

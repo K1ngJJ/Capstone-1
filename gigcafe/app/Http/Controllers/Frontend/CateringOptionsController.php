@@ -14,16 +14,18 @@ class CateringOptionsController extends Controller
 {
     
     public function index()
-{
-    $cateringoptions = CateringOptions::all();
-    return view('options.index', compact('cateringoptions'));
-}
-
+    {
+        // Fetch all catering options
+        $cateringoptions = CateringOptions::all();
+        return view('options.index', compact('cateringoptions'));
+    }
+    
     public function show(CateringOptions $cateringoptions)
     {
-        $cateringoptions = CateringOptions::all();      
+        // Show details for a specific catering option
         return view('options.show', compact('cateringoptions'));
     }
+    
     
     
 }
