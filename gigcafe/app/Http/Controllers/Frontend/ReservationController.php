@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Models\Package;
 use App\Models\Service;
+use App\Models\CateringOptions;
 use App\Models\User;
 use App\Models\Inventory;
 use App\Rules\DateBetween;
@@ -142,58 +143,68 @@ class ReservationController extends Controller
             ->get();
     
         $services = Service::all(); // Fetch services
+
+        $cateringoptions = CateringOptions::all();
     
-        return view('reservations.step-two', compact('reservation', 'packages', 'services', 'inventories'));
+        return view('reservations.step-two', compact('reservation', 'packages', 'services', 'inventories', 'cateringoptions'));
     }
     
 
 
     public function storeStepTwo(Request $request)
-{
-    if (auth()->user()->role != 'customer') {
-        abort(403, 'This route is only meant for customers.');
-    }
-
-    $validated = $request->validate([
-        'package_id',
-        'service_id',
-        'payment_status' => ['required'], // Add validation for the payment method
-    ]);
-
-    // Retrieve the reservation from the session
-    $reservation = $request->session()->get('reservation');
-
-    // Fill the reservation with validated data
-    $reservation->fill($validated);
-
-    // Save the reservation to the database
-    $reservation->save();
-
-    // Save inventory supplies and quantities as a single sentence in the reservation
-    $inventorySupplies = '';
-    if ($request->supply_choice == 'bring_own') {
-        $inventorySupplies = 'Bring Own Supplies';
-    } elseif ($request->supply_choice == 'borrow_supplies') {
-        // Save inventory supplies and quantities as a single sentence in the reservation
-        $inventorySuppliesArray = [];
-        if ($request->has('inventory_supplies')) {
-            foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
-                $inventory = Inventory::find($inventoryId);
-                $quantity = $request->input('inventory_quantities')[$key];
-                $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
-            }
+    {
+        if (auth()->user()->role != 'customer') {
+            abort(403, 'This route is only meant for customers.');
         }
-        $inventorySupplies = implode(', ', $inventorySuppliesArray);
+    
+        // Add 'cateringoption_id' to the validation rules
+        $validated = $request->validate([
+            'package_id' => ['required', 'exists:packages,id'],
+            'service_id' => ['required', 'exists:services,id'],
+            'cateringoption_id' => ['required', 'exists:catering_options,id'], // Validate catering option
+            'payment_status' => ['required'], // Add validation for the payment method
+        ]);
+    
+        // Retrieve the reservation from the session
+        $reservation = $request->session()->get('reservation');
+    
+        if (!$reservation) {
+            // Handle the case where the reservation is not found in the session
+            return redirect()->route('reservations.step-one')->withErrors('Reservation data is missing.');
+        }
+    
+        // Fill the reservation with validated data
+        $reservation->fill($validated);
+    
+        // Save the reservation to the database
+        $reservation->save();
+    
+        // Handle inventory supplies and quantities
+        $inventorySupplies = '';
+        if ($request->supply_choice == 'bring_own') {
+            $inventorySupplies = 'Bring Own Supplies';
+        } elseif ($request->supply_choice == 'borrow_supplies') {
+            // Save inventory supplies and quantities as a single sentence in the reservation
+            $inventorySuppliesArray = [];
+            if ($request->has('inventory_supplies')) {
+                foreach ($request->input('inventory_supplies') as $key => $inventoryId) {
+                    $inventory = Inventory::find($inventoryId);
+                    $quantity = $request->input('inventory_quantities')[$key];
+                    $inventorySuppliesArray[] = $inventory->name . ' (' . $quantity . ')';
+                }
+            }
+            $inventorySupplies = implode(', ', $inventorySuppliesArray);
+        }
+    
+        // Save inventory supplies details
+        $reservation->inventory_supplies = $inventorySupplies;
+        $reservation->save();
+    
+        // Forget the reservation from the session
+        $request->session()->forget('reservation');
+    
+        return redirect()->route('reservations.thankyou');
     }
-
-    $reservation->inventory_supplies = $inventorySupplies;
-    $reservation->save();
-
-    // Forget the reservation from the session
-    $request->session()->forget('reservation');
-
-    return redirect()->route('reservations.thankyou');
-}
 
     
 public function show($id)
@@ -203,28 +214,37 @@ public function show($id)
 }
 
 
-    public function thankyou()
+public function thankyou()
 {
     $user = auth()->user();
+
     // Check if the notification flag is set in the session
     if (!Session::has('reservation_notification_sent')) {
         // Check if the user is a customer
-        if (auth()->user()->role != 'customer') {
+        if ($user->role != 'customer') {
             abort(403, 'This route is only meant for customers.');
         }
 
-        notify()->success('Your reservation has been send to staff for conformation!');
-        
-        // Send the notification email
-        //Mail::send(new NotifReservation());
-        
+        // Notify the user
+        notify()->success('Your reservation has been sent to staff for confirmation!');
+
+        // Optionally, send a notification email
+        // Mail::to($user->email)->send(new NotifReservation());
+
         // Set the notification flag in the session to prevent duplicate notifications
         Session::flash('reservation_notification_sent', true);
     }
-    $latestReservation = Reservation::where('email', $user->email)->where('status', '!=', 'Fulfilled')->latest()->first();
+
+    // Fetch the latest reservation for the authenticated user
+    $latestReservation = Reservation::where('email', $user->email)
+                                    ->where('status', '!=', 'Fulfilled')
+                                    ->latest()
+                                    ->first();
 
     // Pass the latest reservation and payment method to the view
-    return view('reservations.thankyou', ['latestReservation' => $latestReservation, 'payment_status' => $latestReservation->payment_status]);
-
-    }
+    return view('reservations.thankyou', [
+        'latestReservation' => $latestReservation,
+        'payment_status' => $latestReservation ? $latestReservation->payment_status : null,
+    ]);
+}
 }

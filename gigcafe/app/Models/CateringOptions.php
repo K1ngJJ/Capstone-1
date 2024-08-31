@@ -15,5 +15,10 @@ class CateringOptions extends Model
 //    {
 //        return $this->belongsToMany(Package::class, 'service_group');
 //    }
+
+public function reservations()
+{
+    return $this->belongsTo(Reservation::class);
+}
   
 }

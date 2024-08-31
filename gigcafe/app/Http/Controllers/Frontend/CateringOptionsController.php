@@ -20,12 +20,6 @@ class CateringOptionsController extends Controller
         return view('options.index', compact('cateringoptions'));
     }
     
-    public function show(CateringOptions $cateringoptions)
-    {
-        // Show details for a specific catering option
-        return view('options.show', compact('cateringoptions'));
-    }
-    
     
     
 }

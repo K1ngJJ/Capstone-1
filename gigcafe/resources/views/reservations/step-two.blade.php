@@ -132,7 +132,7 @@
                     <div class="container mx-auto max-w-screen-xl">
                     <div class="flex items-center justify-center p-6">
                         <div class="w-full">
-                        <div class="w-full bg-gray-100 rounded-full border-2 border-transparent border-gradient">
+                        <div class="w-full bg-gray-100 rounded-full border-1 border-transparent border-gradient">
                                 <div class="w-40 p-1 text-xs font-medium leading-none text-center rounded-full">
                                     Step 2
                                 </div>
@@ -159,7 +159,36 @@
                                     @enderror
                                 </div>
 
-                                <div class="dropdown-divider bold-divider"></div>
+                                <!--div class="dropdown-divider bold-divider gradient-hr"></div-->
+                                <hr class="my-2 gradient-hr">
+
+                                <div class="sm:col-span-6 pt-10">
+                                <label for="cateringoption_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Catering Options</label>
+                                    <div class="mt-1">
+                                        <select id="cateringoption_id" name="cateringoption_id" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                        <option value="" disabled selected>Select Types</option>
+                                            @foreach ($cateringoptions as $cateringoption)
+                                                <option value="{{ $cateringoption->id }}" {{ $cateringoption->id == $reservation->cateringoption_id ? 'selected' : '' }}>
+                                                    {{ $cateringoption->name }}
+                                                </option>
+                                            @endforeach
+                                            <option value="">Other</option>
+                                        </select>
+                                    </div>
+                                    @error('cateringoption_id')
+                                        <div class="text-sm text-red-400">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mt-2 p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
+                                <svg class="w-6 h-6 mr-2" style="color: #FF8C00;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                </svg>
+                                <span class="text-xs">If there are no packages it may mean that there are no packages that can fit your guest count.</span>
+                                </div>
+                                
+                                <!--div class="dropdown-divider bold-divider gradient-hr"></div-->
+                                <hr class="my-1 gradient-hr">
 
                                 <div class="sm:col-span-6 pt-10">
                                 <label for="package_id" class="py-1 px-2 text-xs block text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">Packages</label>
@@ -180,13 +209,14 @@
                                 </div>
 
                                 <div class="mt-2 p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
-                                <svg class="w-6 h-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
-                                                </svg>
+                                <svg class="w-6 h-6 mr-2" style="color: #FF8C00;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                </svg>
                                 <span class="text-xs">If there are no packages it may mean that there are no packages that can fit your guest count.</span>
                                 </div>
                                 
-                                <div class="dropdown-divider bold-divider"></div>
+                                <!--div class="dropdown-divider bold-divider gradient-hr"></div-->
+                                <hr class="my-1 gradient-hr">
 
                                 <div class="col-12 mb-3">
                                     <label for="payment_status" class="block py-1 px-2 text-sm font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -216,7 +246,6 @@
                                         <label for="borrow_supplies">Borrow Our Supplies</label>
                                     </div>
                                 </div-->
-                                <br>
 
                                 <!-- Additional input fields for inventory supplies -->
                                 <!--div id="inventoryFields" style="display: none;">
@@ -231,6 +260,9 @@
                                     @endforeach
                                 </div>
                                 </div-->
+                                <div class="my-2 dropdown-divider bold-divider gradient-hr"></div>
+                                <br>
+
                                 <div class="d-flex flex-wrap align-items-center gap-4">
                                     <!-- Previous Button -->
                                     <a href="{{ route('reservations.step.one') }}" class="px-4 py-2 btn btn-custom-color primary-btn flex-shrink-0">Previous</a>
@@ -238,13 +270,13 @@
                                     <!-- Note Message -->
                                     <div class="flex items-center p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex-grow min-w-0">
                                         <!-- Icon for visual emphasis -->
-                                        <svg class="w-6 h-6 text-yellow-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="w-6 h-6 mr-2" style="color: #FF8C00;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
                                         </svg>
                                         <!-- Text message -->
                                         <span class="text-xs sm:text-sm md:text-base">
                                             For more information about our catering options, please check our 
-                                            <a href="{{ route('options.index') }}" class="text-blue-500 underline">service types</a>.
+                                            <a href="{{ route('options.index') }}" class="text-blue-500 underline" style="color: #FF8C00;">service types</a>.
                                         </span>
                                     </div>
                                     
@@ -302,6 +334,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var serviceDropdown = document.getElementById('cateringoption_id');
         var serviceDropdown = document.getElementById('service_id');
         var packageDropdown = document.getElementById('package_id');
         var packageError = document.getElementById('package-error');

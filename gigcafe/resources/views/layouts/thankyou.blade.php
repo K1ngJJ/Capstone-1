@@ -74,6 +74,10 @@
         margin-bottom: 10px;
         /* Add more styles as needed */
     }
+    
+    .border-gradient {
+            border-image: linear-gradient(to right, black, #FF8C00, #dc3545)1;
+        }
 
     .btn-dark {
             background-color: black;

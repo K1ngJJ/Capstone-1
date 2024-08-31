@@ -20,6 +20,7 @@ class Reservation extends Model
         'email',
         'package_id',
         'service_id',
+        'cateringoption_id',
         'status',
         'payment_status',
         'res_date',
@@ -42,6 +43,11 @@ class Reservation extends Model
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function cateringoption()
+    {
+        return $this->belongsTo(CateringOptions::class);
     }
     
     public function inventory_supplies()

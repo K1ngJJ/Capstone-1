@@ -98,7 +98,7 @@
                             <div class="container mx-auto max-w-screen-xl">
                                 <div class="flex items-center justify-center p-6">
                                     <div class="w-full">
-                                    <div class="w-full bg-gray-100 rounded-full border-2 border-transparent border-gradient">
+                                    <div class="w-full bg-gray-100 rounded-full border-1 border-transparent border-gradient">
                                             <div class="w-40 p-1 text-xs font-medium leading-none text-center rounded-full">
                                                 Step 1
                                             </div>
@@ -154,9 +154,9 @@
                                                     <input type="datetime-local" id="res_date" name="res_date" min="{{ $min_date->format('Y-m-d\T00:00') }}" max="{{ $max_date->format('Y-m-d\T23:59') }}" value="{{ optional($reservation)->res_date ? \Carbon\Carbon::parse($reservation->res_date)->format('Y-m-d\TH:i') : '' }}" class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
                                                 </div>
                                                 <div class="mt-2 p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
-                                                <svg class="w-6 h-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
-                                                                </svg>
+                                                <svg class="w-6 h-6 mr-2" style="color: #FF8C00;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
+                                                </svg>
                                                 <span class="text-xs">Please choose the time between 08:00 Am - 10:00 Pm.</span>
                                                 </div>
                                                 @error('res_date')
@@ -172,15 +172,15 @@
                                                 <div class="text-sm text-red-400">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                             <!-- Add your note here -->
-                                            <div class="mt-4 p-4 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
-                                                <!-- Icon for visual emphasis -->
+                                          
+                                            <!--div class="mt-4 p-4 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex items-center">
+                                              
                                                 <svg class="w-6 h-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
                                                 </svg>
-                                                <!-- Text message -->
+                                             
                                                 <span>Please ensure all your details are accurate. We will reach out to you promptly once your reservation is confirmed.</span>
-                                            </div>
+                                            </div-->
                                             <br>
                                             <div class="d-flex flex-wrap align-items-center gap-4">
                                                 <!-- Events Button -->
@@ -189,7 +189,7 @@
                                                 <!-- Note Message -->
                                                 <div class="flex items-center p-2 text-sm text-gray-700 bg-yellow-100 border-l-4 border-yellow-500 flex-grow min-w-0">
                                                     <!-- Icon for visual emphasis -->
-                                                    <svg class="w-6 h-6 text-yellow-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <svg class="w-6 h-6 mr-2" style="color: #FF8C00;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M9 21h6a2 2 0 002-2v-4a8 8 0 10-8 0v4a2 2 0 002 2z"></path>
                                                     </svg>
                                                     <!-- Text message -->
