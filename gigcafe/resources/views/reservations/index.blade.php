@@ -477,7 +477,10 @@
                                                 <span class="info-label">Time:</span> <span class="info-value">{{ $reservation->res_date->toTimeString() }}</span>
                                             </div>
                                             <div class="info-item">
-                                                <span class="info-label">Service:</span> <span class="info-value">{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</span>
+                                                <span class="info-label">Event:</span> <span class="info-value">{{ $reservation->service ? $reservation->service->name : 'No event associated' }}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="info-label">Service Type:</span> <span class="info-value">{{ $reservation->cateringoption ? $reservation->cateringoption->name : 'No service associated' }}</span>
                                             </div>
                                             <div class="info-item">
                                                 <span class="info-label">Package:</span> <span class="info-value">{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</span>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 31, 2024 at 05:13 PM
+-- Generation Time: Sep 01, 2024 at 12:05 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -603,7 +603,7 @@ CREATE TABLE `reservations` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `tel_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `service_id` bigint NOT NULL DEFAULT '1',
-  `cateringoption_id` bigint UNSIGNED NOT NULL,
+  `cateringoption_id` bigint UNSIGNED NOT NULL DEFAULT '1',
   `package_id` bigint NOT NULL DEFAULT '1',
   `inventory_supplies` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
@@ -622,8 +622,9 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`id`, `first_name`, `last_name`, `email`, `tel_number`, `service_id`, `cateringoption_id`, `package_id`, `inventory_supplies`, `status`, `payment_status`, `res_date`, `guest_number`, `created_at`, `updated_at`, `user_id`, `role`, `deleted_at`) VALUES
-(169, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 1, 1, 1, '', 'Pending', 'Pay in Restaurant', '2024-08-30 09:04:00', 100, '2024-08-29 15:04:41', '2024-08-29 15:04:41', 106, 'customer', NULL),
-(176, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 29, 37, 30, '', 'Pending', 'Down Payment', '2024-09-01 09:08:00', 100, '2024-08-31 09:09:15', '2024-08-31 09:09:15', 106, 'customer', NULL);
+(178, 'King', 'Pacheco', 'pachecoking38@gmail.com', '09948862312', 1, 1, 1, '', 'Pending', 'Down Payment', '2024-09-02 09:11:00', 100, '2024-08-31 19:11:56', '2024-08-31 19:11:56', 106, 'customer', NULL),
+(181, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 28, 36, 30, '', 'Pending', 'Down Payment', '2024-09-05 19:11:00', 100, '2024-09-01 03:11:46', '2024-09-01 03:11:46', 104, 'customer', NULL),
+(182, 'King', 'Pacheco', 'pachecokingjj@gmail.com', '09948862312', 1, 1, 1, '', 'Pending', 'Down Payment', '2024-09-06 19:19:00', 100, '2024-09-01 03:21:05', '2024-09-01 03:21:05', 104, 'customer', NULL);
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1001,7 @@ ALTER TABLE `ratings`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
 
 --
 -- AUTO_INCREMENT for table `services`

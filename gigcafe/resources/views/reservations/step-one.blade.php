@@ -17,68 +17,93 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
-
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 
+    <!-- Button styling -->
     <style>
-        .menu-title {
-            text-align: center;
-            font-style: italic;
-            color: black;
-            font-size: 30px;
+        .button-container a,
+        .button-container button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
-        .bg-custom-color {
+        .button-container a {
             background-color: #CE3232;
-        }
-
-        .bg-custom-color:hover {
-            background-color: #dfe1e2;
-            transition-duration: 0.8s;
-        }
-
-        .text-custom {
             color: white;
         }
 
-        .text-custom:hover {
+        .button-container a:hover {
+            background-color: #dfe1e2;
             color: black;
             transition-duration: 0.8s;
         }
 
-        .btn-custom-color {
-            color: white;
+        .button-container button {
             background-color: #CE3232;
+            color: white;
         }
 
-        .btn-custom-color:hover {
+        .button-container button:hover {
             background-color: #dfe1e2;
+            color: black;
             transition-duration: 0.8s;
+
+            
         }
 
-        .calendar-container {
-            padding: 10px;
-            max-width: 50%;
-        }
+        .bold-divider {
+            font-weight: bold; /* Make text bold */
+            height: 2px; /* Increase height to make the line bolder */
+            background-color: darkorange; /* Ensure the line is visible */
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
 
-        .gradient-hr {
-            border: none; /* Remove default border */
-            height: 4px; /* Adjust height as needed */
-            background: linear-gradient(to right, #000000, #FF8C00, #dc3545); /* Black to dark orange to danger red */
-            border-radius: 8px;
-        }
-
-        .border-gradient {
-            border-image: linear-gradient(to right, black, #FF8C00, #dc3545)1;
         }
     </style>
 </head>
 
 @section('content')
+<style>
+.menu-title {
+    text-align: center;
+    font-style: italic;
+    color: black;
+    font-size: 30px;
+}
+
+.bg-custom-color {
+    background-color: #CE3232;
+}
+
+.bg-custom-color:hover {
+    background-color: #dfe1e2;
+    transition-duration: 0.8s;
+}
+
+.text-custom {
+    color: white;
+}
+
+.text-custom:hover {
+    color: black;
+    transition-duration: 0.8s;
+}
+
+.gradient-hr {
+    border: none; /* Remove default border */
+    height: 4px; /* Adjust height as needed */
+    background: linear-gradient(to right, #000000, #FF8C00, #dc3545); /* Black to dark orange to danger red */
+    border-radius: 8px;
+}
+
+.border-gradient {
+    border-image: linear-gradient(to right, black, #FF8C00, #dc3545)1;
+}
+
+</style>
 <section class="banner">
     <div class="container">
         <br><br><br><br><br>
@@ -182,6 +207,9 @@
                                                 <span>Please ensure all your details are accurate. We will reach out to you promptly once your reservation is confirmed.</span>
                                             </div-->
                                             <br>
+                                            <div class="my-3 dropdown-divider bold-divider gradient-hr"></div>
+                                            <br>
+
                                             <div class="d-flex flex-wrap align-items-center gap-4">
                                                 <!-- Events Button -->
                                                 <a href="{{ route('cservices.index') }}" class="px-4 py-2 btn btn-custom-color primary-btn flex-shrink-0">Events</a>

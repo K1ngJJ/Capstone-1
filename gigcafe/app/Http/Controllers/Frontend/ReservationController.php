@@ -162,9 +162,9 @@ class ReservationController extends Controller
         //    'package_id' => ['required', 'exists:packages,id'],
         //    'service_id' => ['required', 'exists:services,id'],
         //    'cateringoption_id' => ['required', 'exists:catering_options,id'], // Validate catering option
-            'package_id',
-            'service_id' ,
-            'cateringoption_id', // Validate catering option
+            'package_id' => ['exists:packages,id'],
+            'service_id' => ['exists:services,id'],
+            'cateringoption_id'=> ['exists:catering_options,id'],// Validate catering option
             'payment_status' => ['required'], // Add validation for the payment method
         ]);
     

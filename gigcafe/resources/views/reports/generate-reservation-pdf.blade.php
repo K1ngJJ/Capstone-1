@@ -70,16 +70,24 @@
                 <td>{{ $reservation->guest_number }}</td>
             </tr>
             <tr>
+                <th>Event</th>
+                <td>{{ $reservation->service ? $reservation->service->name : 'No event associated'  }}</td>
+            </tr>
+            <tr>
+                <th>Service Type</th>
+                <td>{{ $reservation->cateringoption ? $reservation->cateringoption->name : 'No service associated' }}</td>
+            </tr>
+            <tr>
                 <th>Package</th>
                 <td>{{ $reservation->service ? $reservation->service->name : 'No service associated' }}</td>
             </tr>
             <tr>
-                <th>Service</th>
-                <td>{{ $reservation->package ? $reservation->package->name : 'No package associated' }}</td>
+                <th>Supplies</th>
+                <td>{{ $reservation->inventory_supplies ? $reservation->inventory_supplies : 'No supplies associated' }}</td>
             </tr>
             <tr>
-                <th>Supplies</th>
-                <td>{{ $reservation->inventory_supplies }}</td>
+                <th>Payment Method</th>
+                <td >{{ $reservation->payment_status  }}</td>
             </tr>
         </table>
     </div>

@@ -449,7 +449,10 @@
                                                                                 <span class="info-value">{{ $latestReservation->res_date->format('h:i A') }}</span>
                                                                             </div>
                                                                             <div class="info-item">
-                                                                                <span class="info-label">Service:</span> <span class="info-value">{{ $latestReservation->service ? $latestReservation->service->name : 'No service associated' }}</span>
+                                                                                <span class="info-label">Event:</span> <span class="info-value">{{ $latestReservation->service ? $latestReservation->service->name : 'No event associated' }}</span>
+                                                                            </div>
+                                                                            <div class="info-item">
+                                                                                <span class="info-label">Service Type:</span> <span class="info-value">{{ $latestReservation->cateringoption ? $latestReservation->cateringoption->name : 'No service associated' }}</span>
                                                                             </div>
                                                                             <div class="info-item">
                                                                                 <span class="info-label">Package:</span> <span class="info-value">{{ $latestReservation->package ? $latestReservation->package->name : 'No package associated' }}</span>

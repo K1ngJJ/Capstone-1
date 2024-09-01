@@ -70,7 +70,8 @@
             <tr>
                 <th>ID</th>
                 <th>Date</th>
-                <th>Service</th>
+                <th>Event</th>
+                <th>Service Type</th>
                 <th>Package</th>
                 <th>Guests</th>
                 <th>Supply</th>
@@ -86,7 +87,8 @@
             <tr>
                 <td>{{ $reservationtxn->id }}</td>
                 <td>{{ $reservationtxn->res_date }}</td>
-                <td>{{ $reservationtxn->service ? $reservationtxn->service->name : 'No service associated' }}</td>
+                <td>{{ $reservationtxn->service ? $reservationtxn->service->name : 'No event associated' }}</td>
+                <td>{{ $reservationtxn->cateringoption ? $reservationtxn->cateringoption->name : 'No service associated' }}</td>
                 <td>{{ $reservationtxn->package ? $reservationtxn->package->name : 'No package associated' }}</td>
                 <td>{{ $reservationtxn->guest_number }}</td>
                 <td>{{ $reservationtxn->inventory_supplies }}</td>
