@@ -98,12 +98,16 @@
                                 </x-slot>
 
                                 <x-slot name="content" >
-                                <div style="background-color: rgba(255, 192, 77, 0.4); padding: 10px; border-radius: 6px;">
-                                    <x-dropdown-link :href="route('cservices.index')">
+                                <div style="background-color: rgba(255, 192, 77, 0.4); padding: 6px; border-radius: 5px;">
+                                    <x-dropdown-link class="my-md-1 px-3 py-2 flex-md-row flex-column justify-content-md-between me-2" 
+                                                    style="background-color: rgba(255, 192, 77, 0.4);" 
+                                                    :href="route('cservices.index')">
                                         {{ __('Services') }}
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link :href="route('gallery')">
+                                    <x-dropdown-link class="my-md-1 px-3 py-2 flex-md-row flex-column justify-content-md-between me-2" 
+                                                    style="background-color: rgba(255, 192, 77, 0.4);" 
+                                                    :href="route('gallery')">
                                         {{ __('Gallery') }}
                                     </x-dropdown-link>
                                    
@@ -112,7 +116,7 @@
                                         {{ __('Book Now!') }}
                                     </x-dropdown-link>
  
-                                    <x-dropdown-link :href="route('reservations.history')">
+                                    <x-dropdown-link class="my-md-1 px-3 py-2 bg-red-500 btn-sm primary-btn flex-md-row flex-column justify-content-md-between me-2"  :href="route('reservations.history')">
                                         {{ __('History') }}
                                     </x-dropdown-link>
                                     @endif
