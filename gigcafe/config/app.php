@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Zen'),
+    'name' => env('APP_NAME', 'GiGCafe'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://egigcafe.com'),
 
     'asset_url' => env('ASSET_URL', null),
 
